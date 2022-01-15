@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 export interface NavlinkData {
-  icon: ReactNode;
+  icon: (isActive: boolean) => ReactNode;
   text: string;
   href: string;
 }

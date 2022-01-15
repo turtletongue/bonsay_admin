@@ -5,22 +5,50 @@ import { BsFillBagCheckFill, BsPeopleFill } from 'react-icons/bs';
 
 export const navlinks = [
   {
-    icon: <Icon as={FaClipboardList} w={6} h={6} color="#EFEFEF" />,
+    icon: (isActive: boolean) => (
+      <Icon
+        as={FaClipboardList}
+        w={6}
+        h={6}
+        color={isActive ? 'white' : '#EFEFEF'}
+      />
+    ),
     href: '/products',
     text: 'Товары',
   },
   {
-    icon: <Icon as={MdCategory} w={6} h={6} color="#EFEFEF" />,
+    icon: (isActive: boolean) => (
+      <Icon
+        as={MdCategory}
+        w={6}
+        h={6}
+        color={isActive ? 'white' : '#EFEFEF'}
+      />
+    ),
     href: '/categories',
     text: 'Категории',
   },
   {
-    icon: <Icon as={BsFillBagCheckFill} w={6} h={6} color="#EFEFEF" />,
+    icon: (isActive: boolean) => (
+      <Icon
+        as={BsFillBagCheckFill}
+        w={6}
+        h={6}
+        color={isActive ? 'white' : '#EFEFEF'}
+      />
+    ),
     href: '/orders',
     text: 'Заказы',
   },
   {
-    icon: <Icon as={BsPeopleFill} w={6} h={6} color="#EFEFEF" />,
+    icon: (isActive: boolean) => (
+      <Icon
+        as={BsPeopleFill}
+        w={6}
+        h={6}
+        color={isActive ? 'white' : '#EFEFEF'}
+      />
+    ),
     href: '/clients',
     text: 'Клиенты',
   },
