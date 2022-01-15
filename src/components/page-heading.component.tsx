@@ -9,7 +9,9 @@ export const PageHeading = ({ title }: PageHeadingProps) => {
     <>
       {title && (
         <Box width="full" paddingX="1.5rem" paddingY="1rem">
-          <Text fontSize="md">{title}</Text>
+          <Text fontSize="md" color="#254125">
+            {title}
+          </Text>
           <Divider color="#254125" marginTop="1rem" />
         </Box>
       )}
