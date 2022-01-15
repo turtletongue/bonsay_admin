@@ -19,7 +19,7 @@ export const Navbar = ({ links }: NavbarProps) => {
       spacing={0}
     >
       {links.map((link) => (
-        <Navlink data={link} />
+        <Navlink key={link.text} data={link} />
       ))}
     </VStack>
   );

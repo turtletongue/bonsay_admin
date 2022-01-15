@@ -16,7 +16,7 @@ ReactDOM.render(
       <Router>
         <ChakraProvider>
           <Routes>
-            <Route path="/" element={<App />} />
+            <Route path="/*" element={<App />}></Route>
           </Routes>
         </ChakraProvider>
       </Router>
