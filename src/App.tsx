@@ -1,11 +1,11 @@
-import { ChakraProvider } from '@chakra-ui/react';
+import { ReactNode } from 'react';
 
-const App = () => {
-  return (
-    <ChakraProvider>
-      <div className="App"></div>
-    </ChakraProvider>
-  );
+interface AppProps {
+  children?: ReactNode;
+}
+
+const App = ({ children }: AppProps) => {
+  return <div className="app">{children}</div>;
 };
 
 export default App;
