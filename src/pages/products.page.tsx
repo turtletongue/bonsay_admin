@@ -6,6 +6,8 @@ import TableHead from '../components/table-head.component';
 import TableRow from '../components/table-row.component';
 import Pagination from '../components/pagination.component';
 
+import { Product } from '../declarations';
+
 export const Products = () => {
   const [params] = useSearchParams();
   const { pathname } = useLocation();
@@ -117,48 +119,47 @@ export const Products = () => {
     },
   ];
 
+  const getData = (product: Product) => {
+    return [
+      {
+        id: 1,
+        node: (
+          <Image
+            boxSize="5rem"
+            objectFit="cover"
+            src={product.upload?.path}
+            alt={product.name}
+          />
+        ),
+      },
+      { id: 2, node: product.name },
+      {
+        id: 3,
+        node: `${Number(product.price).toLocaleString()} ₽`,
+      },
+      {
+        id: 4,
+        node: (
+          <>
+            <Button>
+              <Icon as={BsFillPencilFill} w={3} h={3} />
+            </Button>
+            <Button colorScheme="red" marginX="1rem">
+              <Icon as={BsTrashFill} w={3} h={3} />
+            </Button>
+          </>
+        ),
+      },
+    ];
+  };
+
   return (
     <Box>
       <Table variant="simple" maxH="80vh" overflow="hidden">
         <TableHead titles={['Картинка', 'Название', 'Цена', 'Действия']} />
         <Tbody>
           {products.map((product) => {
-            return (
-              <TableRow
-                key={product.id}
-                data={[
-                  {
-                    id: 1,
-                    node: (
-                      <Image
-                        boxSize="5rem"
-                        objectFit="cover"
-                        src={product.upload?.path}
-                        alt={product.name}
-                      />
-                    ),
-                  },
-                  { id: 2, node: product.name },
-                  {
-                    id: 3,
-                    node: `${Number(product.price).toLocaleString()} ₽`,
-                  },
-                  {
-                    id: 4,
-                    node: (
-                      <>
-                        <Button>
-                          <Icon as={BsFillPencilFill} w={3} h={3} />
-                        </Button>
-                        <Button colorScheme="red" marginX="1rem">
-                          <Icon as={BsTrashFill} w={3} h={3} />
-                        </Button>
-                      </>
-                    ),
-                  },
-                ]}
-              />
-            );
+            return <TableRow key={product.id} data={getData(product)} />;
           })}
         </Tbody>
       </Table>
