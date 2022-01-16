@@ -49,9 +49,13 @@ export const Clients = () => {
 
   const getData = (client: Client) => {
     return [
-      { id: 1, node: client.id },
-      { id: 2, node: client.user.email },
-      { id: 3, node: client.createdAt?.toLocaleString() },
+      { id: 1, node: client.id, title: 'ID' },
+      { id: 2, node: client.user.email, title: 'Email' },
+      {
+        id: 3,
+        node: client.createdAt?.toLocaleString(),
+        title: 'Дата регистрации',
+      },
       {
         id: 4,
         node: (
@@ -59,6 +63,7 @@ export const Clients = () => {
             <Icon as={AiOutlineInfo} color="blue.500" w={4} h={4} />
           </Button>
         ),
+        title: 'Действия',
       },
     ];
   };

@@ -71,8 +71,9 @@ export const Categories = () => {
             alt={category.name}
           />
         ),
+        title: 'Картинка',
       },
-      { id: 2, node: category.name },
+      { id: 2, node: category.name, title: 'Название' },
       {
         id: 3,
         node: (
@@ -80,11 +81,12 @@ export const Categories = () => {
             <Button>
               <Icon as={BsFillPencilFill} w={3} h={3} />
             </Button>
-            <Button colorScheme="red" marginX="1rem">
+            <Button colorScheme="red" marginLeft="1rem">
               <Icon as={BsTrashFill} w={3} h={3} />
             </Button>
           </>
         ),
+        title: 'Действия',
       },
     ];
   };

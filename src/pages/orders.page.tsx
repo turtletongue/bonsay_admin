@@ -193,15 +193,20 @@ export const Orders = () => {
 
   const getData = (order: Order) => {
     return [
-      { id: 1, node: order.phone },
+      { id: 1, node: order.phone, title: 'Телефон для связи' },
       {
         id: 2,
         node: `${order.purchases.reduce(
           (sum, { qty, product: { price } }) => sum + qty * price,
           0
         )} ₽`,
+        title: 'Сумма заказа',
       },
-      { id: 3, node: order.createdAt?.toLocaleString() },
+      {
+        id: 3,
+        node: order.createdAt?.toLocaleString(),
+        title: 'Время оформления',
+      },
       {
         id: 4,
         node: (
@@ -209,11 +214,12 @@ export const Orders = () => {
             <Button>
               <Icon as={AiOutlineInfo} color="blue.500" w={4} h={4} />
             </Button>
-            <Button colorScheme="green" marginX="1rem">
+            <Button colorScheme="green" marginLeft="1rem">
               <Icon as={AiOutlineCheck} w={4} h={4} />
             </Button>
           </>
         ),
+        title: 'Действия',
       },
     ];
   };

@@ -37,9 +37,13 @@ export const Admins = () => {
 
   const getData = (admin: User) => {
     return [
-      { id: 1, node: admin.id },
-      { id: 2, node: admin.email },
-      { id: 3, node: admin.createdAt?.toLocaleString() },
+      { id: 1, node: admin.id, title: 'ID' },
+      { id: 2, node: admin.email, title: 'Email' },
+      {
+        id: 3,
+        node: admin.createdAt?.toLocaleString(),
+        title: 'Дата создания',
+      },
       {
         id: 4,
         node: (
@@ -47,6 +51,7 @@ export const Admins = () => {
             <Icon as={AiOutlineInfo} color="blue.500" w={4} h={4} />
           </Button>
         ),
+        title: 'Действия',
       },
     ];
   };

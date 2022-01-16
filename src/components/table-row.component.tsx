@@ -1,9 +1,10 @@
 import { ReactNode } from 'react';
-import { Tr, Td, Flex, useMediaQuery, Grid } from '@chakra-ui/react';
+import { Tr, Td, Flex, useMediaQuery, Grid, Box, Text } from '@chakra-ui/react';
 
 interface TableRowProps {
   data: {
     id: string | number;
+    title: string;
     node: ReactNode | string;
   }[];
 }
@@ -24,10 +25,11 @@ export const TableRow = ({ data }: TableRowProps) => {
             {data.map((element) => (
               <Flex
                 key={element.id}
-                justifyContent="center"
+                justifyContent="space-between"
                 alignItems="center"
               >
-                {element.node}
+                <Text fontSize="md">{element.title}</Text>
+                <Box textAlign="right">{element.node}</Box>
               </Flex>
             ))}
           </Grid>

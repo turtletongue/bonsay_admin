@@ -131,11 +131,13 @@ export const Products = () => {
             alt={product.name}
           />
         ),
+        title: 'Картинка',
       },
-      { id: 2, node: product.name },
+      { id: 2, node: product.name, title: 'Название' },
       {
         id: 3,
         node: `${Number(product.price).toLocaleString()} ₽`,
+        title: 'Цена',
       },
       {
         id: 4,
@@ -144,11 +146,12 @@ export const Products = () => {
             <Button>
               <Icon as={BsFillPencilFill} w={3} h={3} />
             </Button>
-            <Button colorScheme="red" marginX="1rem">
+            <Button colorScheme="red" marginLeft="1rem">
               <Icon as={BsTrashFill} w={3} h={3} />
             </Button>
           </>
         ),
+        title: 'Действия',
       },
     ];
   };
