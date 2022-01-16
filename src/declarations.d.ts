@@ -39,11 +39,18 @@ export interface Category {
   updatedAt?: Date | string;
 }
 
+export interface User {
+  id: Id;
+  email: string;
+  role?: 'client' | 'admin';
+
+  createdAt?: string | Date;
+  updatedAt?: string | Date;
+}
+
 export interface Client {
   id: Id;
-  user: {
-    email: string;
-  };
+  user: User;
   createdAt?: string | Date;
   updatedAt?: string | Date;
 }

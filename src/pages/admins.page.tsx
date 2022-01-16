@@ -6,52 +6,40 @@ import TableHead from '../components/table-head.component';
 import TableRow from '../components/table-row.component';
 import Pagination from '../components/pagination.component';
 
-import { Client } from '../declarations';
+import { User } from '../declarations';
 
-export const Clients = () => {
+export const Admins = () => {
   const [params] = useSearchParams();
   const { pathname } = useLocation();
 
-  const clients = [
+  const admins = [
     {
       id: 1,
-      user: {
-        id: 1,
-        email: 'client@gmail.com',
-      },
+      email: 'admin@gmail.com',
       createdAt: new Date(),
     },
     {
       id: 2,
-      user: {
-        id: 2,
-        email: 'client@gmail.com',
-      },
+      email: 'admin@gmail.com',
       createdAt: new Date(),
     },
     {
       id: 3,
-      user: {
-        id: 3,
-        email: 'client@gmail.com',
-      },
+      email: 'admin@gmail.com',
       createdAt: new Date(),
     },
     {
       id: 4,
-      user: {
-        id: 4,
-        email: 'client@gmail.com',
-      },
+      email: 'admin@gmail.com',
       createdAt: new Date(),
     },
   ];
 
-  const getData = (client: Client) => {
+  const getData = (admin: User) => {
     return [
-      { id: 1, node: client.id },
-      { id: 2, node: client.user.email },
-      { id: 3, node: client.createdAt?.toLocaleString() },
+      { id: 1, node: admin.id },
+      { id: 2, node: admin.email },
+      { id: 3, node: admin.createdAt?.toLocaleString() },
       {
         id: 4,
         node: (
@@ -66,20 +54,20 @@ export const Clients = () => {
   return (
     <Box>
       <Table variant="simple" maxH="80vh" overflow="hidden">
-        <TableHead titles={['ID', 'Email', 'Дата регистрации', 'Действия']} />
+        <TableHead titles={['ID', 'Email', 'Дата создания', 'Действия']} />
         <Tbody>
-          {clients.map((client) => {
-            return <TableRow key={client.id} data={getData(client)} />;
+          {admins.map((admin) => {
+            return <TableRow key={admin.id} data={getData(admin)} />;
           })}
         </Tbody>
       </Table>
       <Pagination
         pageNumber={Number(params.get('page')) || 1}
         url={pathname}
-        total={clients.length}
+        total={admins.length}
       />
     </Box>
   );
 };
 
-export default Clients;
+export default Admins;

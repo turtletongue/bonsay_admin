@@ -2,6 +2,7 @@ import { Icon } from '@chakra-ui/react';
 import { FaClipboardList } from 'react-icons/fa';
 import { MdCategory } from 'react-icons/md';
 import { BsFillBagCheckFill, BsPeopleFill } from 'react-icons/bs';
+import { IoMdSettings } from 'react-icons/io';
 
 export const navlinks = [
   {
@@ -51,5 +52,17 @@ export const navlinks = [
     ),
     href: '/clients',
     text: 'Клиенты',
+  },
+  {
+    icon: (isActive: boolean) => (
+      <Icon
+        as={IoMdSettings}
+        w={6}
+        h={6}
+        color={isActive ? 'white' : '#EFEFEF'}
+      />
+    ),
+    href: '/admins',
+    text: 'Администраторы',
   },
 ];

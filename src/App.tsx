@@ -1,7 +1,7 @@
-import { ReactNode } from 'react';
 import { Flex, Box } from '@chakra-ui/react';
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 
+import Admins from './pages/admins.page';
 import Clients from './pages/clients.page';
 import Orders from './pages/orders.page';
 import Categories from './pages/categories.page';
@@ -10,11 +10,7 @@ import Navbar from './components/navbar.component';
 import PageHeading from './components/page-heading.component';
 import { navlinks } from './navlinks.config';
 
-interface AppProps {
-  children?: ReactNode;
-}
-
-const App = ({ children }: AppProps) => {
+const App = () => {
   const { pathname } = useLocation();
 
   return (
@@ -30,6 +26,7 @@ const App = ({ children }: AppProps) => {
           <Route path="categories" element={<Categories />} />
           <Route path="orders" element={<Orders />} />
           <Route path="clients" element={<Clients />} />
+          <Route path="admins" element={<Admins />} />
         </Routes>
       </Box>
     </Flex>

@@ -19,6 +19,7 @@ export const Orders = () => {
       client: {
         id: 1,
         user: {
+          id: 1,
           email: 'client@gmail.com',
         },
       },
@@ -62,6 +63,7 @@ export const Orders = () => {
       client: {
         id: 1,
         user: {
+          id: 1,
           email: 'client@gmail.com',
         },
       },
@@ -105,6 +107,7 @@ export const Orders = () => {
       client: {
         id: 1,
         user: {
+          id: 1,
           email: 'client@gmail.com',
         },
       },
@@ -148,6 +151,7 @@ export const Orders = () => {
       client: {
         id: 1,
         user: {
+          id: 1,
           email: 'client@gmail.com',
         },
       },
@@ -203,10 +207,10 @@ export const Orders = () => {
         node: (
           <>
             <Button>
-              <Icon as={AiOutlineInfo} color="blue.500" w={3} h={3} />
+              <Icon as={AiOutlineInfo} color="blue.500" w={4} h={4} />
             </Button>
             <Button colorScheme="green" marginX="1rem">
-              <Icon as={AiOutlineCheck} w={3} h={3} />
+              <Icon as={AiOutlineCheck} w={4} h={4} />
             </Button>
           </>
         ),
