@@ -17,6 +17,9 @@ export const Navbar = ({ links }: NavbarProps) => {
       width="3.5rem"
       alignItems="center"
       spacing={0}
+      position="fixed"
+      bottom={0}
+      left={0}
     >
       {links.map((link) => (
         <Navlink key={link.text} data={link} />

@@ -13,13 +13,13 @@ import './index.css';
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Router>
-        <ChakraProvider>
+      <ChakraProvider>
+        <Router>
           <Routes>
-            <Route path="/*" element={<App />}></Route>
+            <Route path="/*" element={<App />} />
           </Routes>
-        </ChakraProvider>
-      </Router>
+        </Router>
+      </ChakraProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
