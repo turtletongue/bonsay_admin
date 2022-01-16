@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import { Flex, Box } from '@chakra-ui/react';
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 
+import Clients from './pages/clients.page';
 import Orders from './pages/orders.page';
 import Categories from './pages/categories.page';
 import Products from './pages/products.page';
@@ -28,6 +29,7 @@ const App = ({ children }: AppProps) => {
           <Route path="products" element={<Products />} />
           <Route path="categories" element={<Categories />} />
           <Route path="orders" element={<Orders />} />
+          <Route path="clients" element={<Clients />} />
         </Routes>
       </Box>
     </Flex>
