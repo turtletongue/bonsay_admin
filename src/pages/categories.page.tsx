@@ -1,12 +1,13 @@
 import { useSearchParams, useLocation } from 'react-router-dom';
 import { Box, Image, Icon, Button, Table, Tbody } from '@chakra-ui/react';
-import { BsTrashFill, BsFillPencilFill } from 'react-icons/bs';
+import { BsFillPencilFill } from 'react-icons/bs';
 
 import TableHead from '../components/table-head.component';
 import TableRow from '../components/table-row.component';
 import Pagination from '../components/pagination.component';
 
 import { Category } from '../declarations';
+import DeleteConfirmationModal from '../components/delete-confirmation-modal';
 
 export const Categories = () => {
   const [params] = useSearchParams();
@@ -81,9 +82,7 @@ export const Categories = () => {
             <Button marginTop="1rem">
               <Icon as={BsFillPencilFill} w={3} h={3} />
             </Button>
-            <Button colorScheme="red" marginLeft="1rem" marginTop="1rem">
-              <Icon as={BsTrashFill} w={3} h={3} />
-            </Button>
+            <DeleteConfirmationModal />
           </>
         ),
         title: 'Действия',

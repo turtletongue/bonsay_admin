@@ -7,6 +7,7 @@ import TableRow from '../components/table-row.component';
 import Pagination from '../components/pagination.component';
 
 import { User } from '../declarations';
+import DeleteConfirmationModal from '../components/delete-confirmation-modal';
 
 export const Admins = () => {
   const [params] = useSearchParams();
@@ -47,9 +48,12 @@ export const Admins = () => {
       {
         id: 4,
         node: (
-          <Button>
-            <Icon as={AiOutlineInfo} color="blue.500" w={4} h={4} />
-          </Button>
+          <>
+            <Button marginTop="1rem">
+              <Icon as={AiOutlineInfo} color="blue.500" w={4} h={4} />
+            </Button>
+            <DeleteConfirmationModal />
+          </>
         ),
         title: 'Действия',
       },
