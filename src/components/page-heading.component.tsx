@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import {
   Box,
   Button,
@@ -7,9 +7,12 @@ import {
   Icon,
   Input,
   Text,
+  useDisclosure,
   useMediaQuery,
 } from '@chakra-ui/react';
 import { AiOutlinePlus } from 'react-icons/ai';
+import AddItemModal from './add-item-modal.component';
+import AddProductForm from './add-product-form.component';
 
 interface PageHeadingProps {
   title?: string;
@@ -18,6 +21,8 @@ interface PageHeadingProps {
 export const PageHeading = ({ title }: PageHeadingProps) => {
   const { pathname } = useLocation();
   const [isLessThan920] = useMediaQuery('(max-width: 920px)');
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const isCanAddRows = pathname !== '/clients' && pathname !== '/orders';
 
@@ -36,9 +41,16 @@ export const PageHeading = ({ title }: PageHeadingProps) => {
                 {title}
               </Text>
               {isCanAddRows && (
-                <Button colorScheme="green">
-                  <Icon as={AiOutlinePlus} w={6} h={6} />
-                </Button>
+                <>
+                  <AddItemModal isOpen={isOpen} onClose={onClose}>
+                    <Routes>
+                      <Route path="products" element={<AddProductForm />} />
+                    </Routes>
+                  </AddItemModal>
+                  <Button colorScheme="green" onClick={onOpen}>
+                    <Icon as={AiOutlinePlus} w={6} h={6} />
+                  </Button>
+                </>
               )}
             </Flex>
             <Input
