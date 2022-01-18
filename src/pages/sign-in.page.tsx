@@ -37,6 +37,9 @@ export const SignIn = () => {
       height="100vh"
       justifyContent="center"
       alignItems="center"
+      bgImage="url('/images/sign-in-bg.jpg')"
+      bgPosition="center"
+      bgRepeat="no-repeat"
     >
       <SignInForm />
     </Flex>

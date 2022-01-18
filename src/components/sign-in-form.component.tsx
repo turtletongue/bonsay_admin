@@ -55,9 +55,9 @@ export const SignInForm = () => {
       spacing={4}
       p="2rem"
       rounded="md"
-      boxShadow="md"
-      backgroundColor="gray.50"
+      boxShadow="base"
       w="20rem"
+      bgColor="white"
     >
       <Box color="crimson" h="1rem" textAlign="center">
         {error}
