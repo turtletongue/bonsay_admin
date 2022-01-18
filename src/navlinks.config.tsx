@@ -3,6 +3,7 @@ import { FaClipboardList } from 'react-icons/fa';
 import { MdCategory } from 'react-icons/md';
 import { BsFillBagCheckFill, BsPeopleFill } from 'react-icons/bs';
 import { IoMdSettings } from 'react-icons/io';
+import { GoSignOut } from 'react-icons/go';
 
 export const navlinks = [
   {
@@ -64,5 +65,10 @@ export const navlinks = [
     ),
     href: '/admins',
     text: 'Администраторы',
+  },
+  {
+    icon: () => <Icon as={GoSignOut} w={6} h={6} color="#EFEFEF" />,
+    href: '/sign-out',
+    text: 'Выход',
   },
 ];

@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 
 import PaginationButton from './components/pagination-button.component';
+import { errorMessages } from './variables';
 
 export const getPageNumberButtons = (
   pagesCount: number,
@@ -21,4 +22,24 @@ export const getPageNumberButtons = (
   }
 
   return buttons;
+};
+
+export const fetchWithErrorHandling = async (
+  fetcher: () => Promise<unknown>,
+  rejectWithValue: (value: unknown) => unknown
+): Promise<unknown> => {
+  try {
+    return await fetcher();
+  } catch (error: any) {
+    const originalMessage = error.response?.data
+      ?.message as keyof typeof errorMessages;
+
+    return rejectWithValue(
+      errorMessages[
+        Array.isArray(originalMessage)
+          ? (originalMessage as (keyof typeof errorMessages)[])[0]
+          : originalMessage
+      ] || originalMessage
+    );
+  }
 };
