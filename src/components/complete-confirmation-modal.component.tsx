@@ -10,7 +10,6 @@ import {
   ModalOverlay,
   Icon,
   useDisclosure,
-  Tooltip,
 } from '@chakra-ui/react';
 import { AiOutlineCheck } from 'react-icons/ai';
 
@@ -19,16 +18,14 @@ export const CompleteConfirmationModal = () => {
 
   return (
     <>
-      <Tooltip label="Выполнить" placement="top">
-        <Button
-          colorScheme="green"
-          marginLeft="1rem"
-          marginTop="1rem"
-          onClick={onOpen}
-        >
-          <Icon as={AiOutlineCheck} w={4} h={4} />
-        </Button>
-      </Tooltip>
+      <Button
+        colorScheme="green"
+        marginLeft="1rem"
+        marginTop="1rem"
+        onClick={onOpen}
+      >
+        <Icon as={AiOutlineCheck} w={4} h={4} />
+      </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>

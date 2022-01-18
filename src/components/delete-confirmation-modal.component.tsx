@@ -10,7 +10,6 @@ import {
   ModalOverlay,
   Icon,
   useDisclosure,
-  Tooltip,
 } from '@chakra-ui/react';
 import { BsTrashFill } from 'react-icons/bs';
 
@@ -19,16 +18,14 @@ export const DeleteConfirmationModal = () => {
 
   return (
     <>
-      <Tooltip label="Удалить" placement="top">
-        <Button
-          colorScheme="red"
-          marginLeft="1rem"
-          marginTop="1rem"
-          onClick={onOpen}
-        >
-          <Icon as={BsTrashFill} w={3} h={3} />
-        </Button>
-      </Tooltip>
+      <Button
+        colorScheme="red"
+        marginLeft="1rem"
+        marginTop="1rem"
+        onClick={onOpen}
+      >
+        <Icon as={BsTrashFill} w={3} h={3} />
+      </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
