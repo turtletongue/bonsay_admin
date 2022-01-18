@@ -143,10 +143,10 @@ export const Products = () => {
         id: 4,
         node: (
           <>
-            <Button>
+            <Button marginTop="1rem">
               <Icon as={BsFillPencilFill} w={3} h={3} />
             </Button>
-            <Button colorScheme="red" marginLeft="1rem">
+            <Button colorScheme="red" marginLeft="1rem" marginTop="1rem">
               <Icon as={BsTrashFill} w={3} h={3} />
             </Button>
           </>

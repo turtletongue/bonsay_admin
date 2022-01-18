@@ -211,10 +211,10 @@ export const Orders = () => {
         id: 4,
         node: (
           <>
-            <Button>
+            <Button marginTop="1rem">
               <Icon as={AiOutlineInfo} color="blue.500" w={4} h={4} />
             </Button>
-            <Button colorScheme="green" marginLeft="1rem">
+            <Button colorScheme="green" marginLeft="1rem" marginTop="1rem">
               <Icon as={AiOutlineCheck} w={4} h={4} />
             </Button>
           </>
