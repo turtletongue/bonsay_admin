@@ -1,16 +1,12 @@
 import { Route, Routes, useLocation } from 'react-router-dom';
 import {
   Box,
-  Button,
   Divider,
   Flex,
-  Icon,
   Input,
   Text,
-  useDisclosure,
   useMediaQuery,
 } from '@chakra-ui/react';
-import { AiOutlinePlus } from 'react-icons/ai';
 
 import AddItemModal from './add-item-modal.component';
 import AddProductForm from './add-product-form.component';
@@ -24,8 +20,6 @@ interface PageHeadingProps {
 export const PageHeading = ({ title }: PageHeadingProps) => {
   const { pathname } = useLocation();
   const [isLessThan920] = useMediaQuery('(max-width: 920px)');
-
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const isCanAddRows = pathname !== '/clients' && pathname !== '/orders';
 
@@ -44,18 +38,13 @@ export const PageHeading = ({ title }: PageHeadingProps) => {
                 {title}
               </Text>
               {isCanAddRows && (
-                <>
-                  <AddItemModal isOpen={isOpen} onClose={onClose}>
-                    <Routes>
-                      <Route path="products" element={<AddProductForm />} />
-                      <Route path="categories" element={<AddCategoryForm />} />
-                      <Route path="admins" element={<AddAdminForm />} />
-                    </Routes>
-                  </AddItemModal>
-                  <Button colorScheme="green" onClick={onOpen}>
-                    <Icon as={AiOutlinePlus} w={6} h={6} />
-                  </Button>
-                </>
+                <AddItemModal>
+                  <Routes>
+                    <Route path="products" element={<AddProductForm />} />
+                    <Route path="categories" element={<AddCategoryForm />} />
+                    <Route path="admins" element={<AddAdminForm />} />
+                  </Routes>
+                </AddItemModal>
               )}
             </Flex>
             <Input
