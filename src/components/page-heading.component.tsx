@@ -15,6 +15,7 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import AddItemModal from './add-item-modal.component';
 import AddProductForm from './add-product-form.component';
 import AddCategoryForm from './add-category-form.component';
+import AddAdminForm from './add-admin-form.component';
 
 interface PageHeadingProps {
   title?: string;
@@ -48,6 +49,7 @@ export const PageHeading = ({ title }: PageHeadingProps) => {
                     <Routes>
                       <Route path="products" element={<AddProductForm />} />
                       <Route path="categories" element={<AddCategoryForm />} />
+                      <Route path="admins" element={<AddAdminForm />} />
                     </Routes>
                   </AddItemModal>
                   <Button colorScheme="green" onClick={onOpen}>
