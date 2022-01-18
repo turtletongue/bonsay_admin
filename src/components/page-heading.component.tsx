@@ -11,8 +11,10 @@ import {
   useMediaQuery,
 } from '@chakra-ui/react';
 import { AiOutlinePlus } from 'react-icons/ai';
+
 import AddItemModal from './add-item-modal.component';
 import AddProductForm from './add-product-form.component';
+import AddCategoryForm from './add-category-form.component';
 
 interface PageHeadingProps {
   title?: string;
@@ -45,6 +47,7 @@ export const PageHeading = ({ title }: PageHeadingProps) => {
                   <AddItemModal isOpen={isOpen} onClose={onClose}>
                     <Routes>
                       <Route path="products" element={<AddProductForm />} />
+                      <Route path="categories" element={<AddCategoryForm />} />
                     </Routes>
                   </AddItemModal>
                   <Button colorScheme="green" onClick={onOpen}>
