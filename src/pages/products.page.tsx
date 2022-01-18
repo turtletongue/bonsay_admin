@@ -5,7 +5,7 @@ import { BsFillPencilFill } from 'react-icons/bs';
 import TableHead from '../components/table-head.component';
 import TableRow from '../components/table-row.component';
 import Pagination from '../components/pagination.component';
-import DeleteConfirmationModal from '../components/delete-confirmation-modal';
+import DeleteConfirmationModal from '../components/delete-confirmation-modal.component';
 
 import { Product } from '../declarations';
 

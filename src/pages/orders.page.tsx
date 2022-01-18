@@ -1,10 +1,11 @@
 import { useSearchParams, useLocation } from 'react-router-dom';
 import { Box, Icon, Button, Table, Tbody } from '@chakra-ui/react';
-import { AiOutlineInfo, AiOutlineCheck } from 'react-icons/ai';
+import { AiOutlineInfo } from 'react-icons/ai';
 
 import TableHead from '../components/table-head.component';
 import TableRow from '../components/table-row.component';
 import Pagination from '../components/pagination.component';
+import CompleteConfirmationModal from '../components/complete-confirmation-modal.component';
 
 import { Order } from '../declarations';
 
@@ -214,9 +215,7 @@ export const Orders = () => {
             <Button marginTop="1rem">
               <Icon as={AiOutlineInfo} color="blue.500" w={4} h={4} />
             </Button>
-            <Button colorScheme="green" marginLeft="1rem" marginTop="1rem">
-              <Icon as={AiOutlineCheck} w={4} h={4} />
-            </Button>
+            <CompleteConfirmationModal />
           </>
         ),
         title: 'Действия',

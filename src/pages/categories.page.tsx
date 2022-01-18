@@ -7,7 +7,7 @@ import TableRow from '../components/table-row.component';
 import Pagination from '../components/pagination.component';
 
 import { Category } from '../declarations';
-import DeleteConfirmationModal from '../components/delete-confirmation-modal';
+import DeleteConfirmationModal from '../components/delete-confirmation-modal.component';
 
 export const Categories = () => {
   const [params] = useSearchParams();

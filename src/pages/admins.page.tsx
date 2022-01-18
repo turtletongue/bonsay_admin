@@ -7,7 +7,7 @@ import TableRow from '../components/table-row.component';
 import Pagination from '../components/pagination.component';
 
 import { User } from '../declarations';
-import DeleteConfirmationModal from '../components/delete-confirmation-modal';
+import DeleteConfirmationModal from '../components/delete-confirmation-modal.component';
 
 export const Admins = () => {
   const [params] = useSearchParams();
