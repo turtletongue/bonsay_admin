@@ -1,13 +1,13 @@
 import { useSearchParams, useLocation } from 'react-router-dom';
-import { Box, Image, Icon, Button, Table, Tbody } from '@chakra-ui/react';
-import { BsFillPencilFill } from 'react-icons/bs';
+import { Box, Image, Table, Tbody } from '@chakra-ui/react';
 
 import TableHead from '../components/table-head.component';
 import TableRow from '../components/table-row.component';
 import Pagination from '../components/pagination.component';
+import EditButton from '../components/edit-button.component';
+import DeleteConfirmationModal from '../components/delete-confirmation-modal.component';
 
 import { Category } from '../declarations';
-import DeleteConfirmationModal from '../components/delete-confirmation-modal.component';
 
 export const Categories = () => {
   const [params] = useSearchParams();
@@ -79,9 +79,7 @@ export const Categories = () => {
         id: 3,
         node: (
           <>
-            <Button marginTop="1rem">
-              <Icon as={BsFillPencilFill} w={3} h={3} />
-            </Button>
+            <EditButton />
             <DeleteConfirmationModal />
           </>
         ),

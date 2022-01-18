@@ -1,13 +1,13 @@
 import { useSearchParams, useLocation } from 'react-router-dom';
-import { Box, Icon, Button, Table, Tbody } from '@chakra-ui/react';
-import { AiOutlineInfo } from 'react-icons/ai';
+import { Box, Table, Tbody } from '@chakra-ui/react';
 
 import TableHead from '../components/table-head.component';
 import TableRow from '../components/table-row.component';
+import InfoButton from '../components/info-button.component';
 import Pagination from '../components/pagination.component';
+import DeleteConfirmationModal from '../components/delete-confirmation-modal.component';
 
 import { User } from '../declarations';
-import DeleteConfirmationModal from '../components/delete-confirmation-modal.component';
 
 export const Admins = () => {
   const [params] = useSearchParams();
@@ -49,9 +49,7 @@ export const Admins = () => {
         id: 4,
         node: (
           <>
-            <Button marginTop="1rem">
-              <Icon as={AiOutlineInfo} color="blue.500" w={4} h={4} />
-            </Button>
+            <InfoButton />
             <DeleteConfirmationModal />
           </>
         ),

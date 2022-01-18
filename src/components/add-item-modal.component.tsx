@@ -9,6 +9,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Tooltip,
   useDisclosure,
 } from '@chakra-ui/react';
 import { AiOutlinePlus } from 'react-icons/ai';
@@ -22,9 +23,11 @@ export const AddItemModal = ({ children }: AddItemModalProps) => {
 
   return (
     <>
-      <Button colorScheme="green" onClick={onOpen}>
-        <Icon as={AiOutlinePlus} w={6} h={6} />
-      </Button>
+      <Tooltip label="Добавить" placement="top">
+        <Button colorScheme="green" onClick={onOpen}>
+          <Icon as={AiOutlinePlus} w={6} h={6} />
+        </Button>
+      </Tooltip>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
