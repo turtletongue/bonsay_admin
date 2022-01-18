@@ -40,6 +40,7 @@ export const SignIn = () => {
       bgImage="url('/images/sign-in-bg.jpg')"
       bgPosition="center"
       bgRepeat="no-repeat"
+      bgSize="cover"
     >
       <SignInForm />
     </Flex>
