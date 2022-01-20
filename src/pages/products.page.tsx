@@ -4,10 +4,11 @@ import { Box, Image, Table, Tbody } from '@chakra-ui/react';
 import TableHead from '../components/table-head.component';
 import TableRow from '../components/table-row.component';
 import Pagination from '../components/pagination.component';
-import EditButton from '../components/edit-button.component';
 import DeleteConfirmationModal from '../components/delete-confirmation-modal.component';
+import EditItemModal from '../components/edit-item-modal.component';
 
 import { Product } from '../declarations';
+import EditProductForm from '../components/edit-product-form.component';
 
 export const Products = () => {
   const [params] = useSearchParams();
@@ -144,7 +145,9 @@ export const Products = () => {
         id: 4,
         node: (
           <>
-            <EditButton />
+            <EditItemModal>
+              <EditProductForm />
+            </EditItemModal>
             <DeleteConfirmationModal />
           </>
         ),

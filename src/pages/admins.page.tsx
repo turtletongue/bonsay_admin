@@ -3,7 +3,6 @@ import { Box, Table, Tbody } from '@chakra-ui/react';
 
 import TableHead from '../components/table-head.component';
 import TableRow from '../components/table-row.component';
-import InfoButton from '../components/info-button.component';
 import Pagination from '../components/pagination.component';
 import DeleteConfirmationModal from '../components/delete-confirmation-modal.component';
 
@@ -47,12 +46,7 @@ export const Admins = () => {
       },
       {
         id: 4,
-        node: (
-          <>
-            <InfoButton />
-            <DeleteConfirmationModal />
-          </>
-        ),
+        node: <DeleteConfirmationModal />,
         title: 'Действия',
       },
     ];

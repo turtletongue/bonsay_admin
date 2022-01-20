@@ -4,8 +4,9 @@ import { Box, Image, Table, Tbody } from '@chakra-ui/react';
 import TableHead from '../components/table-head.component';
 import TableRow from '../components/table-row.component';
 import Pagination from '../components/pagination.component';
-import EditButton from '../components/edit-button.component';
 import DeleteConfirmationModal from '../components/delete-confirmation-modal.component';
+import EditItemModal from '../components/edit-item-modal.component';
+import EditCategoryForm from '../components/edit-category-form.component';
 
 import { Category } from '../declarations';
 
@@ -79,7 +80,9 @@ export const Categories = () => {
         id: 3,
         node: (
           <>
-            <EditButton />
+            <EditItemModal>
+              <EditCategoryForm />
+            </EditItemModal>
             <DeleteConfirmationModal />
           </>
         ),
