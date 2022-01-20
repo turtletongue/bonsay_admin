@@ -1,125 +1,47 @@
+import { useEffect } from 'react';
 import { useSearchParams, useLocation } from 'react-router-dom';
 import { Box, Image, Table, Tbody } from '@chakra-ui/react';
 
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import {
+  fetchProducts,
+  selectProducts,
+  selectSearch,
+  selectTotal,
+  selectSuccess,
+} from '../store/products/products.slice';
 import TableHead from '../components/table-head.component';
 import TableRow from '../components/table-row.component';
 import Pagination from '../components/pagination.component';
 import DeleteConfirmationModal from '../components/delete-confirmation-modal.component';
 import EditItemModal from '../components/edit-item-modal.component';
+import EditProductForm from '../components/edit-product-form.component';
+import { DEFAULT_IMAGE_PATH } from '../variables';
 
 import { Product } from '../declarations';
-import EditProductForm from '../components/edit-product-form.component';
 
 export const Products = () => {
   const [params] = useSearchParams();
+  const pageNumber = Number(params.get('page')) || 1;
+
   const { pathname } = useLocation();
 
-  const products = [
-    {
-      id: 1,
-      name: 'MONDAY PINE',
-      price: 750,
-      description: '',
-      createdAt: '2020-12-20',
-      updatedAt: '2020-12-20',
-      age: 30,
-      height: 34,
-      upload: {
-        path: 'https://images.unsplash.com/photo-1642252797294-c8a97b9d66cf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=465&q=80',
-      },
-    },
-    {
-      id: 2,
-      name: 'MONDAY PINE',
-      price: 750,
-      description: '',
-      createdAt: '2020-12-20',
-      updatedAt: '2020-12-20',
-      age: 30,
-      height: 34,
-      upload: {
-        path: 'https://images.unsplash.com/photo-1642252797294-c8a97b9d66cf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=465&q=80',
-      },
-    },
-    {
-      id: 3,
-      name: 'MONDAY PINE',
-      price: 750,
-      description: '',
-      createdAt: '2020-12-20',
-      updatedAt: '2020-12-20',
-      age: 30,
-      height: 34,
-      upload: {
-        path: 'https://images.unsplash.com/photo-1642252797294-c8a97b9d66cf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=465&q=80',
-      },
-    },
-    {
-      id: 4,
-      name: 'MONDAY PINE',
-      price: 750,
-      description: '',
-      createdAt: '2020-12-20',
-      updatedAt: '2020-12-20',
-      age: 30,
-      height: 34,
-      upload: {
-        path: 'https://images.unsplash.com/photo-1642252797294-c8a97b9d66cf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=465&q=80',
-      },
-    },
-    {
-      id: 5,
-      name: 'MONDAY PINE',
-      price: 750,
-      description: '',
-      createdAt: '2020-12-20',
-      updatedAt: '2020-12-20',
-      age: 30,
-      height: 34,
-      upload: {
-        path: 'https://images.unsplash.com/photo-1642252797294-c8a97b9d66cf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=465&q=80',
-      },
-    },
-    {
-      id: 6,
-      name: 'MONDAY PINE',
-      price: 750,
-      description: '',
-      createdAt: '2020-12-20',
-      updatedAt: '2020-12-20',
-      age: 30,
-      height: 34,
-      upload: {
-        path: 'https://images.unsplash.com/photo-1642252797294-c8a97b9d66cf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=465&q=80',
-      },
-    },
-    {
-      id: 7,
-      name: 'MONDAY PINE',
-      price: 750,
-      description: '',
-      createdAt: '2020-12-20',
-      updatedAt: '2020-12-20',
-      age: 30,
-      height: 34,
-      upload: {
-        path: 'https://images.unsplash.com/photo-1642252797294-c8a97b9d66cf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=465&q=80',
-      },
-    },
-    {
-      id: 8,
-      name: 'MONDAY PINE',
-      price: 750,
-      description: '',
-      createdAt: '2020-12-20',
-      updatedAt: '2020-12-20',
-      age: 30,
-      height: 34,
-      upload: {
-        path: 'https://images.unsplash.com/photo-1642252797294-c8a97b9d66cf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=465&q=80',
-      },
-    },
-  ];
+  const dispatch = useAppDispatch();
+
+  const products = useAppSelector(selectProducts);
+  const total = useAppSelector(selectTotal);
+  const search = useAppSelector(selectSearch);
+  const productCreationSuccess = useAppSelector(selectSuccess);
+
+  useEffect(() => {
+    dispatch(fetchProducts({ page: pageNumber, filters: { search } }));
+  }, [dispatch, pageNumber, search]);
+
+  useEffect(() => {
+    if (productCreationSuccess) {
+      dispatch(fetchProducts({ page: pageNumber, filters: { search } }));
+    }
+  }, [dispatch, pageNumber, search, productCreationSuccess]);
 
   const getData = (product: Product) => {
     return [
@@ -129,7 +51,7 @@ export const Products = () => {
           <Image
             boxSize="5rem"
             objectFit="cover"
-            src={product.upload?.path}
+            src={product.path || product.upload?.path || DEFAULT_IMAGE_PATH}
             alt={product.name}
           />
         ),
@@ -166,11 +88,7 @@ export const Products = () => {
           })}
         </Tbody>
       </Table>
-      <Pagination
-        pageNumber={Number(params.get('page')) || 1}
-        url={pathname}
-        total={products.length}
-      />
+      <Pagination pageNumber={pageNumber} url={pathname} total={total} />
     </Box>
   );
 };

@@ -1,17 +1,14 @@
+import { ChangeEventHandler } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import {
-  Box,
-  Divider,
-  Flex,
-  Input,
-  Text,
-  useMediaQuery,
-} from '@chakra-ui/react';
+import { Box, Divider, Flex, Text, useMediaQuery } from '@chakra-ui/react';
 
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { selectSearch, setSearch } from '../store/products/products.slice';
 import AddItemModal from './add-item-modal.component';
 import AddProductForm from './add-product-form.component';
 import AddCategoryForm from './add-category-form.component';
 import AddAdminForm from './add-admin-form.component';
+import Search from './search.component';
 
 interface PageHeadingProps {
   title?: string;
@@ -22,6 +19,16 @@ export const PageHeading = ({ title }: PageHeadingProps) => {
   const [isLessThan920] = useMediaQuery('(max-width: 920px)');
 
   const isCanAddRows = pathname !== '/clients' && pathname !== '/orders';
+  const hasSearch = pathname === '/products' || pathname === '/categories';
+
+  const dispatch = useAppDispatch();
+
+  const productsSearch = useAppSelector(selectSearch);
+  const onProductsSearchChange: ChangeEventHandler<HTMLInputElement> = (
+    event
+  ) => {
+    dispatch(setSearch(event.target.value));
+  };
 
   return (
     <>
@@ -47,13 +54,19 @@ export const PageHeading = ({ title }: PageHeadingProps) => {
                 </AddItemModal>
               )}
             </Flex>
-            <Input
-              type="search"
-              placeholder="Поиск"
-              maxW="20rem"
-              marginTop={isLessThan920 ? '1rem' : 0}
-              marginLeft="1rem"
-            />
+            {hasSearch && (
+              <Routes>
+                <Route
+                  path="products"
+                  element={
+                    <Search
+                      value={productsSearch}
+                      onChange={onProductsSearchChange}
+                    />
+                  }
+                />
+              </Routes>
+            )}
           </Flex>
           <Divider color="#254125" marginTop="1rem" />
         </Box>

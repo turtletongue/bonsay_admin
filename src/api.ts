@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3030/';
+export const API_URL = 'http://localhost:3030/';
 
 export const api = {
   products: API_URL + 'products',
@@ -11,4 +11,5 @@ export const api = {
   orders: API_URL + 'orders',
   purchases: API_URL + 'purchases',
   payments: API_URL + 'payments',
+  uploads: API_URL + 'uploads',
 };

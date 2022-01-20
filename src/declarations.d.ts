@@ -1,5 +1,7 @@
 import { ReactNode } from 'react';
 
+export type Id = string | number;
+
 export interface NavlinkData {
   icon: (isActive: boolean) => ReactNode;
   text: string;
@@ -15,6 +17,7 @@ export interface Product {
   height: number;
   price: number;
   categoryId?: Id;
+  uploadId?: Id;
 
   path?: string;
   upload?: Upload;

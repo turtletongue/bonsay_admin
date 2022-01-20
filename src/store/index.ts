@@ -17,6 +17,8 @@ import {
 
 import persistStorage from './persistStorage';
 import coreReducer from './core/core.slice';
+import productsReducer from './products/products.slice';
+import categoriesReducer from './categories/categories.slice';
 import signInReducer from './sign-in/sign-in.slice';
 
 const persistConfig = {
@@ -28,6 +30,8 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   core: coreReducer,
+  products: productsReducer,
+  categories: categoriesReducer,
   signIn: signInReducer,
 });
 
