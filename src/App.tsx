@@ -18,8 +18,6 @@ import {
   signOut,
 } from './store/core/core.slice';
 import Admins from './pages/admins.page';
-import Clients from './pages/clients.page';
-import Orders from './pages/orders.page';
 import Categories from './pages/categories.page';
 import Products from './pages/products.page';
 import Navbar from './components/navbar.component';
@@ -95,8 +93,6 @@ const App = () => {
           <Route index element={<Navigate to="products" />} />
           <Route path="products" element={<Products />} />
           <Route path="categories" element={<Categories />} />
-          <Route path="orders" element={<Orders />} />
-          <Route path="clients" element={<Clients />} />
           <Route path="admins" element={<Admins />} />
         </Routes>
       </Box>

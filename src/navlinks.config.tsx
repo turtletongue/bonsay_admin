@@ -1,7 +1,6 @@
 import { Icon } from '@chakra-ui/react';
 import { FaClipboardList } from 'react-icons/fa';
 import { MdCategory } from 'react-icons/md';
-import { BsFillBagCheckFill, BsPeopleFill } from 'react-icons/bs';
 import { IoMdSettings } from 'react-icons/io';
 import { GoSignOut } from 'react-icons/go';
 
@@ -29,30 +28,6 @@ export const navlinks = [
     ),
     href: '/categories',
     text: 'Категории',
-  },
-  {
-    icon: (isActive: boolean) => (
-      <Icon
-        as={BsFillBagCheckFill}
-        w={6}
-        h={6}
-        color={isActive ? 'white' : '#EFEFEF'}
-      />
-    ),
-    href: '/orders',
-    text: 'Заказы',
-  },
-  {
-    icon: (isActive: boolean) => (
-      <Icon
-        as={BsPeopleFill}
-        w={6}
-        h={6}
-        color={isActive ? 'white' : '#EFEFEF'}
-      />
-    ),
-    href: '/clients',
-    text: 'Клиенты',
   },
   {
     icon: (isActive: boolean) => (
