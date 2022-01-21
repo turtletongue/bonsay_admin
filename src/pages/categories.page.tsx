@@ -80,7 +80,7 @@ export const Categories = () => {
         id: 3,
         node: (
           <>
-            <EditItemModal>
+            <EditItemModal id={category.id}>
               <EditCategoryForm />
             </EditItemModal>
             <DeleteConfirmationModal />

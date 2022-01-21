@@ -11,14 +11,19 @@ export interface ProductsState {
   error?: string;
   filters: ProductsFilters;
 
-  productCreationData: Partial<Product>;
-  productCreationLoading: 'idle' | 'pending';
-  productCreationError?: string;
-  productCreationSuccess: boolean;
+  productData: Partial<Product>;
 
-  productDeletionLoading: 'idle' | 'pending';
-  productDeletionError?: string;
-  productDeletionSuccess: boolean;
+  productCreateLoading: 'idle' | 'pending';
+  productCreateError?: string;
+  productCreateSuccess: boolean;
+
+  productDeleteLoading: 'idle' | 'pending';
+  productDeleteError?: string;
+  productDeleteSuccess: boolean;
+
+  productEditLoading: 'idle' | 'pending';
+  productEditError?: string;
+  productEditSuccess: boolean;
 }
 
 export type FetchProductsParams = {
@@ -41,5 +46,19 @@ export type CreateProductParams = {
 
 export type DeleteProductParams = {
   productId: Id;
+  accessToken: string;
+};
+
+export type PatchProductParams = {
+  product: {
+    id: Id;
+    name?: string;
+    description?: string;
+    price?: number;
+    height?: number;
+    birthdate?: string;
+    categoryId?: Id;
+    uploadId?: Id;
+  };
   accessToken: string;
 };

@@ -9,7 +9,7 @@ export const initialState: ProductsState = {
     search: '',
   },
 
-  productCreationData: {
+  productData: {
     name: '',
     description: '',
     price: 0,
@@ -18,13 +18,18 @@ export const initialState: ProductsState = {
     categoryId: -1,
     uploadId: -1,
   },
-  productCreationLoading: 'idle',
-  productCreationError: undefined,
-  productCreationSuccess: false,
 
-  productDeletionLoading: 'idle',
-  productDeletionError: undefined,
-  productDeletionSuccess: false,
+  productCreateLoading: 'idle',
+  productCreateError: undefined,
+  productCreateSuccess: false,
+
+  productDeleteLoading: 'idle',
+  productDeleteError: undefined,
+  productDeleteSuccess: false,
+
+  productEditLoading: 'idle',
+  productEditError: undefined,
+  productEditSuccess: false,
 };
 
 export default initialState;

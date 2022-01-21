@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, useCallback, useEffect } from 'react';
 import {
   Button,
   Icon,
@@ -16,18 +16,19 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import { Route, Routes } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import {
-  clearProductCreation,
+  clearProductCreate,
   createProduct,
   selectBirthdate,
   selectCategoryId,
   selectDescription,
-  selectCreationError,
+  selectCreateError,
   selectHeight,
   selectName,
   selectPrice,
-  selectCreationSuccess,
+  selectCreateSuccess,
   selectUploadId,
-  clearProductCreationError,
+  clearProductCreateError,
+  clearProductData,
 } from '../store/products/products.slice';
 import { selectAccessToken } from '../store/core/core.slice';
 
@@ -37,9 +38,16 @@ interface AddItemModalProps {
 
 export const AddItemModal = ({ children }: AddItemModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const toast = useToast();
 
   const dispatch = useAppDispatch();
+
+  const closeWithClear = useCallback(() => {
+    onClose();
+
+    dispatch(clearProductData());
+  }, [dispatch, onClose]);
+
+  const toast = useToast();
 
   const accessToken = useAppSelector(selectAccessToken);
 
@@ -50,8 +58,8 @@ export const AddItemModal = ({ children }: AddItemModalProps) => {
   const price = useAppSelector(selectPrice);
   const height = useAppSelector(selectHeight);
   const birthdate = useAppSelector(selectBirthdate);
-  const productCreationSuccess = useAppSelector(selectCreationSuccess);
-  const productCreationError = useAppSelector(selectCreationError);
+  const productCreateSuccess = useAppSelector(selectCreateSuccess);
+  const productCreateError = useAppSelector(selectCreateError);
 
   const onProductSave = () => {
     dispatch(
@@ -71,10 +79,10 @@ export const AddItemModal = ({ children }: AddItemModalProps) => {
   };
 
   useEffect(() => {
-    if (productCreationSuccess) {
-      onClose();
+    if (productCreateSuccess) {
+      closeWithClear();
 
-      dispatch(clearProductCreation());
+      dispatch(clearProductCreate());
 
       toast({
         title: 'Товар создан.',
@@ -82,26 +90,26 @@ export const AddItemModal = ({ children }: AddItemModalProps) => {
         position: 'top-right',
       });
     }
-  }, [dispatch, onClose, toast, productCreationSuccess]);
+  }, [dispatch, closeWithClear, toast, productCreateSuccess]);
 
   useEffect(() => {
-    if (productCreationError) {
+    if (productCreateError) {
       toast({
         title: 'Что-то пошло не так.',
         status: 'error',
         position: 'top-right',
       });
 
-      dispatch(clearProductCreationError());
+      dispatch(clearProductCreateError());
     }
-  }, [dispatch, toast, productCreationError]);
+  }, [dispatch, toast, productCreateError]);
 
   return (
     <>
       <Button colorScheme="green" onClick={onOpen}>
         <Icon as={AiOutlinePlus} w={6} h={6} />
       </Button>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={closeWithClear}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Добавление данных</ModalHeader>
@@ -118,7 +126,7 @@ export const AddItemModal = ({ children }: AddItemModalProps) => {
                 }
               />
             </Routes>
-            <Button onClick={onClose}>Отмена</Button>
+            <Button onClick={closeWithClear}>Отмена</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
