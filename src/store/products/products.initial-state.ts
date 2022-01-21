@@ -8,6 +8,7 @@ export const initialState: ProductsState = {
   filters: {
     search: '',
   },
+
   productCreationData: {
     name: '',
     description: '',
@@ -20,6 +21,10 @@ export const initialState: ProductsState = {
   productCreationLoading: 'idle',
   productCreationError: undefined,
   productCreationSuccess: false,
+
+  productDeletionLoading: 'idle',
+  productDeletionError: undefined,
+  productDeletionSuccess: false,
 };
 
 export default initialState;

@@ -13,8 +13,22 @@ import {
 } from '@chakra-ui/react';
 import { BsTrashFill } from 'react-icons/bs';
 
-export const DeleteConfirmationModal = () => {
+interface DeleteConfirmationModalProps {
+  onDelete?: () => void;
+}
+
+export const DeleteConfirmationModal = ({
+  onDelete,
+}: DeleteConfirmationModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const onDeleteButtonClicked = () => {
+    if (onDelete) {
+      onDelete();
+    }
+
+    onClose();
+  };
 
   return (
     <>
@@ -40,7 +54,9 @@ export const DeleteConfirmationModal = () => {
             <Button onClick={onClose} mr={3}>
               Отмена
             </Button>
-            <Button colorScheme="red">Удалить</Button>
+            <Button colorScheme="red" onClick={onDeleteButtonClicked}>
+              Удалить
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

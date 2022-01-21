@@ -21,11 +21,11 @@ import {
   selectBirthdate,
   selectCategoryId,
   selectDescription,
-  selectError,
+  selectCreationError,
   selectHeight,
   selectName,
   selectPrice,
-  selectSuccess,
+  selectCreationSuccess,
   selectUploadId,
   clearProductCreationError,
 } from '../store/products/products.slice';
@@ -50,8 +50,8 @@ export const AddItemModal = ({ children }: AddItemModalProps) => {
   const price = useAppSelector(selectPrice);
   const height = useAppSelector(selectHeight);
   const birthdate = useAppSelector(selectBirthdate);
-  const productCreationSuccess = useAppSelector(selectSuccess);
-  const productCreationError = useAppSelector(selectError);
+  const productCreationSuccess = useAppSelector(selectCreationSuccess);
+  const productCreationError = useAppSelector(selectCreationError);
 
   const onProductSave = () => {
     dispatch(

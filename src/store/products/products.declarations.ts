@@ -10,10 +10,15 @@ export interface ProductsState {
   loading: 'idle' | 'pending';
   error?: string;
   filters: ProductsFilters;
+
   productCreationData: Partial<Product>;
   productCreationLoading: 'idle' | 'pending';
   productCreationError?: string;
   productCreationSuccess: boolean;
+
+  productDeletionLoading: 'idle' | 'pending';
+  productDeletionError?: string;
+  productDeletionSuccess: boolean;
 }
 
 export type FetchProductsParams = {
@@ -32,4 +37,9 @@ export type CreateProductParams = {
     uploadId?: Id;
   };
   accessToken?: string;
+};
+
+export type DeleteProductParams = {
+  productId: Id;
+  accessToken: string;
 };

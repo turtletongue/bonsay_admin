@@ -5,14 +5,15 @@ import axios from 'axios';
 import initialState from './products.initial-state';
 import { api, API_URL } from './../../api';
 import { DEFAULT_FETCH_LIMIT } from '../../variables';
+import { fetchWithErrorHandling } from '../../utils';
 
 import { Product } from '../../declarations';
 import {
   CreateProductParams,
+  DeleteProductParams,
   FetchProductsParams,
 } from './products.declarations';
 import { RootState } from '..';
-import { fetchWithErrorHandling } from '../../utils';
 
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
@@ -48,7 +49,27 @@ export const createProduct = createAsyncThunk(
     const uploadId = product.uploadId === -1 ? undefined : product.uploadId;
 
     return await fetchWithErrorHandling(async () => {
-      await axios.post(api.products, { ...product, uploadId }, {
+      await axios.post(
+        api.products,
+        { ...product, uploadId },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+    }, rejectWithValue);
+  }
+);
+
+export const deleteProduct = createAsyncThunk(
+  'products/deleteProduct',
+  async (
+    { productId, accessToken }: DeleteProductParams,
+    { rejectWithValue }
+  ) => {
+    return await fetchWithErrorHandling(async () => {
+      await axios.delete(api.products + `/${productId}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -94,6 +115,11 @@ export const productsSlice = createSlice({
     clearProductCreationError: (state) => {
       state.productCreationError = undefined;
     },
+    clearProductDeletion: (state) => {
+      state.productDeletionLoading = 'idle';
+      state.productDeletionSuccess = false;
+      state.productCreationError = undefined;
+    },
   },
   extraReducers: {
     [fetchProducts.pending as any]: (state) => {
@@ -127,6 +153,19 @@ export const productsSlice = createSlice({
       state.productCreationLoading = 'idle';
       state.productCreationError = action.payload;
     },
+    [deleteProduct.pending as any]: (state) => {
+      state.productDeletionLoading = 'pending';
+      state.productDeletionError = undefined;
+      state.productDeletionSuccess = false;
+    },
+    [deleteProduct.fulfilled as any]: (state) => {
+      state.productDeletionLoading = 'idle';
+      state.productDeletionSuccess = true;
+    },
+    [deleteProduct.rejected as any]: (state, action: PayloadAction<string>) => {
+      state.productDeletionLoading = 'idle';
+      state.productDeletionError = action.payload;
+    },
   },
 });
 
@@ -141,6 +180,7 @@ export const {
   setHeight,
   setBirthdate,
   clearProductCreationError,
+  clearProductDeletion,
 } = productsSlice.actions;
 
 export const selectIsLoading = (state: RootState) =>
@@ -163,9 +203,13 @@ export const selectHeight = (state: RootState) =>
   state.products.productCreationData.height;
 export const selectBirthdate = (state: RootState) =>
   state.products.productCreationData.birthdate;
-export const selectSuccess = (state: RootState) =>
+export const selectCreationSuccess = (state: RootState) =>
   state.products.productCreationSuccess;
-export const selectError = (state: RootState) =>
+export const selectCreationError = (state: RootState) =>
   state.products.productCreationError;
+export const selectDeletionSuccess = (state: RootState) =>
+  state.products.productDeletionSuccess;
+export const selectDeletionError = (state: RootState) =>
+  state.products.productDeletionError;
 
 export default productsSlice.reducer;

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSearchParams, useLocation } from 'react-router-dom';
-import { Box, Image, Table, Tbody } from '@chakra-ui/react';
+import { Box, Image, Table, Tbody, useToast } from '@chakra-ui/react';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import {
@@ -8,8 +8,13 @@ import {
   selectProducts,
   selectSearch,
   selectTotal,
-  selectSuccess,
+  selectCreationSuccess,
+  deleteProduct,
+  selectDeletionSuccess,
+  selectDeletionError,
+  clearProductDeletion,
 } from '../store/products/products.slice';
+import { selectAccessToken } from '../store/core/core.slice';
 import TableHead from '../components/table-head.component';
 import TableRow from '../components/table-row.component';
 import Pagination from '../components/pagination.component';
@@ -31,7 +36,13 @@ export const Products = () => {
   const products = useAppSelector(selectProducts);
   const total = useAppSelector(selectTotal);
   const search = useAppSelector(selectSearch);
-  const productCreationSuccess = useAppSelector(selectSuccess);
+  const productCreationSuccess = useAppSelector(selectCreationSuccess);
+  const productDeletionSuccess = useAppSelector(selectDeletionSuccess);
+  const productDeletionError = useAppSelector(selectDeletionError);
+
+  const accessToken = useAppSelector(selectAccessToken);
+
+  const toast = useToast();
 
   useEffect(() => {
     dispatch(fetchProducts({ page: pageNumber, filters: { search } }));
@@ -43,7 +54,43 @@ export const Products = () => {
     }
   }, [dispatch, pageNumber, search, productCreationSuccess]);
 
+  useEffect(() => {
+    if (productDeletionSuccess) {
+      dispatch(fetchProducts({ page: pageNumber, filters: { search } }));
+    }
+  }, [dispatch, pageNumber, search, productDeletionSuccess]);
+
+  useEffect(() => {
+    if (productDeletionSuccess) {
+      toast({
+        title: 'Товар удалён.',
+        status: 'success',
+        position: 'top-right',
+      });
+
+      dispatch(clearProductDeletion());
+    }
+  }, [dispatch, toast, productDeletionSuccess]);
+
+  useEffect(() => {
+    if (productDeletionError) {
+      toast({
+        title: 'Что-пошло не так.',
+        status: 'error',
+        position: 'top-right',
+      });
+
+      dispatch(clearProductDeletion());
+    }
+  }, [dispatch, toast, productDeletionError]);
+
   const getData = (product: Product) => {
+    const onDelete = () => {
+      if (accessToken) {
+        dispatch(deleteProduct({ productId: product.id, accessToken }));
+      }
+    };
+
     return [
       {
         id: 1,
@@ -70,7 +117,7 @@ export const Products = () => {
             <EditItemModal>
               <EditProductForm />
             </EditItemModal>
-            <DeleteConfirmationModal />
+            <DeleteConfirmationModal onDelete={onDelete} />
           </>
         ),
         title: 'Действия',
