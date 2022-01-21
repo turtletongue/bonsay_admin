@@ -16,22 +16,22 @@ export const Admins = () => {
     {
       id: 1,
       email: 'admin@gmail.com',
-      createdAt: new Date(),
+      createdAt: '2020-02-03',
     },
     {
       id: 2,
       email: 'admin@gmail.com',
-      createdAt: new Date(),
+      createdAt: '2020-02-02',
     },
     {
       id: 3,
       email: 'admin@gmail.com',
-      createdAt: new Date(),
+      createdAt: '2020-02-02',
     },
     {
       id: 4,
       email: 'admin@gmail.com',
-      createdAt: new Date(),
+      createdAt: '2020-02-02',
     },
   ];
 
@@ -41,7 +41,7 @@ export const Admins = () => {
       { id: 2, node: admin.email, title: 'Email' },
       {
         id: 3,
-        node: admin.createdAt?.toLocaleString(),
+        node: new Date(admin.createdAt || Date.now()).toLocaleString(),
         title: 'Дата создания',
       },
       {

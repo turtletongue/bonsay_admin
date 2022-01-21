@@ -31,7 +31,7 @@ import {
   setHeight,
   setName,
   setPrice,
-  setProductData,
+  setWriteData,
   setUploadId,
 } from '../store/products/products.slice';
 import {
@@ -54,7 +54,7 @@ export const EditProductForm = ({ product }: EditProductFormProps) => {
   const accessToken = useAppSelector(selectAccessToken);
 
   useEffect(() => {
-    dispatch(setProductData(product));
+    dispatch(setWriteData(product));
   }, [dispatch, product]);
 
   const name = useAppSelector(selectName);
@@ -94,12 +94,6 @@ export const EditProductForm = ({ product }: EditProductFormProps) => {
   const onCategoryIdChange: ChangeEventHandler<HTMLSelectElement> = (event) => {
     dispatch(setCategoryId(event.target.value));
   };
-
-  useEffect(() => {
-    if (categories.length > 0 && categoryId === -1) {
-      dispatch(setCategoryId(categories[0].id || -1));
-    }
-  }, [dispatch, categoryId, categories]);
 
   const uploadId = useAppSelector(selectUploadId);
   const onFileAccepted = async (file: File) => {

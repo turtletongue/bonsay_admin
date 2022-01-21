@@ -10,27 +10,16 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
-  useToast,
 } from '@chakra-ui/react';
 import { AiOutlinePlus } from 'react-icons/ai';
-import { Route, Routes } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
-import {
-  clearProductCreate,
-  createProduct,
-  selectBirthdate,
-  selectCategoryId,
-  selectDescription,
-  selectCreateError,
-  selectHeight,
-  selectName,
-  selectPrice,
-  selectCreateSuccess,
-  selectUploadId,
-  clearProductCreateError,
-  clearProductData,
-} from '../store/products/products.slice';
-import { selectAccessToken } from '../store/core/core.slice';
+import { useLocation } from 'react-router-dom';
+
+import { useAppDispatch, useCreate } from '../store/hooks';
+import { slicesNames } from '../variables';
+import { clearWriteData as clearProductWriteData } from '../store/products/products.slice';
+import { clearWriteData as clearCategoryWriteData } from '../store/categories/categories.slice';
+
+import { SliceName } from '../declarations';
 
 interface AddItemModalProps {
   children?: ReactNode;
@@ -39,70 +28,30 @@ interface AddItemModalProps {
 export const AddItemModal = ({ children }: AddItemModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const { pathname } = useLocation();
+
   const dispatch = useAppDispatch();
 
   const closeWithClear = useCallback(() => {
     onClose();
 
-    dispatch(clearProductData());
+    dispatch(clearProductWriteData());
+    dispatch(clearCategoryWriteData());
   }, [dispatch, onClose]);
 
-  const toast = useToast();
+  const sliceName = pathname.slice(1);
 
-  const accessToken = useAppSelector(selectAccessToken);
-
-  const productName = useAppSelector(selectName);
-  const productDescription = useAppSelector(selectDescription);
-  const categoryId = useAppSelector(selectCategoryId);
-  const productUploadId = useAppSelector(selectUploadId);
-  const price = useAppSelector(selectPrice);
-  const height = useAppSelector(selectHeight);
-  const birthdate = useAppSelector(selectBirthdate);
-  const productCreateSuccess = useAppSelector(selectCreateSuccess);
-  const productCreateError = useAppSelector(selectCreateError);
-
-  const onProductSave = () => {
-    dispatch(
-      createProduct({
-        product: {
-          name: productName,
-          description: productDescription,
-          categoryId,
-          uploadId: productUploadId,
-          height,
-          birthdate: new Date(birthdate || Date.now()).toISOString(),
-          price,
-        },
-        accessToken,
-      })
-    );
-  };
-
-  useEffect(() => {
-    if (productCreateSuccess) {
+  const [onSave, successEffect, errorEffect] = useCreate({
+    sliceName: slicesNames.includes(sliceName)
+      ? (sliceName as SliceName)
+      : 'products',
+    onSuccess: () => {
       closeWithClear();
+    },
+  });
 
-      dispatch(clearProductCreate());
-
-      toast({
-        title: 'Товар создан.',
-        status: 'success',
-        position: 'top-right',
-      });
-    }
-  }, [dispatch, closeWithClear, toast, productCreateSuccess]);
-
-  useEffect(() => {
-    if (productCreateError) {
-      toast({
-        title: 'Что-то пошло не так.',
-        status: 'error',
-        position: 'top-right',
-      });
-
-      dispatch(clearProductCreateError());
-    }
-  }, [dispatch, toast, productCreateError]);
+  useEffect(successEffect, [successEffect]);
+  useEffect(errorEffect, [errorEffect]);
 
   return (
     <>
@@ -116,16 +65,9 @@ export const AddItemModal = ({ children }: AddItemModalProps) => {
           <ModalCloseButton />
           <ModalBody pb={6}>{children}</ModalBody>
           <ModalFooter>
-            <Routes>
-              <Route
-                path="products"
-                element={
-                  <Button onClick={onProductSave} colorScheme="green" mr={3}>
-                    Сохранить
-                  </Button>
-                }
-              />
-            </Routes>
+            <Button onClick={onSave} colorScheme="green" mr={3}>
+              Сохранить
+            </Button>
             <Button onClick={closeWithClear}>Отмена</Button>
           </ModalFooter>
         </ModalContent>

@@ -13,7 +13,7 @@ export interface Product {
   name: string;
   description: string;
   age?: number;
-  birthdate?: Date | string;
+  birthdate?: string;
   height: number;
   price: number;
   categoryId?: Id;
@@ -26,8 +26,8 @@ export interface Product {
 
   similarProducts?: Product[];
 
-  createdAt?: Date | string;
-  updatedAt?: Date | string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Category {
@@ -37,9 +37,10 @@ export interface Category {
 
   path?: string;
   upload?: Upload;
+  uploadId?: Id;
 
-  createdAt?: Date | string;
-  updatedAt?: Date | string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface User {
@@ -47,15 +48,15 @@ export interface User {
   email: string;
   role?: 'client' | 'admin';
 
-  createdAt?: string | Date;
-  updatedAt?: string | Date;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Client {
   id: Id;
   user: User;
-  createdAt?: string | Date;
-  updatedAt?: string | Date;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Address {
@@ -64,23 +65,23 @@ export interface Address {
   street: string;
   house: string;
   postcode: string;
-  createdAt?: string | Date;
-  updatedAt?: string | Date;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Purchase {
   id: Id;
   qty: number;
   product: Product;
-  createdAt?: string | Date;
-  updatedAt?: string | Date;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Payment {
   id: Id;
   sum: number;
-  createdAt?: string | Date;
-  updatedAt?: string | Date;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Order {
@@ -90,6 +91,8 @@ export interface Order {
   client: Client;
   purchases: Purchase[];
   payments: Payment[];
-  createdAt?: Date | string;
-  updatedAt?: Date | string;
+  createdAt?: string;
+  updatedAt?: string;
 }
+
+export type SliceName = 'products' | 'categories';

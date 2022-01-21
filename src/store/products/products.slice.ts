@@ -46,16 +46,13 @@ export const fetchProducts = createAsyncThunk(
 
 export const createProduct = createAsyncThunk(
   'products/createProduct',
-  async (
-    { product, accessToken }: CreateProductParams,
-    { rejectWithValue }
-  ) => {
-    const uploadId = product.uploadId === -1 ? undefined : product.uploadId;
+  async ({ data, accessToken }: CreateProductParams, { rejectWithValue }) => {
+    const uploadId = data.uploadId === -1 ? undefined : data.uploadId;
 
     return await fetchWithErrorHandling(async () => {
       await axios.post(
         api.products,
-        { ...product, uploadId },
+        { ...data, uploadId },
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -84,13 +81,17 @@ export const deleteProduct = createAsyncThunk(
 
 export const patchProduct = createAsyncThunk(
   'products/patchProduct',
-  async ({ product, accessToken }: PatchProductParams, { rejectWithValue }) => {
+  async ({ data, accessToken }: PatchProductParams, { rejectWithValue }) => {
     return await fetchWithErrorHandling(async () => {
-      await axios.patch(api.products + `/${product.id}`, product, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      await axios.patch(
+        api.products + `/${data.id}`,
+        { ...data, upload: undefined },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
     }, rejectWithValue);
   }
 );
@@ -103,56 +104,56 @@ export const productsSlice = createSlice({
       state.filters.search = action.payload;
     },
     setName: (state, action: PayloadAction<string>) => {
-      state.productData.name = action.payload;
+      state.writeData.name = action.payload;
     },
     setDescription: (state, action: PayloadAction<string>) => {
-      state.productData.description = action.payload;
+      state.writeData.description = action.payload;
     },
     setPrice: (state, action: PayloadAction<number>) => {
-      state.productData.price = action.payload;
+      state.writeData.price = action.payload;
     },
     setHeight: (state, action: PayloadAction<number>) => {
-      state.productData.height = action.payload;
+      state.writeData.height = action.payload;
     },
     setBirthdate: (state, action: PayloadAction<string>) => {
-      state.productData.birthdate = action.payload;
+      state.writeData.birthdate = action.payload;
     },
     setCategoryId: (state, action: PayloadAction<Id>) => {
-      state.productData.categoryId = action.payload;
+      state.writeData.categoryId = action.payload;
     },
     setUploadId: (state, action: PayloadAction<Id>) => {
-      state.productData.uploadId = action.payload;
+      state.writeData.uploadId = action.payload;
     },
     clearProductCreate: (state) => {
-      state.productData = initialState.productData;
-      state.productCreateLoading = 'idle';
-      state.productCreateSuccess = false;
-      state.productCreateError = undefined;
+      state.writeData = initialState.writeData;
+      state.createLoading = 'idle';
+      state.createSuccess = false;
+      state.createError = undefined;
     },
     clearProductCreateError: (state) => {
-      state.productCreateError = undefined;
+      state.createError = undefined;
     },
-    clearProductDelete: (state) => {
-      state.productDeleteLoading = 'idle';
-      state.productDeleteSuccess = false;
-      state.productDeleteError = undefined;
+    clearDelete: (state) => {
+      state.deleteLoading = 'idle';
+      state.deleteSuccess = false;
+      state.deleteError = undefined;
     },
     clearProductEdit: (state) => {
-      state.productData = initialState.productData;
-      state.productEditLoading = 'idle';
-      state.productEditSuccess = false;
-      state.productEditError = undefined;
+      state.writeData = initialState.writeData;
+      state.editLoading = 'idle';
+      state.editSuccess = false;
+      state.editError = undefined;
     },
     clearProductEditError: (state) => {
-      state.productEditError = undefined;
+      state.editError = undefined;
     },
-    setProductData: (state, action: PayloadAction<Partial<Product>>) => {
+    setWriteData: (state, action: PayloadAction<Partial<Product>>) => {
       const product = action.payload;
 
-      state.productData = { ...product, price: +(product.price || 0) };
+      state.writeData = { ...product, price: +(product.price || 0) };
     },
-    clearProductData: (state) => {
-      state.productData = initialState.productData;
+    clearWriteData: (state) => {
+      state.writeData = initialState.writeData;
     },
   },
   extraReducers: {
@@ -175,43 +176,43 @@ export const productsSlice = createSlice({
       state.error = action.payload;
     },
     [createProduct.pending as any]: (state) => {
-      state.productCreateLoading = 'pending';
-      state.productCreateError = undefined;
-      state.productCreateSuccess = false;
+      state.createLoading = 'pending';
+      state.createError = undefined;
+      state.createSuccess = false;
     },
     [createProduct.fulfilled as any]: (state) => {
-      state.productCreateLoading = 'idle';
-      state.productCreateSuccess = true;
+      state.createLoading = 'idle';
+      state.createSuccess = true;
     },
     [createProduct.rejected as any]: (state, action: PayloadAction<string>) => {
-      state.productCreateLoading = 'idle';
-      state.productCreateError = action.payload;
+      state.createLoading = 'idle';
+      state.createError = action.payload;
     },
     [deleteProduct.pending as any]: (state) => {
-      state.productDeleteLoading = 'pending';
-      state.productDeleteError = undefined;
-      state.productDeleteSuccess = false;
+      state.deleteLoading = 'pending';
+      state.deleteError = undefined;
+      state.deleteSuccess = false;
     },
     [deleteProduct.fulfilled as any]: (state) => {
-      state.productDeleteLoading = 'idle';
-      state.productDeleteSuccess = true;
+      state.deleteLoading = 'idle';
+      state.deleteSuccess = true;
     },
     [deleteProduct.rejected as any]: (state, action: PayloadAction<string>) => {
-      state.productDeleteLoading = 'idle';
-      state.productDeleteError = action.payload;
+      state.deleteLoading = 'idle';
+      state.deleteError = action.payload;
     },
     [patchProduct.pending as any]: (state) => {
-      state.productEditLoading = 'pending';
-      state.productEditError = undefined;
-      state.productEditSuccess = false;
+      state.editLoading = 'pending';
+      state.editError = undefined;
+      state.editSuccess = false;
     },
     [patchProduct.fulfilled as any]: (state) => {
-      state.productEditLoading = 'idle';
-      state.productEditSuccess = true;
+      state.editLoading = 'idle';
+      state.editSuccess = true;
     },
     [patchProduct.rejected as any]: (state, action: PayloadAction<string>) => {
-      state.productEditLoading = 'idle';
-      state.productEditError = action.payload;
+      state.editLoading = 'idle';
+      state.editError = action.payload;
     },
   },
 });
@@ -227,11 +228,11 @@ export const {
   setHeight,
   setBirthdate,
   clearProductCreateError,
-  clearProductDelete,
+  clearDelete,
   clearProductEdit,
   clearProductEditError,
-  setProductData,
-  clearProductData,
+  setWriteData,
+  clearWriteData,
 } = productsSlice.actions;
 
 export const selectIsLoading = (state: RootState) =>
@@ -240,30 +241,28 @@ export const selectProducts = (state: RootState) => state.products.data;
 export const selectTotal = (state: RootState) => state.products.total;
 export const selectSearch = (state: RootState) => state.products.filters.search;
 export const selectFilters = (state: RootState) => state.products.filters;
-export const selectName = (state: RootState) => state.products.productData.name;
+export const selectName = (state: RootState) => state.products.writeData.name;
 export const selectDescription = (state: RootState) =>
-  state.products.productData.description;
+  state.products.writeData.description;
 export const selectCategoryId = (state: RootState) =>
-  state.products.productData.categoryId;
+  state.products.writeData.categoryId;
 export const selectUploadId = (state: RootState) =>
-  state.products.productData.uploadId;
-export const selectPrice = (state: RootState) =>
-  state.products.productData.price;
+  state.products.writeData.uploadId;
+export const selectPrice = (state: RootState) => state.products.writeData.price;
 export const selectHeight = (state: RootState) =>
-  state.products.productData.height;
+  state.products.writeData.height;
 export const selectBirthdate = (state: RootState) =>
-  state.products.productData.birthdate;
+  state.products.writeData.birthdate;
 export const selectCreateSuccess = (state: RootState) =>
-  state.products.productCreateSuccess;
+  state.products.createSuccess;
 export const selectCreateError = (state: RootState) =>
-  state.products.productCreateError;
+  state.products.createError;
 export const selectDeleteSuccess = (state: RootState) =>
-  state.products.productDeleteSuccess;
+  state.products.deleteSuccess;
 export const selectDeleteError = (state: RootState) =>
-  state.products.productDeleteError;
+  state.products.deleteError;
 export const selectEditSuccess = (state: RootState) =>
-  state.products.productEditSuccess;
-export const selectEditError = (state: RootState) =>
-  state.products.productEditError;
+  state.products.editSuccess;
+export const selectEditError = (state: RootState) => state.products.editError;
 
 export default productsSlice.reducer;

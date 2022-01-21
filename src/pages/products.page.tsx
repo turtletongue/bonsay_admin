@@ -12,7 +12,7 @@ import {
   deleteProduct,
   selectDeleteSuccess,
   selectDeleteError,
-  clearProductDelete,
+  clearDelete,
   selectEditSuccess,
 } from '../store/products/products.slice';
 import { selectAccessToken } from '../store/core/core.slice';
@@ -71,7 +71,7 @@ export const Products = () => {
         position: 'top-right',
       });
 
-      dispatch(clearProductDelete());
+      dispatch(clearDelete());
     }
   }, [dispatch, toast, productDeleteSuccess]);
 
@@ -83,7 +83,7 @@ export const Products = () => {
         position: 'top-right',
       });
 
-      dispatch(clearProductDelete());
+      dispatch(clearDelete());
     }
   }, [dispatch, toast, productDeleteError]);
 

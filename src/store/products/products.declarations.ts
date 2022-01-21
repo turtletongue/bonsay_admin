@@ -11,19 +11,19 @@ export interface ProductsState {
   error?: string;
   filters: ProductsFilters;
 
-  productData: Partial<Product>;
+  writeData: Partial<Product>;
 
-  productCreateLoading: 'idle' | 'pending';
-  productCreateError?: string;
-  productCreateSuccess: boolean;
+  createLoading: 'idle' | 'pending';
+  createError?: string;
+  createSuccess: boolean;
 
-  productDeleteLoading: 'idle' | 'pending';
-  productDeleteError?: string;
-  productDeleteSuccess: boolean;
+  deleteLoading: 'idle' | 'pending';
+  deleteError?: string;
+  deleteSuccess: boolean;
 
-  productEditLoading: 'idle' | 'pending';
-  productEditError?: string;
-  productEditSuccess: boolean;
+  editLoading: 'idle' | 'pending';
+  editError?: string;
+  editSuccess: boolean;
 }
 
 export type FetchProductsParams = {
@@ -32,7 +32,7 @@ export type FetchProductsParams = {
 };
 
 export type CreateProductParams = {
-  product: {
+  data: {
     name?: string;
     description?: string;
     price?: number;
@@ -50,7 +50,7 @@ export type DeleteProductParams = {
 };
 
 export type PatchProductParams = {
-  product: {
+  data: {
     id: Id;
     name?: string;
     description?: string;

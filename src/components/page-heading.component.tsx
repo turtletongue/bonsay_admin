@@ -4,11 +4,13 @@ import { Box, Divider, Flex, Text, useMediaQuery } from '@chakra-ui/react';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { selectSearch, setSearch } from '../store/products/products.slice';
+import { selectCategories } from '../store/categories/categories.slice';
 import AddItemModal from './add-item-modal.component';
 import AddProductForm from './add-product-form.component';
 import AddCategoryForm from './add-category-form.component';
 import AddAdminForm from './add-admin-form.component';
 import Search from './search.component';
+import { DEFAULT_FETCH_LIMIT } from '../variables';
 
 interface PageHeadingProps {
   title?: string;
@@ -18,8 +20,12 @@ export const PageHeading = ({ title }: PageHeadingProps) => {
   const { pathname } = useLocation();
   const [isLessThan920] = useMediaQuery('(max-width: 920px)');
 
-  const isCanAddRows = pathname !== '/clients' && pathname !== '/orders';
-  const hasSearch = pathname === '/products' || pathname === '/categories';
+  const categories = useAppSelector(selectCategories);
+
+  const isCanAddRows =
+    pathname === '/products' ||
+    pathname === '/admins' ||
+    (pathname === '/categories' && categories.length < DEFAULT_FETCH_LIMIT);
 
   const dispatch = useAppDispatch();
 
@@ -54,19 +60,17 @@ export const PageHeading = ({ title }: PageHeadingProps) => {
                 </AddItemModal>
               )}
             </Flex>
-            {hasSearch && (
-              <Routes>
-                <Route
-                  path="products"
-                  element={
-                    <Search
-                      value={productsSearch}
-                      onChange={onProductsSearchChange}
-                    />
-                  }
-                />
-              </Routes>
-            )}
+            <Routes>
+              <Route
+                path="products"
+                element={
+                  <Search
+                    value={productsSearch}
+                    onChange={onProductsSearchChange}
+                  />
+                }
+              />
+            </Routes>
           </Flex>
           <Divider color="#254125" marginTop="1rem" />
         </Box>
