@@ -1,4 +1,3 @@
-import { Id } from './../../declarations.d';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
@@ -7,7 +6,7 @@ import { api, API_URL } from './../../api';
 import { DEFAULT_FETCH_LIMIT } from '../../variables';
 import { fetchWithErrorHandling } from '../../utils';
 
-import { Product } from '../../declarations';
+import { Id, Product } from '../../declarations';
 import {
   CreateProductParams,
   DeleteProductParams,

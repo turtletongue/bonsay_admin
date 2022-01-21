@@ -27,4 +27,4 @@ export const ONLY_ADMIN_ACCESS = 'Отказано в доступе';
 
 export const DEFAULT_IMAGE_PATH = '/images/product.jpg';
 
-export const slicesNames = ['products', 'categories'];
+export const slicesNames = ['products', 'categories', 'admins'];

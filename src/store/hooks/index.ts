@@ -1,4 +1,9 @@
 import {
+  clearAdminCreate,
+  clearAdminCreateError,
+  createAdmin,
+} from './../admins/admins.slice';
+import {
   clearCategoryEdit,
   clearCategoryEditError,
   patchCategory,
@@ -31,6 +36,7 @@ export const storeTable = {
   createActions: {
     products: 'createProduct',
     categories: 'createCategory',
+    admins: 'createAdmin',
   },
   editActions: {
     products: 'patchProduct',
@@ -44,6 +50,9 @@ export const storeTable = {
     categories: {
       successCreate: 'Категория создана.',
       successEdit: 'Категория изменена.',
+    },
+    admins: {
+      successCreate: 'Администратор создан.',
     },
   },
   slices: {
@@ -64,6 +73,11 @@ export const storeTable = {
       patchCategory,
       clearEdit: clearCategoryEdit,
       clearEditError: clearCategoryEditError,
+    },
+    admins: {
+      createAdmin,
+      clearCreate: clearAdminCreate,
+      clearCreateError: clearAdminCreateError,
     },
   },
 } as const;

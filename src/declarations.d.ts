@@ -47,6 +47,8 @@ export interface User {
   id: Id;
   email: string;
   role?: 'client' | 'admin';
+  password?: string;
+  passwordConfirmation?: string;
 
   createdAt?: string;
   updatedAt?: string;

@@ -68,7 +68,7 @@ export const Products = () => {
       toast({
         title: 'Товар удалён.',
         status: 'success',
-        position: 'top-right',
+        position: 'bottom-right',
       });
 
       dispatch(clearDelete());
@@ -80,7 +80,7 @@ export const Products = () => {
       toast({
         title: 'Что-пошло не так.',
         status: 'error',
-        position: 'top-right',
+        position: 'bottom-right',
       });
 
       dispatch(clearDelete());

@@ -3,11 +3,10 @@ import { useCallback } from 'react';
 import { useToast } from '@chakra-ui/react';
 import { storeTable, useAppDispatch, useAppSelector } from '.';
 import { selectAccessToken } from '../core/core.slice';
-
-import { Category, Product } from '../../declarations';
+import { errorMessages } from '../../variables';
 
 interface UseCreateOptions {
-  sliceName: 'products' | 'categories';
+  sliceName: 'products' | 'admins' | 'categories';
   onSuccess?: () => void;
   onError?: () => void;
   canEffect?: boolean;
@@ -28,12 +27,13 @@ export const useCreate = ({
   const createActions = storeTable.createActions;
 
   const slice = slices[sliceName] as typeof slices['categories'] &
-    typeof slices['products'];
+    typeof slices['products'] &
+    typeof slices['admins'];
 
   const onSave = () => {
     dispatch(
-      slice[createActions[sliceName]]({
-        data: data as Partial<Category> & Partial<Product>,
+      (slice[createActions[sliceName]] as Function)({
+        data,
         accessToken,
       })
     );
@@ -53,7 +53,7 @@ export const useCreate = ({
       toast({
         title: successLabel,
         status: 'success',
-        position: 'top-right',
+        position: 'bottom-right',
       });
     }
   }, [dispatch, onSuccess, canEffect, successLabel, toast, success, slice]);
@@ -65,9 +65,11 @@ export const useCreate = ({
       onError();
 
       toast({
-        title: 'Что-то пошло не так.',
+        title: Object.values(errorMessages).includes(error)
+          ? error
+          : 'Что-то пошло не так',
         status: 'error',
-        position: 'top-right',
+        position: 'bottom-right',
       });
 
       dispatch(slice.clearCreateError());

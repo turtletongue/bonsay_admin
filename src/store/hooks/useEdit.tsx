@@ -5,6 +5,7 @@ import { storeTable, useAppDispatch, useAppSelector } from '.';
 import { selectAccessToken } from '../core/core.slice';
 
 import { Category, Id, Product } from '../../declarations';
+import { errorMessages } from '../../variables';
 
 interface UseEditOptions {
   id: Id;
@@ -58,7 +59,7 @@ export const useEdit = ({
       toast({
         title: successLabel,
         status: 'success',
-        position: 'top-right',
+        position: 'bottom-right',
       });
     }
   }, [dispatch, onSuccess, canEffect, successLabel, toast, success, slice]);
@@ -70,9 +71,11 @@ export const useEdit = ({
       onError();
 
       toast({
-        title: 'Что-то пошло не так.',
+        title: Object.values(errorMessages).includes(error)
+          ? error
+          : 'Что-то пошло не так.',
         status: 'error',
-        position: 'top-right',
+        position: 'bottom-right',
       });
 
       dispatch(slice.clearEditError());

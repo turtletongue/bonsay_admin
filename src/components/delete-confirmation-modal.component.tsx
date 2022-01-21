@@ -8,10 +8,9 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Icon,
   useDisclosure,
 } from '@chakra-ui/react';
-import { BsTrashFill } from 'react-icons/bs';
+import DeleteButton from './delete-button.component';
 
 interface DeleteConfirmationModalProps {
   onDelete?: () => void;
@@ -32,14 +31,7 @@ export const DeleteConfirmationModal = ({
 
   return (
     <>
-      <Button
-        colorScheme="red"
-        marginLeft="1rem"
-        marginTop="1rem"
-        onClick={onOpen}
-      >
-        <Icon as={BsTrashFill} w={3} h={3} />
-      </Button>
+      <DeleteButton onClick={onOpen} />
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>

@@ -59,7 +59,7 @@ export const Categories = () => {
       toast({
         title: 'Категория удалена.',
         status: 'success',
-        position: 'top-right',
+        position: 'bottom-right',
       });
 
       dispatch(clearDelete());
@@ -71,7 +71,7 @@ export const Categories = () => {
       toast({
         title: 'Что-пошло не так.',
         status: 'error',
-        position: 'top-right',
+        position: 'bottom-right',
       });
 
       dispatch(clearDelete());
