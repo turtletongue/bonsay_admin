@@ -21,6 +21,7 @@ import { navlinks } from './navlinks.config';
 import Admins from './pages/admins.page';
 import Categories from './pages/categories.page';
 import Products from './pages/products.page';
+import NotFound from './pages/not-found.page';
 import Navbar from './components/navbar.component';
 import PageHeading from './components/page-heading.component';
 import ErrorBoundary from './components/error-boundary.component';
@@ -101,6 +102,7 @@ const App = () => {
             <Route path="products" element={<Products />} />
             <Route path="categories" element={<Categories />} />
             <Route path="admins" element={<Admins />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </ErrorBoundary>
       </Box>
