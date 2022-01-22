@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
 import { Flex, Box } from '@chakra-ui/react';
 import {
   Routes,
@@ -18,13 +18,15 @@ import {
   signOut,
 } from './store/core/core.slice';
 import { navlinks } from './navlinks.config';
-import Admins from './pages/admins.page';
-import Categories from './pages/categories.page';
-import Products from './pages/products.page';
-import NotFound from './pages/not-found.page';
 import Navbar from './components/navbar.component';
 import PageHeading from './components/page-heading.component';
 import ErrorBoundary from './components/error-boundary.component';
+import LoadingHandler from './components/loading-handler.component';
+
+const Admins = lazy(() => import('./pages/admins.page'));
+const Categories = lazy(() => import('./pages/categories.page'));
+const Products = lazy(() => import('./pages/products.page'));
+const NotFound = lazy(() => import('./pages/not-found.page'));
 
 const App = () => {
   const { pathname } = useLocation();
@@ -97,13 +99,15 @@ const App = () => {
           title={navlinks.find((navlink) => navlink.href === pathname)?.text}
         />
         <ErrorBoundary>
-          <Routes>
-            <Route index element={<Navigate to="products" />} />
-            <Route path="products" element={<Products />} />
-            <Route path="categories" element={<Categories />} />
-            <Route path="admins" element={<Admins />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <Suspense fallback={<LoadingHandler isLoading />}>
+            <Routes>
+              <Route index element={<Navigate to="products" />} />
+              <Route path="products" element={<Products />} />
+              <Route path="categories" element={<Categories />} />
+              <Route path="admins" element={<Admins />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
         </ErrorBoundary>
       </Box>
     </Flex>
