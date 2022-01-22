@@ -17,12 +17,13 @@ import {
   selectRefreshTokenExpireAt,
   signOut,
 } from './store/core/core.slice';
+import { navlinks } from './navlinks.config';
 import Admins from './pages/admins.page';
 import Categories from './pages/categories.page';
 import Products from './pages/products.page';
 import Navbar from './components/navbar.component';
 import PageHeading from './components/page-heading.component';
-import { navlinks } from './navlinks.config';
+import ErrorBoundary from './components/error-boundary.component';
 
 const App = () => {
   const { pathname } = useLocation();
@@ -94,12 +95,14 @@ const App = () => {
         <PageHeading
           title={navlinks.find((navlink) => navlink.href === pathname)?.text}
         />
-        <Routes>
-          <Route index element={<Navigate to="products" />} />
-          <Route path="products" element={<Products />} />
-          <Route path="categories" element={<Categories />} />
-          <Route path="admins" element={<Admins />} />
-        </Routes>
+        <ErrorBoundary>
+          <Routes>
+            <Route index element={<Navigate to="products" />} />
+            <Route path="products" element={<Products />} />
+            <Route path="categories" element={<Categories />} />
+            <Route path="admins" element={<Admins />} />
+          </Routes>
+        </ErrorBoundary>
       </Box>
     </Flex>
   );
