@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSearchParams, useLocation } from 'react-router-dom';
-import { Box, Table, Tbody, useToast } from '@chakra-ui/react';
+import { Table, Tbody, useToast } from '@chakra-ui/react';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import {
@@ -11,6 +11,7 @@ import {
   selectCreateSuccess,
   selectDeleteError,
   selectDeleteSuccess,
+  selectIsLoading,
   selectTotal,
 } from '../store/admins/admins.slice';
 import { selectAccessToken, selectUser } from '../store/core/core.slice';
@@ -19,6 +20,7 @@ import TableRow from '../components/table-row.component';
 import Pagination from '../components/pagination.component';
 import DeleteConfirmationModal from '../components/delete-confirmation-modal.component';
 import DeleteButton from '../components/delete-button.component';
+import LoadingHandler from '../components/loading-handler.component';
 
 import { User } from '../declarations';
 
@@ -112,8 +114,10 @@ export const Admins = () => {
     ];
   };
 
+  const isLoading = useAppSelector(selectIsLoading);
+
   return (
-    <Box>
+    <LoadingHandler isLoading={isLoading}>
       <Table variant="simple" maxH="80vh" overflow="hidden">
         <TableHead titles={['ID', 'Email', 'Дата создания', 'Действия']} />
         <Tbody>
@@ -123,7 +127,7 @@ export const Admins = () => {
         </Tbody>
       </Table>
       <Pagination pageNumber={pageNumber} url={pathname} total={total} />
-    </Box>
+    </LoadingHandler>
   );
 };
 

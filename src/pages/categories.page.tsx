@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSearchParams, useLocation } from 'react-router-dom';
-import { Box, Image, Table, Tbody, useToast } from '@chakra-ui/react';
+import { Image, Table, Tbody, useToast } from '@chakra-ui/react';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import {
@@ -12,6 +12,7 @@ import {
   selectDeleteError,
   selectDeleteSuccess,
   selectEditSuccess,
+  selectIsLoading,
 } from '../store/categories/categories.slice';
 import { DEFAULT_IMAGE_PATH } from '../variables';
 import TableHead from '../components/table-head.component';
@@ -20,6 +21,7 @@ import Pagination from '../components/pagination.component';
 import DeleteConfirmationModal from '../components/delete-confirmation-modal.component';
 import EditItemModal from '../components/edit-item-modal.component';
 import EditCategoryForm from '../components/edit-category-form.component';
+import LoadingHandler from '../components/loading-handler.component';
 
 import { Category } from '../declarations';
 import { selectAccessToken } from '../store/core/core.slice';
@@ -116,8 +118,10 @@ export const Categories = () => {
     ];
   };
 
+  const isLoading = useAppSelector(selectIsLoading);
+
   return (
-    <Box>
+    <LoadingHandler isLoading={isLoading}>
       <Table variant="simple" maxH="80vh" overflow="hidden">
         <TableHead titles={['Картинка', 'Название', 'Действия']} />
         <Tbody>
@@ -131,7 +135,7 @@ export const Categories = () => {
         url={pathname}
         total={categories.length}
       />
-    </Box>
+    </LoadingHandler>
   );
 };
 

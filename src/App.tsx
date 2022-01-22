@@ -85,7 +85,12 @@ const App = () => {
   return (
     <Flex width="full" height="full">
       <Navbar links={navlinks} />
-      <Box width="full" paddingLeft="3.5rem" paddingBottom="0.5rem">
+      <Box
+        width="full"
+        height="full"
+        paddingLeft="3.5rem"
+        paddingBottom="0.5rem"
+      >
         <PageHeading
           title={navlinks.find((navlink) => navlink.href === pathname)?.text}
         />

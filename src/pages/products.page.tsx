@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSearchParams, useLocation } from 'react-router-dom';
-import { Box, Image, Table, Tbody, useToast } from '@chakra-ui/react';
+import { Image, Table, Tbody, useToast } from '@chakra-ui/react';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import {
@@ -14,15 +14,17 @@ import {
   selectDeleteError,
   clearDelete,
   selectEditSuccess,
+  selectIsLoading,
 } from '../store/products/products.slice';
 import { selectAccessToken } from '../store/core/core.slice';
+import { DEFAULT_IMAGE_PATH } from '../variables';
 import TableHead from '../components/table-head.component';
 import TableRow from '../components/table-row.component';
 import Pagination from '../components/pagination.component';
 import DeleteConfirmationModal from '../components/delete-confirmation-modal.component';
 import EditItemModal from '../components/edit-item-modal.component';
 import EditProductForm from '../components/edit-product-form.component';
-import { DEFAULT_IMAGE_PATH } from '../variables';
+import LoadingHandler from '../components/loading-handler.component';
 
 import { Product } from '../declarations';
 
@@ -128,8 +130,10 @@ export const Products = () => {
     ];
   };
 
+  const isLoading = useAppSelector(selectIsLoading);
+
   return (
-    <Box>
+    <LoadingHandler isLoading={isLoading}>
       <Table variant="simple" maxH="80vh" overflow="hidden">
         <TableHead titles={['Картинка', 'Название', 'Цена', 'Действия']} />
         <Tbody>
@@ -139,7 +143,7 @@ export const Products = () => {
         </Tbody>
       </Table>
       <Pagination pageNumber={pageNumber} url={pathname} total={total} />
-    </Box>
+    </LoadingHandler>
   );
 };
 
