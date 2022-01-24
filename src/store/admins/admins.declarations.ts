@@ -15,6 +15,8 @@ export interface AdminsState {
   deleteLoading: 'idle' | 'pending';
   deleteError?: string;
   deleteSuccess: boolean;
+
+  page: number;
 }
 
 export type FetchAdminsParams = {

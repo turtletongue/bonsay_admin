@@ -19,6 +19,8 @@ export const initialState: AdminsState = {
   deleteLoading: 'idle',
   deleteError: undefined,
   deleteSuccess: false,
+
+  page: 1,
 };
 
 export default initialState;

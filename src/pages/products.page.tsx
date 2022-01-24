@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { useSearchParams, useLocation } from 'react-router-dom';
 import { Image, Table, Tbody, useToast } from '@chakra-ui/react';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
@@ -15,6 +14,8 @@ import {
   clearDelete,
   selectEditSuccess,
   selectIsLoading,
+  selectPage,
+  setPage,
 } from '../store/products/products.slice';
 import { selectAccessToken } from '../store/core/core.slice';
 import { DEFAULT_IMAGE_PATH } from '../variables';
@@ -29,10 +30,7 @@ import LoadingHandler from '../components/loading-handler.component';
 import { Product } from '../declarations';
 
 export const Products = () => {
-  const [params] = useSearchParams();
-  const pageNumber = Number(params.get('page')) || 1;
-
-  const { pathname } = useLocation();
+  const pageNumber = useAppSelector(selectPage);
 
   const dispatch = useAppDispatch();
 
@@ -55,6 +53,8 @@ export const Products = () => {
   useEffect(() => {
     if (productCreateSuccess || productDeleteSuccess || productEditSuccess) {
       dispatch(fetchProducts({ page: pageNumber, filters: { search } }));
+
+      dispatch(setPage(1));
     }
   }, [
     dispatch,
@@ -64,6 +64,10 @@ export const Products = () => {
     productDeleteSuccess,
     productEditSuccess,
   ]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [dispatch]);
 
   useEffect(() => {
     if (productDeleteSuccess) {
@@ -130,6 +134,10 @@ export const Products = () => {
     ];
   };
 
+  const onPageChange = (page: number) => {
+    dispatch(setPage(page));
+  };
+
   const isLoading = useAppSelector(selectIsLoading);
 
   return (
@@ -142,7 +150,11 @@ export const Products = () => {
           })}
         </Tbody>
       </Table>
-      <Pagination pageNumber={pageNumber} url={pathname} total={total} />
+      <Pagination
+        pageNumber={pageNumber}
+        total={total}
+        setPage={onPageChange}
+      />
     </LoadingHandler>
   );
 };

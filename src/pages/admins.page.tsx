@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { useSearchParams, useLocation } from 'react-router-dom';
 import { Table, Tbody, useToast } from '@chakra-ui/react';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
@@ -12,7 +11,9 @@ import {
   selectDeleteError,
   selectDeleteSuccess,
   selectIsLoading,
+  selectPage,
   selectTotal,
+  setPage,
 } from '../store/admins/admins.slice';
 import { selectAccessToken, selectUser } from '../store/core/core.slice';
 import TableHead from '../components/table-head.component';
@@ -25,10 +26,7 @@ import LoadingHandler from '../components/loading-handler.component';
 import { User } from '../declarations';
 
 export const Admins = () => {
-  const [params] = useSearchParams();
-  const pageNumber = Number(params.get('page')) || 1;
-
-  const { pathname } = useLocation();
+  const pageNumber = useAppSelector(selectPage);
 
   const admins = useAppSelector(selectAdmins);
   const total = useAppSelector(selectTotal);
@@ -116,6 +114,10 @@ export const Admins = () => {
 
   const isLoading = useAppSelector(selectIsLoading);
 
+  const onPageChange = (page: number) => {
+    dispatch(setPage(page));
+  };
+
   return (
     <LoadingHandler isLoading={isLoading}>
       <Table variant="simple" maxH="80vh" overflow="hidden">
@@ -126,7 +128,11 @@ export const Admins = () => {
           })}
         </Tbody>
       </Table>
-      <Pagination pageNumber={pageNumber} url={pathname} total={total} />
+      <Pagination
+        pageNumber={pageNumber}
+        total={total}
+        setPage={onPageChange}
+      />
     </LoadingHandler>
   );
 };

@@ -30,6 +30,8 @@ export const initialState: ProductsState = {
   editLoading: 'idle',
   editError: undefined,
   editSuccess: false,
+
+  page: 1,
 };
 
 export default initialState;

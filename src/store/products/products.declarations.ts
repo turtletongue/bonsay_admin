@@ -24,6 +24,8 @@ export interface ProductsState {
   editLoading: 'idle' | 'pending';
   editError?: string;
   editSuccess: boolean;
+
+  page: number;
 }
 
 export type FetchProductsParams = {

@@ -104,6 +104,9 @@ export const adminsSlice = createSlice({
     clearWriteData: (state) => {
       state.writeData = initialState.writeData;
     },
+    setPage: (state, action: PayloadAction<number>) => {
+      state.page = action.payload;
+    },
   },
   extraReducers: {
     [fetchAdmins.pending as any]: (state) => {
@@ -162,6 +165,7 @@ export const {
   clearAdminCreateError,
   clearDelete,
   clearAdminCreate,
+  setPage,
 } = adminsSlice.actions;
 
 export const selectIsLoading = (state: RootState) =>
@@ -179,5 +183,6 @@ export const selectCreateError = (state: RootState) => state.admins.createError;
 export const selectDeleteSuccess = (state: RootState) =>
   state.admins.deleteSuccess;
 export const selectDeleteError = (state: RootState) => state.admins.deleteError;
+export const selectPage = (state: RootState) => state.admins.page;
 
 export default adminsSlice.reducer;

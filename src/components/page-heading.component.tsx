@@ -3,7 +3,11 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import { Box, Divider, Flex, Text, useMediaQuery } from '@chakra-ui/react';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { selectSearch, setSearch } from '../store/products/products.slice';
+import {
+  selectSearch,
+  setPage,
+  setSearch,
+} from '../store/products/products.slice';
 import { selectCategories } from '../store/categories/categories.slice';
 import AddItemModal from './add-item-modal.component';
 import AddProductForm from './add-product-form.component';
@@ -34,6 +38,7 @@ export const PageHeading = ({ title }: PageHeadingProps) => {
     event
   ) => {
     dispatch(setSearch(event.target.value));
+    dispatch(setPage(1));
   };
 
   return (

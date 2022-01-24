@@ -154,6 +154,9 @@ export const productsSlice = createSlice({
     clearWriteData: (state) => {
       state.writeData = initialState.writeData;
     },
+    setPage: (state, action: PayloadAction<number>) => {
+      state.page = action.payload;
+    },
   },
   extraReducers: {
     [fetchProducts.pending as any]: (state) => {
@@ -232,6 +235,7 @@ export const {
   clearProductEditError,
   setWriteData,
   clearWriteData,
+  setPage,
 } = productsSlice.actions;
 
 export const selectIsLoading = (state: RootState) =>
@@ -263,5 +267,6 @@ export const selectDeleteError = (state: RootState) =>
 export const selectEditSuccess = (state: RootState) =>
   state.products.editSuccess;
 export const selectEditError = (state: RootState) => state.products.editError;
+export const selectPage = (state: RootState) => state.products.page;
 
 export default productsSlice.reducer;

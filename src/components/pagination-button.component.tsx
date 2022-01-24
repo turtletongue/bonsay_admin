@@ -1,19 +1,22 @@
-import { Link } from 'react-router-dom';
 import { Button } from '@chakra-ui/react';
 
 interface PaginationButtonProps {
   pageNumber: number;
+  setPage: (page: number) => unknown;
   isActive?: boolean;
-  url?: string;
 }
 
 export const PaginationButton = ({
   pageNumber,
+  setPage,
   isActive = false,
-  url = '/',
 }: PaginationButtonProps) => {
+  const onChangePage = () => {
+    setPage(pageNumber);
+  };
+
   return (
-    <Link to={`${url}?page=${pageNumber}`}>
+    <div onClick={onChangePage}>
       <Button
         color={isActive ? '#254125' : '#627A52'}
         backgroundColor={isActive ? 'green.100' : ''}
@@ -24,7 +27,7 @@ export const PaginationButton = ({
       >
         {pageNumber}
       </Button>
-    </Link>
+    </div>
   );
 };
 

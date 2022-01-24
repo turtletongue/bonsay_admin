@@ -17,7 +17,6 @@ import {
 import { DEFAULT_IMAGE_PATH } from '../variables';
 import TableHead from '../components/table-head.component';
 import TableRow from '../components/table-row.component';
-import Pagination from '../components/pagination.component';
 import DeleteConfirmationModal from '../components/delete-confirmation-modal.component';
 import EditItemModal from '../components/edit-item-modal.component';
 import EditCategoryForm from '../components/edit-category-form.component';
@@ -27,9 +26,6 @@ import { Category } from '../declarations';
 import { selectAccessToken } from '../store/core/core.slice';
 
 export const Categories = () => {
-  const [params] = useSearchParams();
-  const { pathname } = useLocation();
-
   const dispatch = useAppDispatch();
 
   const toast = useToast();
@@ -130,11 +126,6 @@ export const Categories = () => {
           })}
         </Tbody>
       </Table>
-      <Pagination
-        pageNumber={Number(params.get('page')) || 1}
-        url={pathname}
-        total={categories.length}
-      />
     </LoadingHandler>
   );
 };

@@ -5,8 +5,8 @@ import { errorMessages } from './variables';
 
 export const getPageNumberButtons = (
   pagesCount: number,
-  activePageNumber?: number,
-  url?: string
+  setPage: (page: number) => unknown,
+  activePageNumber?: number
 ) => {
   const buttons: ReactNode[] = [];
 
@@ -15,8 +15,8 @@ export const getPageNumberButtons = (
       <PaginationButton
         key={pageNumber}
         pageNumber={pageNumber}
-        url={url}
         isActive={pageNumber === activePageNumber}
+        setPage={setPage}
       />
     );
   }
