@@ -6,8 +6,8 @@ services:
     restart: unless-stopped
     tty: true
     build: ./
-    ports:
-      - 3010:3000
-    volumes:
-      - .:/app
-      - /app/node_modules
+    networks:
+      - bonsay
+networks:
+  bonsay:
+    external: true

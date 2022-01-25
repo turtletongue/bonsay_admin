@@ -1,4 +1,6 @@
-FROM node:14-alpine
+FROM node:14-alpine as build
+
+ENV NODE_ENV production
 
 WORKDIR /app
 
@@ -8,6 +10,14 @@ RUN yarn
 
 COPY . ./
 
-EXPOSE 3000
+RUN yarn build
 
-CMD ["yarn", "start"]
+RUN yarn build
+
+FROM nginx:alpine
+
+COPY --from=build /app/build /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
