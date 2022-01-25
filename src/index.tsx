@@ -18,13 +18,11 @@ ReactDOM.render(
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <ChakraProvider>
-          <Router>
+          <Router basename="/admin">
             <Routes>
-              <Route path="/admin" element={<Fragment />}>
-                <Route path="/sign-in" element={<SignIn />} />
-                <Route path="/sign-out" element={<SignOut />} />
-                <Route path="/*" element={<App />} />
-              </Route>
+              <Route path="/sign-in" element={<SignIn />} />
+              <Route path="/sign-out" element={<SignOut />} />
+              <Route path="/*" element={<App />} />
             </Routes>
           </Router>
         </ChakraProvider>
