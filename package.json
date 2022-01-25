@@ -2,6 +2,7 @@
   "name": "bonsay_admin",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/admin",
   "dependencies": {
     "@chakra-ui/react": "^1.7.4",
     "@emotion/react": "^11",
