@@ -27,6 +27,9 @@
     "redux-persist": "^6.0.0",
     "typescript": "^4.1.6"
   },
+  "overrides": {
+    "mini-css-extract-plugin": "2.4.5"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
