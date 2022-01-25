@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ChakraProvider } from '@chakra-ui/react';
@@ -20,11 +20,9 @@ ReactDOM.render(
         <ChakraProvider>
           <Router>
             <Routes>
-              <Route path="/admin" element={<Fragment />}>
-                <Route path="/sign-in" element={<SignIn />} />
-                <Route path="/sign-out" element={<SignOut />} />
-                <Route path="/*" element={<App />} />
-              </Route>
+              <Route path="/sign-in" element={<SignIn />} />
+              <Route path="/sign-out" element={<SignOut />} />
+              <Route path="/*" element={<App />} />
             </Routes>
           </Router>
         </ChakraProvider>
