@@ -18,7 +18,7 @@ ReactDOM.render(
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <ChakraProvider>
-          <Router basename="/admin">
+          <Router>
             <Routes>
               <Route path="/sign-in" element={<SignIn />} />
               <Route path="/sign-out" element={<SignOut />} />
