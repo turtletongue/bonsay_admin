@@ -37,7 +37,7 @@ export const SignIn = () => {
       height="100vh"
       justifyContent="center"
       alignItems="center"
-      bgImage="url('/admin/images/sign-in-bg.jpg')"
+      bgImage="url('/images/sign-in-bg.jpg')"
       bgPosition="center"
       bgRepeat="no-repeat"
       bgSize="cover"
