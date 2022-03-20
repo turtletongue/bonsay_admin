@@ -107,7 +107,7 @@ export const Products = () => {
           <Image
             boxSize="5rem"
             objectFit="cover"
-            src={product.path || product.upload?.path || DEFAULT_IMAGE_PATH}
+            src={product.path || DEFAULT_IMAGE_PATH}
             alt={product.name}
           />
         ),

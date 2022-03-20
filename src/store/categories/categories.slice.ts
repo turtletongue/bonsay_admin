@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-import { api, API_URL } from '@app/api';
+import { api } from '@app/api';
 import { fetchWithErrorHandling } from '@app/utils';
 import initialState from './categories.initial-state';
 
@@ -27,9 +27,7 @@ export const fetchCategories = createAsyncThunk(
     ).data;
 
     return categories.data.map((category) =>
-      category.upload
-        ? { ...category, path: API_URL + category.upload.path }
-        : category
+      category.upload ? { ...category, path: category.upload?.path } : category
     );
   }
 );

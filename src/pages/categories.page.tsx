@@ -91,7 +91,7 @@ export const Categories = () => {
           <Image
             boxSize="5rem"
             objectFit="cover"
-            src={category.path || category.upload?.path || DEFAULT_IMAGE_PATH}
+            src={category.path || DEFAULT_IMAGE_PATH}
             alt={category.name}
           />
         ),

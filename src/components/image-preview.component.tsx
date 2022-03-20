@@ -1,8 +1,6 @@
 import { Box, Flex, Icon, Image } from '@chakra-ui/react';
 import { BsTrashFill } from 'react-icons/bs';
 
-import { API_URL } from '@app/api';
-
 interface ImagePreviewProps {
   uploadPath: string;
   onClick?: (...args: unknown[]) => void;
@@ -20,7 +18,7 @@ export const ImagePreview = ({ uploadPath, onClick }: ImagePreviewProps) => {
       >
         <Image
           w="full"
-          src={API_URL + uploadPath}
+          src={uploadPath}
           alt={uploadPath}
           _groupHover={{
             filter: 'brightness(50%)',
