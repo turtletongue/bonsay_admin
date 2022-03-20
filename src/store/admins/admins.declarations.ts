@@ -1,4 +1,4 @@
-import { Id, User } from '../../declarations';
+import { Id, User } from '@app/declarations';
 
 export interface AdminsState {
   total: number;

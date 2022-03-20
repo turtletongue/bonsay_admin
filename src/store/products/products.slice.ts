@@ -1,19 +1,19 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+import { fetchWithErrorHandling } from '@app/utils';
+import { api, API_URL } from '@app/api';
+import { DEFAULT_FETCH_LIMIT } from '@app/variables';
 import initialState from './products.initial-state';
-import { api, API_URL } from './../../api';
-import { DEFAULT_FETCH_LIMIT } from '../../variables';
-import { fetchWithErrorHandling } from '../../utils';
 
-import { Id, Product } from '../../declarations';
+import { Id, Product } from '@app/declarations';
+import { RootState } from '@store/index';
 import {
   CreateProductParams,
   DeleteProductParams,
   FetchProductsParams,
   PatchProductParams,
 } from './products.declarations';
-import { RootState } from '..';
 
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',

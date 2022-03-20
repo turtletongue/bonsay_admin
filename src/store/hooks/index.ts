@@ -1,32 +1,32 @@
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+
 import {
   clearAdminCreate,
   clearAdminCreateError,
   createAdmin,
-} from './../admins/admins.slice';
+} from '@store/admins/admins.slice';
 import {
   clearCategoryEdit,
   clearCategoryEditError,
   patchCategory,
-} from './../categories/categories.slice';
+} from '@store/categories/categories.slice';
 import {
   clearProductEdit,
   clearProductEditError,
   patchProduct,
-} from './../products/products.slice';
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-
+} from '@store/products/products.slice';
 import {
   createCategory,
   clearCategoryCreate,
   clearCategoryCreateError,
-} from '../categories/categories.slice';
+} from '@store/categories/categories.slice';
 import {
   createProduct,
   clearProductCreate,
   clearProductCreateError,
-} from '../products/products.slice';
+} from '@store/products/products.slice';
 
-import type { RootState, AppDispatch } from '..';
+import type { RootState, AppDispatch } from '@store/index';
 
 // Use throughout your app instead of plain `useDispatch` and `useSelector`
 export const useAppDispatch = () => useDispatch<AppDispatch>();

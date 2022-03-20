@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 
-import { selectIsAuthenticated, signOut } from '../store/core/core.slice';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { selectIsAuthenticated, signOut } from '@store/core/core.slice';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
 
 export const SignOut = () => {
   const dispatch = useAppDispatch();

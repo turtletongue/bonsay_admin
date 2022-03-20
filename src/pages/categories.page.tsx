@@ -1,8 +1,13 @@
 import { useEffect } from 'react';
-import { useSearchParams, useLocation } from 'react-router-dom';
 import { Image, Table, Tbody, useToast } from '@chakra-ui/react';
 
-import { useAppDispatch, useAppSelector } from '../store/hooks';
+import TableHead from '@components/table-head.component';
+import TableRow from '@components/table-row.component';
+import DeleteConfirmationModal from '@components/delete-confirmation-modal.component';
+import EditItemModal from '@components/edit-item-modal.component';
+import EditCategoryForm from '@components/edit-category-form.component';
+import LoadingHandler from '@components/loading-handler.component';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
 import {
   clearDelete,
   deleteCategory,
@@ -13,17 +18,11 @@ import {
   selectDeleteSuccess,
   selectEditSuccess,
   selectIsLoading,
-} from '../store/categories/categories.slice';
-import { DEFAULT_IMAGE_PATH } from '../variables';
-import TableHead from '../components/table-head.component';
-import TableRow from '../components/table-row.component';
-import DeleteConfirmationModal from '../components/delete-confirmation-modal.component';
-import EditItemModal from '../components/edit-item-modal.component';
-import EditCategoryForm from '../components/edit-category-form.component';
-import LoadingHandler from '../components/loading-handler.component';
+} from '@store/categories/categories.slice';
+import { selectAccessToken } from '@store/core/core.slice';
+import { DEFAULT_IMAGE_PATH } from '@app/variables';
 
-import { Category } from '../declarations';
-import { selectAccessToken } from '../store/core/core.slice';
+import { Category } from '@app/declarations';
 
 export const Categories = () => {
   const dispatch = useAppDispatch();

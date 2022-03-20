@@ -1,17 +1,17 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+import { api, API_URL } from '@app/api';
+import { fetchWithErrorHandling } from '@app/utils';
 import initialState from './categories.initial-state';
-import { fetchWithErrorHandling } from '../../utils';
-import { api, API_URL } from '../../api';
 
+import { RootState } from '@store/index';
+import { Category, Id } from '@app/declarations';
 import {
   CreateCategoryParams,
   DeleteCategoryParams,
   PatchCategoryParams,
 } from './categories.declarations';
-import { Category, Id } from '../../declarations';
-import { RootState } from '..';
 
 export const fetchCategories = createAsyncThunk(
   'categories/fetchCategories',

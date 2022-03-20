@@ -1,11 +1,11 @@
 import { useCallback } from 'react';
-
 import { useToast } from '@chakra-ui/react';
-import { storeTable, useAppDispatch, useAppSelector } from '.';
-import { selectAccessToken } from '../core/core.slice';
 
-import { Category, Id, Product } from '../../declarations';
-import { errorMessages } from '../../variables';
+import { storeTable, useAppDispatch, useAppSelector } from '@store/hooks';
+import { selectAccessToken } from '@store/core/core.slice';
+import { errorMessages } from '@app/variables';
+
+import { Category, Id, Product } from '@app/declarations';
 
 interface UseEditOptions {
   id: Id;

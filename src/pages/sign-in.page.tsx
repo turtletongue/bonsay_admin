@@ -2,11 +2,11 @@ import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Flex } from '@chakra-ui/react';
 
-import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { selectIsAuthenticated, selectUser } from '../store/core/core.slice';
-import { setError } from '../store/sign-in/sign-in.slice';
-import SignInForm from '../components/sign-in-form.component';
-import { ONLY_ADMIN_ACCESS } from '../variables';
+import SignInForm from '@components/sign-in-form.component';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
+import { selectIsAuthenticated, selectUser } from '@store/core/core.slice';
+import { setError } from '@store/sign-in/sign-in.slice';
+import { ONLY_ADMIN_ACCESS } from '@app/variables';
 
 type LocationState = { from?: { pathname: string } };
 

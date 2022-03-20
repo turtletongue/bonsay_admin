@@ -14,12 +14,12 @@ import {
 import { AiOutlinePlus } from 'react-icons/ai';
 import { useLocation } from 'react-router-dom';
 
-import { useAppDispatch, useCreate } from '../store/hooks';
-import { slicesNames } from '../variables';
-import { clearWriteData as clearProductWriteData } from '../store/products/products.slice';
-import { clearWriteData as clearCategoryWriteData } from '../store/categories/categories.slice';
+import { clearWriteData as clearProductWriteData } from '@store/products/products.slice';
+import { clearWriteData as clearCategoryWriteData } from '@store/categories/categories.slice';
+import { useAppDispatch, useCreate } from '@store/hooks';
+import { slicesNames } from '@app/variables';
 
-import { SliceName } from '../declarations';
+import { SliceName } from '@app/declarations';
 
 interface AddItemModalProps {
   children?: ReactNode;

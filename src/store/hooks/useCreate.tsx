@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
-
 import { useToast } from '@chakra-ui/react';
-import { storeTable, useAppDispatch, useAppSelector } from '.';
-import { selectAccessToken } from '../core/core.slice';
-import { errorMessages } from '../../variables';
+
+import { storeTable, useAppDispatch, useAppSelector } from '@store/hooks';
+import { selectAccessToken } from '@store/core/core.slice';
+import { errorMessages } from '@app/variables';
 
 interface UseCreateOptions {
   sliceName: 'products' | 'admins' | 'categories';

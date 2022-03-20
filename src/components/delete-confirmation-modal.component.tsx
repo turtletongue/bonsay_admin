@@ -10,7 +10,8 @@ import {
   ModalOverlay,
   useDisclosure,
 } from '@chakra-ui/react';
-import DeleteButton from './delete-button.component';
+
+import DeleteButton from '@components/delete-button.component';
 
 interface DeleteConfirmationModalProps {
   onDelete?: () => void;

@@ -15,12 +15,12 @@ import {
   REHYDRATE,
 } from 'redux-persist';
 
+import coreReducer from '@store/core/core.slice';
+import productsReducer from '@store/products/products.slice';
+import categoriesReducer from '@store/categories/categories.slice';
+import adminsReducer from '@store/admins/admins.slice';
+import signInReducer from '@store/sign-in/sign-in.slice';
 import persistStorage from './persistStorage';
-import coreReducer from './core/core.slice';
-import productsReducer from './products/products.slice';
-import categoriesReducer from './categories/categories.slice';
-import adminsReducer from './admins/admins.slice';
-import signInReducer from './sign-in/sign-in.slice';
 
 const persistConfig = {
   key: 'root',

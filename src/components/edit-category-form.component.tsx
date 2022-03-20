@@ -9,6 +9,8 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 
+import Dropzone from '@components/dropzone.component';
+import ImagePreview from '@components/image-preview.component';
 import {
   selectDescription,
   selectName,
@@ -17,14 +19,12 @@ import {
   setName,
   setUploadId,
   setWriteData,
-} from '../store/categories/categories.slice';
-import { selectAccessToken } from '../store/core/core.slice';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { api } from '../api';
-import Dropzone from './dropzone.component';
-import ImagePreview from './image-preview.component';
+} from '@store/categories/categories.slice';
+import { selectAccessToken } from '@store/core/core.slice';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
+import { api } from '@app/api';
 
-import { Category } from '../declarations';
+import { Category } from '@app/declarations';
 
 interface EditCategoryFormProps {
   category: Category;

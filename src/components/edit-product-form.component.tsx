@@ -10,13 +10,10 @@ import {
   InputRightAddon,
   Box,
 } from '@chakra-ui/react';
+import axios from 'axios';
 
-import { selectAccessToken } from '../store/core/core.slice';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
-
-import Dropzone from './dropzone.component';
-
-import { Product } from '../declarations';
+import Dropzone from '@components/dropzone.component';
+import ImagePreview from '@components/image-preview.component';
 import {
   selectBirthdate,
   selectCategoryId,
@@ -33,14 +30,16 @@ import {
   setPrice,
   setWriteData,
   setUploadId,
-} from '../store/products/products.slice';
+} from '@store/products/products.slice';
+import { selectAccessToken } from '@store/core/core.slice';
 import {
   fetchCategories,
   selectCategories,
-} from '../store/categories/categories.slice';
-import axios from 'axios';
-import { api } from '../api';
-import ImagePreview from './image-preview.component';
+} from '@store/categories/categories.slice';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
+import { api } from '@app/api';
+
+import { Product } from '@app/declarations';
 
 interface EditProductFormProps {
   product: Product;

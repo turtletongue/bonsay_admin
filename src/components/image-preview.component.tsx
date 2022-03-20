@@ -1,7 +1,7 @@
 import { Box, Flex, Icon, Image } from '@chakra-ui/react';
 import { BsTrashFill } from 'react-icons/bs';
 
-import { API_URL } from '../api';
+import { API_URL } from '@app/api';
 
 interface ImagePreviewProps {
   uploadPath: string;

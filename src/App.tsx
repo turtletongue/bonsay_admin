@@ -8,7 +8,10 @@ import {
   useNavigate,
 } from 'react-router-dom';
 
-import { useAppDispatch, useAppSelector } from './store/hooks';
+import Navbar from '@components/navbar.component';
+import PageHeading from '@components/page-heading.component';
+import ErrorBoundary from '@components/error-boundary.component';
+import LoadingHandler from '@components/loading-handler.component';
 import {
   refreshTokens,
   selectAccessTokenExpireAt,
@@ -16,12 +19,9 @@ import {
   selectRefreshToken,
   selectRefreshTokenExpireAt,
   signOut,
-} from './store/core/core.slice';
-import { navlinks } from './navlinks.config';
-import Navbar from './components/navbar.component';
-import PageHeading from './components/page-heading.component';
-import ErrorBoundary from './components/error-boundary.component';
-import LoadingHandler from './components/loading-handler.component';
+} from '@store/core/core.slice';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
+import { navlinks } from '@app/navlinks.config';
 
 const Admins = lazy(() => import('./pages/admins.page'));
 const Categories = lazy(() => import('./pages/categories.page'));

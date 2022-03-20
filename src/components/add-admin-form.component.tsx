@@ -1,7 +1,6 @@
 import { ChangeEventHandler } from 'react';
 import { FormControl, FormLabel, Input, VStack } from '@chakra-ui/react';
 
-import { useAppDispatch, useAppSelector } from '../store/hooks';
 import {
   selectEmail,
   setEmail,
@@ -9,7 +8,8 @@ import {
   setPassword,
   selectPasswordConfirmation,
   setPasswordConfirmation,
-} from '../store/admins/admins.slice';
+} from '@store/admins/admins.slice';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
 
 export const AddAdminForm = () => {
   const dispatch = useAppDispatch();

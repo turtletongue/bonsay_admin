@@ -9,8 +9,9 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 
-import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { selectAccessToken } from '../store/core/core.slice';
+import Dropzone from '@components/dropzone.component';
+import ImagePreview from '@components/image-preview.component';
+import { selectAccessToken } from '@store/core/core.slice';
 import {
   selectDescription,
   selectName,
@@ -18,10 +19,9 @@ import {
   setDescription,
   setName,
   setUploadId,
-} from '../store/categories/categories.slice';
-import { api } from '../api';
-import Dropzone from './dropzone.component';
-import ImagePreview from './image-preview.component';
+} from '@store/categories/categories.slice';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
+import { api } from '@app/api';
 
 export const AddCategoryForm = () => {
   const [uploadPath, setUploadPath] = useState<string | null>(null);
@@ -61,6 +61,7 @@ export const AddCategoryForm = () => {
       // error handling
     }
   };
+
   const onUploadRemove = () => {
     dispatch(setUploadId(-1));
   };

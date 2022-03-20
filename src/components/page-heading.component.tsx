@@ -2,19 +2,19 @@ import { ChangeEventHandler } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { Box, Divider, Flex, Text, useMediaQuery } from '@chakra-ui/react';
 
-import { useAppDispatch, useAppSelector } from '../store/hooks';
+import AddItemModal from '@components/add-item-modal.component';
+import AddProductForm from '@components/add-product-form.component';
+import AddCategoryForm from '@components/add-category-form.component';
+import AddAdminForm from '@components/add-admin-form.component';
+import Search from '@components/search.component';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
 import {
   selectSearch,
   setPage,
   setSearch,
-} from '../store/products/products.slice';
-import { selectCategories } from '../store/categories/categories.slice';
-import AddItemModal from './add-item-modal.component';
-import AddProductForm from './add-product-form.component';
-import AddCategoryForm from './add-category-form.component';
-import AddAdminForm from './add-admin-form.component';
-import Search from './search.component';
-import { DEFAULT_FETCH_LIMIT } from '../variables';
+} from '@store/products/products.slice';
+import { selectCategories } from '@store/categories/categories.slice';
+import { DEFAULT_FETCH_LIMIT } from '@app/variables';
 
 interface PageHeadingProps {
   title?: string;

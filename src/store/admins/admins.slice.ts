@@ -1,18 +1,18 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+import { api } from '@app/api';
+import { fetchWithErrorHandling } from '@app/utils';
+import { DEFAULT_FETCH_LIMIT } from '@app/variables';
 import initialState from './admins.initial-state';
-import { api } from './../../api';
-import { DEFAULT_FETCH_LIMIT } from '../../variables';
-import { fetchWithErrorHandling } from '../../utils';
 
-import { User } from '../../declarations';
+import { RootState } from '@store/index';
+import { User } from '@app/declarations';
 import {
   CreateAdminParams,
   DeleteAdminParams,
   FetchAdminsParams,
 } from './admins.declarations';
-import { RootState } from '..';
 
 export const fetchAdmins = createAsyncThunk(
   'admins/fetchAdmins',

@@ -5,6 +5,7 @@
   "homepage": "/",
   "dependencies": {
     "@chakra-ui/react": "^1.7.4",
+    "@craco/craco": "^6.4.3",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@reduxjs/toolkit": "^1.7.1",
@@ -32,10 +33,9 @@
     "mini-css-extract-plugin": "2.4.5"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -55,6 +55,7 @@
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/react-dropzone": "^5.1.0",
-    "@types/redux-persist": "^4.3.1"
+    "@types/redux-persist": "^4.3.1",
+    "craco-alias": "^3.0.1"
   }
 }

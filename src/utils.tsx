@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
-import PaginationButton from './components/pagination-button.component';
-import { errorMessages } from './variables';
+import PaginationButton from '@components/pagination-button.component';
+import { errorMessages } from '@app/variables';
 
 export const getPageNumberButtons = (
   pagesCount: number,

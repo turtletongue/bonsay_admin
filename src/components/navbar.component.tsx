@@ -1,8 +1,8 @@
 import { VStack } from '@chakra-ui/react';
 
-import Navlink from './navlink.component';
+import Navlink from '@components/navlink.component';
 
-import { NavlinkData } from '../declarations';
+import { NavlinkData } from '@app/declarations';
 
 interface NavbarProps {
   links: NavlinkData[];

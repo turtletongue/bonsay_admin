@@ -12,14 +12,14 @@ import {
 } from '@chakra-ui/react';
 import { useLocation } from 'react-router-dom';
 
-import { useAppDispatch } from '../store/hooks';
-import { clearWriteData as clearProductWriteData } from '../store/products/products.slice';
-import { clearWriteData as clearCategoryWriteData } from '../store/categories/categories.slice';
-import EditButton from './edit-button.component';
+import EditButton from '@components/edit-button.component';
+import { useAppDispatch } from '@store/hooks';
+import { clearWriteData as clearProductWriteData } from '@store/products/products.slice';
+import { clearWriteData as clearCategoryWriteData } from '@store/categories/categories.slice';
+import { useEdit } from '@store/hooks/useEdit';
+import { slicesNames } from '@app/variables';
 
-import { Id, SliceName } from '../declarations';
-import { useEdit } from '../store/hooks/useEdit';
-import { slicesNames } from '../variables';
+import { Id, SliceName } from '@app/declarations';
 
 interface EditItemModalProps {
   id: Id;

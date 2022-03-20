@@ -5,13 +5,13 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { PersistGate } from 'redux-persist/integration/react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import App from './App';
-import SignIn from './pages/sign-in.page';
-import SignOut from './pages/sign-out.page';
-import { persistor, store } from './store';
-import * as serviceWorker from './serviceWorker';
+import App from '@app/App';
+import SignIn from '@pages/sign-in.page';
+import SignOut from '@pages/sign-out.page';
+import { persistor, store } from '@store/index';
+import * as serviceWorker from '@app/serviceWorker';
 
-import './index.css';
+import '@app/index.css';
 
 ReactDOM.render(
   <React.StrictMode>

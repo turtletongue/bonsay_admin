@@ -1,7 +1,7 @@
 import { Link, useMatch } from 'react-router-dom';
 import { Flex, Tooltip } from '@chakra-ui/react';
 
-import { NavlinkData } from '../declarations';
+import { NavlinkData } from '@app/declarations';
 
 interface NavlinkProps {
   data: NavlinkData;

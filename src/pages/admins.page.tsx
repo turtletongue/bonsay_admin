@@ -1,7 +1,13 @@
 import { useEffect } from 'react';
 import { Table, Tbody, useToast } from '@chakra-ui/react';
 
-import { useAppDispatch, useAppSelector } from '../store/hooks';
+import TableHead from '@components/table-head.component';
+import TableRow from '@components/table-row.component';
+import Pagination from '@components/pagination.component';
+import DeleteConfirmationModal from '@components/delete-confirmation-modal.component';
+import DeleteButton from '@components/delete-button.component';
+import LoadingHandler from '@components/loading-handler.component';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
 import {
   clearDelete,
   deleteAdmin,
@@ -14,16 +20,10 @@ import {
   selectPage,
   selectTotal,
   setPage,
-} from '../store/admins/admins.slice';
-import { selectAccessToken, selectUser } from '../store/core/core.slice';
-import TableHead from '../components/table-head.component';
-import TableRow from '../components/table-row.component';
-import Pagination from '../components/pagination.component';
-import DeleteConfirmationModal from '../components/delete-confirmation-modal.component';
-import DeleteButton from '../components/delete-button.component';
-import LoadingHandler from '../components/loading-handler.component';
+} from '@store/admins/admins.slice';
+import { selectAccessToken, selectUser } from '@store/core/core.slice';
 
-import { User } from '../declarations';
+import { User } from '@app/declarations';
 
 export const Admins = () => {
   const pageNumber = useAppSelector(selectPage);

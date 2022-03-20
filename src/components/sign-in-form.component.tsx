@@ -8,7 +8,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 
-import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
 import {
   clear,
   login,
@@ -18,8 +18,8 @@ import {
   selectPassword,
   setEmail,
   setPassword,
-} from '../store/sign-in/sign-in.slice';
-import { selectIsAuthenticated } from '../store/core/core.slice';
+} from '@store/sign-in/sign-in.slice';
+import { selectIsAuthenticated } from '@store/core/core.slice';
 
 export const SignInForm = () => {
   const dispatch = useAppDispatch();

@@ -1,6 +1,6 @@
 import { Component } from 'react';
 
-import Error from '../pages/error.page';
+import Error from '@pages/error.page';
 
 export class ErrorBoundary extends Component {
   state = {

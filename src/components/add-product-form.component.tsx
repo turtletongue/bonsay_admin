@@ -12,7 +12,8 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 
-import { useAppDispatch, useAppSelector } from '../store/hooks';
+import Dropzone from '@components/dropzone.component';
+import ImagePreview from '@components/image-preview.component';
 import {
   selectBirthdate,
   selectCategoryId,
@@ -28,15 +29,14 @@ import {
   setName,
   setPrice,
   setUploadId,
-} from '../store/products/products.slice';
+} from '@store/products/products.slice';
 import {
   fetchCategories,
   selectCategories,
-} from '../store/categories/categories.slice';
-import { selectAccessToken } from '../store/core/core.slice';
-import { api } from '../api';
-import Dropzone from './dropzone.component';
-import ImagePreview from './image-preview.component';
+} from '@store/categories/categories.slice';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
+import { selectAccessToken } from '@store/core/core.slice';
+import { api } from '@app/api';
 
 export const AddProductForm = () => {
   const [uploadPath, setUploadPath] = useState<string | null>(null);

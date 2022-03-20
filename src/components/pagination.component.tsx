@@ -1,8 +1,8 @@
 import { Button, HStack, Icon } from '@chakra-ui/react';
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
 
-import { DEFAULT_FETCH_LIMIT } from '../variables';
-import { getPageNumberButtons } from '../utils';
+import { getPageNumberButtons } from '@app/utils';
+import { DEFAULT_FETCH_LIMIT } from '@app/variables';
 
 interface PaginationProps {
   pageNumber: number;
