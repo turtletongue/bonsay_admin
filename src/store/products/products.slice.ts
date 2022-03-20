@@ -35,7 +35,7 @@ export const fetchProducts = createAsyncThunk(
     return {
       total: products.total,
       products: products.data.map((product) =>
-        product.upload ? { ...product, path: product.upload?.path } : product
+        product.upload ? { ...product, path: product.upload.path } : product
       ),
     };
   }

@@ -27,7 +27,7 @@ export const fetchCategories = createAsyncThunk(
     ).data;
 
     return categories.data.map((category) =>
-      category.upload ? { ...category, path: category.upload?.path } : category
+      category.upload ? { ...category, path: category.upload.path } : category
     );
   }
 );
