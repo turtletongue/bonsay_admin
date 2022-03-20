@@ -1,4 +1,4 @@
-export const API_URL = 'http://localhost:3020/api/';
+export const API_URL = 'https://bonsay.istmen.space/api/';
 
 export const api = {
   products: API_URL + 'products',
