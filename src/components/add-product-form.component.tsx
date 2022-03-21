@@ -40,6 +40,7 @@ import {
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { selectAccessToken } from '@store/core/core.slice';
 import { api } from '@app/api';
+import { MAX_PRODUCT_PHOTOS_COUNT } from '@app/variables';
 
 import { Id, Upload } from '@app/declarations';
 
@@ -308,7 +309,7 @@ export const AddProductForm = () => {
             />
           </Box>
         ))}
-        {photosPaths.length < 3 && (
+        {photosPaths.length < MAX_PRODUCT_PHOTOS_COUNT && (
           <Dropzone onFileAccepted={(file) => onFileAccepted(file, 'photo')} />
         )}
       </Box>

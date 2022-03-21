@@ -41,6 +41,7 @@ import {
 } from '@store/categories/categories.slice';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { api } from '@app/api';
+import { MAX_PRODUCT_PHOTOS_COUNT } from '@app/variables';
 
 import { Id, Product, Upload } from '@app/declarations';
 
@@ -318,7 +319,7 @@ export const EditProductForm = ({ product }: EditProductFormProps) => {
             />
           </Box>
         ))}
-        {photosPaths.length < 3 && (
+        {photosPaths.length < MAX_PRODUCT_PHOTOS_COUNT && (
           <Dropzone onFileAccepted={(file) => onFileAccepted(file, 'photo')} />
         )}
       </Box>
