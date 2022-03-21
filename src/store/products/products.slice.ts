@@ -6,13 +6,14 @@ import { api } from '@app/api';
 import { DEFAULT_FETCH_LIMIT } from '@app/variables';
 import initialState from './products.initial-state';
 
-import { Id, Product } from '@app/declarations';
+import { Id, Photo, Product } from '@app/declarations';
 import { RootState } from '@store/index';
 import {
   CreateProductParams,
   DeleteProductParams,
   FetchProductsParams,
   PatchProductParams,
+  SuccessCreation,
 } from './products.declarations';
 
 export const fetchProducts = createAsyncThunk(
@@ -32,11 +33,27 @@ export const fetchProducts = createAsyncThunk(
       })
     ).data;
 
+    const productsWithPhotos = await Promise.all(
+      products.data.map(async (product) => {
+        const photos = await axios.get(api.photos, {
+          params: {
+            productId: product.id,
+          },
+        });
+
+        return {
+          ...product,
+          path: product.upload?.path,
+          photosUploadsIds: (photos.data?.data || []).map(
+            (photo: Photo) => photo.uploadId
+          ),
+        };
+      })
+    );
+
     return {
       total: products.total,
-      products: products.data.map((product) =>
-        product.upload ? { ...product, path: product.upload.path } : product
-      ),
+      products: productsWithPhotos,
     };
   }
 );
@@ -46,10 +63,12 @@ export const createProduct = createAsyncThunk(
   async ({ data, accessToken }: CreateProductParams, { rejectWithValue }) => {
     const uploadId = data.uploadId === -1 ? undefined : data.uploadId;
 
-    return await fetchWithErrorHandling(async () => {
-      await axios.post(
+    const photosUploadsIds = data.photosUploadsIds || [];
+
+    const result = await fetchWithErrorHandling(async () => {
+      return await axios.post(
         api.products,
-        { ...data, uploadId },
+        { ...data, uploadId, photosUploadsIds: undefined },
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -57,6 +76,24 @@ export const createProduct = createAsyncThunk(
         }
       );
     }, rejectWithValue);
+
+    if ((result as SuccessCreation)?.data?.id) {
+      await Promise.all(
+        photosUploadsIds.map(async (id) => {
+          return await axios.post(
+            api.photos,
+            { uploadId: id, productId: (result as SuccessCreation).data.id },
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
+        })
+      );
+    }
+
+    return result;
   }
 );
 
@@ -79,10 +116,60 @@ export const deleteProduct = createAsyncThunk(
 export const patchProduct = createAsyncThunk(
   'products/patchProduct',
   async ({ data, accessToken }: PatchProductParams, { rejectWithValue }) => {
+    const existingPhotos =
+      (
+        await axios.get(api.photos, {
+          params: {
+            productId: data.id,
+          },
+        })
+      ).data?.data || [];
+
+    const existingPhotosUploadsIds = existingPhotos.map(
+      (photo: Photo) => photo.uploadId
+    );
+
+    const newPhotosUploadsIds = (data.photosUploadsIds || []).filter(
+      (photoUploadId) => !existingPhotosUploadsIds.includes(photoUploadId)
+    );
+
+    await Promise.all(
+      newPhotosUploadsIds.map(async (photoUploadId) => {
+        await axios.post(
+          api.photos,
+          { uploadId: photoUploadId, productId: data.id },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+      })
+    );
+
+    const removedPhotosUploadsIds = existingPhotosUploadsIds.filter(
+      (existingPhotoUploadId: Id) =>
+        !(data.photosUploadsIds || []).includes(existingPhotoUploadId)
+    ) as Id[];
+
+    await Promise.all(
+      removedPhotosUploadsIds.map(async (photoUploadId) => {
+        const photo = existingPhotos.find(
+          (photo: Photo) => photo.uploadId === photoUploadId
+        );
+
+        await axios.delete(api.photos + `/${photo.id}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+      })
+    );
+
     return await fetchWithErrorHandling(async () => {
       await axios.patch(
         api.products + `/${data.id}`,
-        { ...data, upload: undefined },
+        { ...data, upload: undefined, photos: undefined },
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -121,6 +208,9 @@ export const productsSlice = createSlice({
     setUploadId: (state, action: PayloadAction<Id>) => {
       state.writeData.uploadId = action.payload;
     },
+    setPhotosUploadsIds: (state, action: PayloadAction<Id[]>) => {
+      state.writeData.photosUploadsIds = action.payload;
+    },
     clearProductCreate: (state) => {
       state.writeData = initialState.writeData;
       state.createLoading = 'idle';
@@ -144,7 +234,10 @@ export const productsSlice = createSlice({
     clearProductEditError: (state) => {
       state.editError = undefined;
     },
-    setWriteData: (state, action: PayloadAction<Partial<Product>>) => {
+    setWriteData: (
+      state,
+      action: PayloadAction<Partial<Product> & { photosUploadsIds: Id[] }>
+    ) => {
       const product = action.payload;
 
       state.writeData = { ...product, price: +(product.price || 0) };
@@ -224,6 +317,7 @@ export const {
   setPrice,
   setCategoryId,
   setUploadId,
+  setPhotosUploadsIds,
   clearProductCreate,
   setHeight,
   setBirthdate,
@@ -249,6 +343,8 @@ export const selectCategoryId = (state: RootState) =>
   state.products.writeData.categoryId;
 export const selectUploadId = (state: RootState) =>
   state.products.writeData.uploadId;
+export const selectPhotosUploadsIds = (state: RootState) =>
+  state.products.writeData.photosUploadsIds;
 export const selectPrice = (state: RootState) => state.products.writeData.price;
 export const selectHeight = (state: RootState) =>
   state.products.writeData.height;

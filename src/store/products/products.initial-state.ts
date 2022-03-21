@@ -17,6 +17,7 @@ export const initialState: ProductsState = {
     birthdate: new Date().toISOString(),
     categoryId: -1,
     uploadId: -1,
+    photosUploadsIds: [],
   },
 
   createLoading: 'idle',

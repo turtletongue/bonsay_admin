@@ -11,7 +11,7 @@ export interface ProductsState {
   error?: string;
   filters: ProductsFilters;
 
-  writeData: Partial<Product>;
+  writeData: Partial<Product> & { photosUploadsIds: Id[] };
 
   createLoading: 'idle' | 'pending';
   createError?: string;
@@ -42,6 +42,7 @@ export type CreateProductParams = {
     birthdate?: string;
     categoryId?: Id;
     uploadId?: Id;
+    photosUploadsIds?: Id[];
   };
   accessToken?: string;
 };
@@ -61,6 +62,9 @@ export type PatchProductParams = {
     birthdate?: string;
     categoryId?: Id;
     uploadId?: Id;
+    photosUploadsIds?: Id[];
   };
   accessToken: string;
 };
+
+export type SuccessCreation = { data: { id: Id } };

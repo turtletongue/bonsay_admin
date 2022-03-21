@@ -1,12 +1,19 @@
 import { Box, Flex, Icon, Image } from '@chakra-ui/react';
 import { BsTrashFill } from 'react-icons/bs';
 
+import { Id } from '@app/declarations';
+
 interface ImagePreviewProps {
+  id: Id;
   uploadPath: string;
-  onClick?: (...args: unknown[]) => void;
+  onClick?: (uploadId: Id, ...args: unknown[]) => void;
 }
 
-export const ImagePreview = ({ uploadPath, onClick }: ImagePreviewProps) => {
+export const ImagePreview = ({
+  id,
+  uploadPath,
+  onClick,
+}: ImagePreviewProps) => {
   return (
     <Flex w="full" justifyContent="center">
       <Box
@@ -14,7 +21,7 @@ export const ImagePreview = ({ uploadPath, onClick }: ImagePreviewProps) => {
         w="50%"
         position="relative"
         cursor="pointer"
-        onClick={onClick}
+        onClick={(...args) => onClick?.(id, ...args)}
       >
         <Image
           w="full"

@@ -9,6 +9,7 @@ import {
   InputGroup,
   InputRightAddon,
   Box,
+  useToast,
 } from '@chakra-ui/react';
 import axios from 'axios';
 
@@ -30,6 +31,8 @@ import {
   setPrice,
   setWriteData,
   setUploadId,
+  selectPhotosUploadsIds,
+  setPhotosUploadsIds,
 } from '@store/products/products.slice';
 import { selectAccessToken } from '@store/core/core.slice';
 import {
@@ -39,21 +42,31 @@ import {
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { api } from '@app/api';
 
-import { Product } from '@app/declarations';
+import { Id, Product, Upload } from '@app/declarations';
 
 interface EditProductFormProps {
   product: Product;
 }
 
 export const EditProductForm = ({ product }: EditProductFormProps) => {
+  const toast = useToast();
+
   const [uploadPath, setUploadPath] = useState<string | null>(null);
+  const [photosPaths, setPhotosPaths] = useState<{ id: Id; path: string }[]>(
+    []
+  );
 
   const dispatch = useAppDispatch();
 
   const accessToken = useAppSelector(selectAccessToken);
 
   useEffect(() => {
-    dispatch(setWriteData(product));
+    dispatch(
+      setWriteData({
+        ...product,
+        photosUploadsIds: product.photosUploadsIds || [],
+      })
+    );
   }, [dispatch, product]);
 
   const name = useAppSelector(selectName);
@@ -95,7 +108,9 @@ export const EditProductForm = ({ product }: EditProductFormProps) => {
   };
 
   const uploadId = useAppSelector(selectUploadId);
-  const onFileAccepted = async (file: File) => {
+  const photosUploadsIds = useAppSelector(selectPhotosUploadsIds);
+
+  const onFileAccepted = async (file: File, mode: 'upload' | 'photo') => {
     const formData = new FormData();
 
     formData.append('file', file);
@@ -108,13 +123,32 @@ export const EditProductForm = ({ product }: EditProductFormProps) => {
         },
       });
 
-      dispatch(setUploadId(upload.data.id));
-    } catch {
-      // error handling
+      if (mode === 'upload') {
+        dispatch(setUploadId(upload.data.id));
+      } else {
+        dispatch(setPhotosUploadsIds([...photosUploadsIds, upload.data.id]));
+      }
+    } catch (error) {
+      console.log(error);
+
+      toast({
+        title: 'Что-то пошло не так при загрузке изображения',
+        status: 'error',
+        position: 'bottom-right',
+      });
     }
   };
+
   const onUploadRemove = () => {
     dispatch(setUploadId(-1));
+  };
+
+  const onPhotoRemove = (uploadId: Id) => {
+    dispatch(
+      setPhotosUploadsIds(
+        photosUploadsIds.filter((photoUploadId) => photoUploadId !== uploadId)
+      )
+    );
   };
 
   useEffect(() => {
@@ -128,14 +162,56 @@ export const EditProductForm = ({ product }: EditProductFormProps) => {
           });
 
           setUploadPath(upload.data.path);
-        } catch {
-          // error handling
+        } catch (error) {
+          console.log(error);
+
+          toast({
+            title: 'Что-то пошло не так при загрузке изображения',
+            status: 'error',
+            position: 'bottom-right',
+          });
         }
       })();
     } else {
       setUploadPath(null);
     }
-  }, [setUploadPath, accessToken, uploadId]);
+  }, [setUploadPath, accessToken, uploadId, toast]);
+
+  useEffect(() => {
+    if (photosUploadsIds.length !== 0) {
+      (async () => {
+        try {
+          const uploads = await axios.get(api.uploads, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+            params: {
+              id: {
+                $in: photosUploadsIds,
+              },
+            },
+          });
+
+          setPhotosPaths(
+            uploads.data.data.map((upload: Upload) => ({
+              id: upload.id,
+              path: upload.path,
+            }))
+          );
+        } catch (error) {
+          console.log(error);
+
+          toast({
+            title: 'Что-то пошло не так при загрузке изображения',
+            status: 'error',
+            position: 'bottom-right',
+          });
+        }
+      })();
+    } else {
+      setPhotosPaths([]);
+    }
+  }, [setPhotosPaths, accessToken, photosUploadsIds, toast]);
 
   return (
     <VStack spacing={3}>
@@ -221,9 +297,29 @@ export const EditProductForm = ({ product }: EditProductFormProps) => {
       <Box w="full">
         <FormLabel htmlFor="photo">Картинка</FormLabel>
         {uploadId && uploadPath ? (
-          <ImagePreview uploadPath={uploadPath} onClick={onUploadRemove} />
+          <ImagePreview
+            id={uploadId}
+            uploadPath={uploadPath}
+            onClick={onUploadRemove}
+          />
         ) : (
-          <Dropzone onFileAccepted={onFileAccepted} />
+          <Dropzone onFileAccepted={(file) => onFileAccepted(file, 'upload')} />
+        )}
+      </Box>
+
+      <Box w="full">
+        <FormLabel htmlFor="photo">Дополнительные фотографии</FormLabel>
+        {photosPaths.map((photoPath) => (
+          <Box key={photoPath.id} margin="1rem">
+            <ImagePreview
+              id={photoPath.id}
+              uploadPath={photoPath.path}
+              onClick={onPhotoRemove}
+            />
+          </Box>
+        ))}
+        {photosPaths.length < 3 && (
+          <Dropzone onFileAccepted={(file) => onFileAccepted(file, 'photo')} />
         )}
       </Box>
     </VStack>

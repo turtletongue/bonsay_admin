@@ -9,6 +9,7 @@ import {
   InputGroup,
   InputRightAddon,
   Box,
+  useToast,
 } from '@chakra-ui/react';
 import axios from 'axios';
 
@@ -22,6 +23,7 @@ import {
   selectName,
   selectPrice,
   selectUploadId,
+  selectPhotosUploadsIds,
   setBirthdate,
   setCategoryId,
   setDescription,
@@ -29,6 +31,7 @@ import {
   setName,
   setPrice,
   setUploadId,
+  setPhotosUploadsIds,
 } from '@store/products/products.slice';
 import {
   fetchCategories,
@@ -38,8 +41,15 @@ import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { selectAccessToken } from '@store/core/core.slice';
 import { api } from '@app/api';
 
+import { Id, Upload } from '@app/declarations';
+
 export const AddProductForm = () => {
+  const toast = useToast();
+
   const [uploadPath, setUploadPath] = useState<string | null>(null);
+  const [photosPaths, setPhotosPaths] = useState<{ id: Id; path: string }[]>(
+    []
+  );
 
   const dispatch = useAppDispatch();
 
@@ -90,7 +100,9 @@ export const AddProductForm = () => {
   const accessToken = useAppSelector(selectAccessToken);
 
   const uploadId = useAppSelector(selectUploadId);
-  const onFileAccepted = async (file: File) => {
+  const photosUploadsIds = useAppSelector(selectPhotosUploadsIds);
+
+  const onFileAccepted = async (file: File, mode: 'upload' | 'photo') => {
     const formData = new FormData();
 
     formData.append('file', file);
@@ -103,13 +115,32 @@ export const AddProductForm = () => {
         },
       });
 
-      dispatch(setUploadId(upload.data.id));
-    } catch {
-      // error handling
+      if (mode === 'upload') {
+        dispatch(setUploadId(upload.data.id));
+      } else {
+        dispatch(setPhotosUploadsIds([...photosUploadsIds, upload.data.id]));
+      }
+    } catch (error) {
+      console.log(error);
+
+      toast({
+        title: 'Что-то пошло не так при загрузке изображения',
+        status: 'error',
+        position: 'bottom-right',
+      });
     }
   };
+
   const onUploadRemove = () => {
     dispatch(setUploadId(-1));
+  };
+
+  const onPhotoRemove = (uploadId: Id) => {
+    dispatch(
+      setPhotosUploadsIds(
+        photosUploadsIds.filter((photoUploadId) => photoUploadId !== uploadId)
+      )
+    );
   };
 
   useEffect(() => {
@@ -124,13 +155,53 @@ export const AddProductForm = () => {
 
           setUploadPath(upload.data.path);
         } catch {
-          // error handling
+          toast({
+            title: 'Что-то пошло не так при загрузке изображения',
+            status: 'error',
+            position: 'bottom-right',
+          });
         }
       })();
     } else {
       setUploadPath(null);
     }
-  }, [setUploadPath, accessToken, uploadId]);
+  }, [setUploadPath, accessToken, uploadId, toast]);
+
+  useEffect(() => {
+    if (photosUploadsIds.length !== 0) {
+      (async () => {
+        try {
+          const uploads = await axios.get(api.uploads, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+            params: {
+              id: {
+                $in: photosUploadsIds,
+              },
+            },
+          });
+
+          setPhotosPaths(
+            uploads.data.data.map((upload: Upload) => ({
+              id: upload.id,
+              path: upload.path,
+            }))
+          );
+        } catch (error) {
+          console.log(error);
+
+          toast({
+            title: 'Что-то пошло не так при загрузке изображения',
+            status: 'error',
+            position: 'bottom-right',
+          });
+        }
+      })();
+    } else {
+      setPhotosPaths([]);
+    }
+  }, [setPhotosPaths, accessToken, photosUploadsIds, toast]);
 
   return (
     <VStack spacing={3}>
@@ -216,9 +287,29 @@ export const AddProductForm = () => {
       <Box w="full">
         <FormLabel htmlFor="photo">Картинка</FormLabel>
         {uploadId && uploadPath ? (
-          <ImagePreview uploadPath={uploadPath} onClick={onUploadRemove} />
+          <ImagePreview
+            id={uploadId}
+            uploadPath={uploadPath}
+            onClick={onUploadRemove}
+          />
         ) : (
-          <Dropzone onFileAccepted={onFileAccepted} />
+          <Dropzone onFileAccepted={(file) => onFileAccepted(file, 'upload')} />
+        )}
+      </Box>
+
+      <Box w="full">
+        <FormLabel htmlFor="photo">Дополнительные фотографии</FormLabel>
+        {photosPaths.map((photoPath) => (
+          <Box key={photoPath.id} margin="1rem">
+            <ImagePreview
+              id={photoPath.id}
+              uploadPath={photoPath.path}
+              onClick={onPhotoRemove}
+            />
+          </Box>
+        ))}
+        {photosPaths.length < 3 && (
+          <Dropzone onFileAccepted={(file) => onFileAccepted(file, 'photo')} />
         )}
       </Box>
     </VStack>

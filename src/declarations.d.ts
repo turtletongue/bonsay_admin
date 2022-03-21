@@ -22,6 +22,7 @@ export interface Product {
   path?: string;
   upload?: Upload;
 
+  photosUploadsIds?: Id[];
   photos?: Upload[];
 
   similarProducts?: Product[];
@@ -95,6 +96,17 @@ export interface Order {
   payments: Payment[];
   createdAt?: string;
   updatedAt?: string;
+}
+
+export interface Upload {
+  id: Id;
+  path: string;
+}
+
+export interface Photo {
+  id: Id;
+  uploadId: Id;
+  productId: Id;
 }
 
 export type SliceName = 'products' | 'categories';
