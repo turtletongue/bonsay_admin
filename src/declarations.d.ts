@@ -74,7 +74,6 @@ export interface Address {
 
 export interface Purchase {
   id: Id;
-  qty: number;
   product: Product;
   createdAt?: string;
   updatedAt?: string;
@@ -92,6 +91,8 @@ export type OrderStatus = 'processing' | 'delivery' | 'completed' | 'cancelled';
 export interface Order {
   id: Id;
   status: OrderStatus;
+  firstname: string;
+  lastname: string;
   phone: string;
   address: Address;
   client: Client;

@@ -1,12 +1,9 @@
 import { useEffect } from 'react';
-import { Image, Table, Tbody, useToast } from '@chakra-ui/react';
+import { Table, Tbody, useToast } from '@chakra-ui/react';
 
 import TableHead from '@components/table-head.component';
 import TableRow from '@components/table-row.component';
 import Pagination from '@components/pagination.component';
-import DeleteConfirmationModal from '@components/delete-confirmation-modal.component';
-import EditItemModal from '@components/edit-item-modal.component';
-import EditProductForm from '@components/edit-product-form.component';
 import LoadingHandler from '@components/loading-handler.component';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import {
@@ -25,9 +22,9 @@ import {
   setPage,
 } from '@store/products/products.slice';
 import { selectAccessToken } from '@store/core/core.slice';
-import { DEFAULT_IMAGE_PATH } from '@app/variables';
+import getProductsTableData from '@app/table-data/get-products-table-data';
 
-import { Product } from '@app/declarations';
+import { Id } from '@app/declarations';
 
 export const Products = () => {
   const pageNumber = useAppSelector(selectPage);
@@ -93,49 +90,14 @@ export const Products = () => {
     }
   }, [dispatch, toast, productDeleteError]);
 
-  const getData = (product: Product) => {
-    const onDelete = () => {
-      if (accessToken) {
-        dispatch(deleteProduct({ productId: product.id, accessToken }));
-      }
-    };
-
-    return [
-      {
-        id: 1,
-        node: (
-          <Image
-            boxSize="5rem"
-            objectFit="cover"
-            src={product.path || DEFAULT_IMAGE_PATH}
-            alt={product.name}
-          />
-        ),
-        title: 'Картинка',
-      },
-      { id: 2, node: product.name, title: 'Название' },
-      {
-        id: 3,
-        node: `${Number(product.price).toLocaleString()} ₽`,
-        title: 'Цена',
-      },
-      {
-        id: 4,
-        node: (
-          <>
-            <EditItemModal id={product.id}>
-              <EditProductForm product={product} />
-            </EditItemModal>
-            <DeleteConfirmationModal onDelete={onDelete} />
-          </>
-        ),
-        title: 'Действия',
-      },
-    ];
-  };
-
   const onPageChange = (page: number) => {
     dispatch(setPage(page));
+  };
+
+  const onDelete = (productId: Id) => {
+    if (accessToken) {
+      dispatch(deleteProduct({ productId, accessToken }));
+    }
   };
 
   const isLoading = useAppSelector(selectIsLoading);
@@ -146,7 +108,12 @@ export const Products = () => {
         <TableHead titles={['Картинка', 'Название', 'Цена', 'Действия']} />
         <Tbody>
           {products.map((product) => {
-            return <TableRow key={product.id} data={getData(product)} />;
+            return (
+              <TableRow
+                key={product.id}
+                data={getProductsTableData(product, onDelete)}
+              />
+            );
           })}
         </Tbody>
       </Table>

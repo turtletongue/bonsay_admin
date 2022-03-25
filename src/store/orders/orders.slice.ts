@@ -51,12 +51,12 @@ export const ordersSlice = createSlice({
   name: 'orders',
   initialState,
   reducers: {
-    clearProductEdit: (state) => {
+    clearOrderEdit: (state) => {
       state.editLoading = 'idle';
       state.editSuccess = false;
       state.editError = undefined;
     },
-    clearProductEditError: (state) => {
+    clearOrderEditError: (state) => {
       state.editError = undefined;
     },
     setPage: (state, action: PayloadAction<number>) => {
@@ -98,7 +98,7 @@ export const ordersSlice = createSlice({
   },
 });
 
-export const { clearProductEdit, clearProductEditError, setPage } =
+export const { clearOrderEdit, clearOrderEditError, setPage } =
   ordersSlice.actions;
 
 export const selectIsLoading = (state: RootState) =>

@@ -4,8 +4,6 @@ import { Table, Tbody, useToast } from '@chakra-ui/react';
 import TableHead from '@components/table-head.component';
 import TableRow from '@components/table-row.component';
 import Pagination from '@components/pagination.component';
-import DeleteConfirmationModal from '@components/delete-confirmation-modal.component';
-import DeleteButton from '@components/delete-button.component';
 import LoadingHandler from '@components/loading-handler.component';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import {
@@ -22,8 +20,9 @@ import {
   setPage,
 } from '@store/admins/admins.slice';
 import { selectAccessToken, selectUser } from '@store/core/core.slice';
+import getAdminsTableData from '@app/table-data/get-admins-table-data';
 
-import { User } from '@app/declarations';
+import { Id } from '@app/declarations';
 
 export const Admins = () => {
   const pageNumber = useAppSelector(selectPage);
@@ -84,32 +83,10 @@ export const Admins = () => {
 
   const user = useAppSelector(selectUser);
 
-  const getData = (admin: User) => {
-    const onDelete = () => {
-      if (accessToken) {
-        dispatch(deleteAdmin({ adminId: admin.id, accessToken }));
-      }
-    };
-
-    return [
-      { id: 1, node: admin.id, title: 'ID' },
-      { id: 2, node: admin.email, title: 'Email' },
-      {
-        id: 3,
-        node: new Date(admin.createdAt || Date.now()).toLocaleString(),
-        title: 'Дата создания',
-      },
-      {
-        id: 4,
-        node:
-          admin.id !== user?.id ? (
-            <DeleteConfirmationModal onDelete={onDelete} />
-          ) : (
-            <DeleteButton isDisabled />
-          ),
-        title: 'Действия',
-      },
-    ];
+  const onDelete = (adminId: Id) => {
+    if (accessToken) {
+      dispatch(deleteAdmin({ adminId: adminId, accessToken }));
+    }
   };
 
   const isLoading = useAppSelector(selectIsLoading);
@@ -124,7 +101,12 @@ export const Admins = () => {
         <TableHead titles={['ID', 'Email', 'Дата создания', 'Действия']} />
         <Tbody>
           {admins.map((admin) => {
-            return <TableRow key={admin.id} data={getData(admin)} />;
+            return (
+              <TableRow
+                key={admin.id}
+                data={getAdminsTableData(admin, user, onDelete)}
+              />
+            );
           })}
         </Tbody>
       </Table>

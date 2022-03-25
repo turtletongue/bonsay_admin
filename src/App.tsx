@@ -27,6 +27,7 @@ const Admins = lazy(() => import('./pages/admins.page'));
 const Categories = lazy(() => import('./pages/categories.page'));
 const Products = lazy(() => import('./pages/products.page'));
 const Orders = lazy(() => import('./pages/orders.page'));
+const Order = lazy(() => import('./pages/order.page'));
 const NotFound = lazy(() => import('./pages/not-found.page'));
 
 const App = () => {
@@ -106,6 +107,7 @@ const App = () => {
               <Route path="products" element={<Products />} />
               <Route path="categories" element={<Categories />} />
               <Route path="admins" element={<Admins />} />
+              <Route path="orders/:id" element={<Order />} />
               <Route path="orders" element={<Orders />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
