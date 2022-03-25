@@ -1,4 +1,4 @@
-import { Image } from '@chakra-ui/react';
+import { Badge, Image } from '@chakra-ui/react';
 
 import DeleteConfirmationModal from '@components/delete-confirmation-modal.component';
 import EditProductForm from '@components/edit-product-form.component';
@@ -32,6 +32,15 @@ export const getProductsTableData = (
     },
     {
       id: 4,
+      node: (
+        <Badge colorScheme={product.isAvailable ? 'blue' : 'green'}>
+          {product.isAvailable ? 'На продаже' : 'Продан'}
+        </Badge>
+      ),
+      title: 'Состояние',
+    },
+    {
+      id: 5,
       node: (
         <>
           <EditItemModal id={product.id}>

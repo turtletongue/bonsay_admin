@@ -29,6 +29,7 @@ export const fetchProducts = createAsyncThunk(
           name: {
             $iLike: `%${search}%`,
           },
+          isDeleted: false,
         },
       })
     ).data;

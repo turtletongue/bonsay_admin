@@ -22,6 +22,7 @@ export const fetchCategories = createAsyncThunk(
           $order: {
             updatedAt: 'DESC',
           },
+          isDeleted: false,
         },
       })
     ).data;

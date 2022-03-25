@@ -105,7 +105,9 @@ export const Products = () => {
   return (
     <LoadingHandler isLoading={isLoading}>
       <Table variant="simple" maxH="80vh" overflow="hidden">
-        <TableHead titles={['Картинка', 'Название', 'Цена', 'Действия']} />
+        <TableHead
+          titles={['Картинка', 'Название', 'Цена', 'Состояние', 'Действия']}
+        />
         <Tbody>
           {products.map((product) => {
             return (

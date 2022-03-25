@@ -12,6 +12,7 @@ export interface Product {
   id: Id;
   name: string;
   description: string;
+  isAvailable: boolean;
   age?: number;
   birthdate?: string;
   height: number;
