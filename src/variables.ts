@@ -30,3 +30,17 @@ export const DEFAULT_IMAGE_PATH = '/images/product.jpg';
 export const slicesNames = ['products', 'categories', 'admins'];
 
 export const MAX_PRODUCT_PHOTOS_COUNT = 4;
+
+export const orderStatus = {
+  processing: 'Обработка',
+  delivery: 'Доставка',
+  completed: 'Завершён',
+  cancelled: 'Отменён',
+};
+
+export const orderBadgeColor = {
+  processing: 'blue',
+  delivery: 'yellow',
+  completed: 'green',
+  cancelled: 'red',
+};

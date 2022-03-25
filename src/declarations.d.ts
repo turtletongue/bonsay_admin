@@ -87,8 +87,11 @@ export interface Payment {
   updatedAt?: string;
 }
 
+export type OrderStatus = 'processing' | 'delivery' | 'completed' | 'cancelled';
+
 export interface Order {
   id: Id;
+  status: OrderStatus;
   phone: string;
   address: Address;
   client: Client;

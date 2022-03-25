@@ -43,3 +43,6 @@ export const fetchWithErrorHandling = async (
     );
   }
 };
+
+export const getOrderNumber = (id: string | number) =>
+  String(id).padStart(6, '0');

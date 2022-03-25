@@ -11,14 +11,13 @@ export const Navlink = ({ data }: NavlinkProps) => {
   const isActive = !!useMatch(data.href);
 
   return (
-    <Tooltip label={data.text} placement="right" isDisabled={isActive}>
+    <Tooltip label={data.text} placement="right">
       <Link to={data.href}>
         <Flex
           padding="1rem"
           justifyContent="center"
           alignItems="center"
-          cursor={isActive ? 'default' : 'pointer'}
-          _hover={{ backgroundColor: isActive ? '#627A52' : '#254125' }}
+          _hover={{ backgroundColor: '#254125' }}
         >
           {data.icon(isActive)}
         </Flex>
