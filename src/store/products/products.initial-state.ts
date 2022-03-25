@@ -7,6 +7,7 @@ export const initialState: ProductsState = {
   error: undefined,
   filters: {
     search: '',
+    categoryId: -1,
   },
 
   writeData: {

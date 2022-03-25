@@ -1,19 +1,24 @@
-import { ChangeEventHandler } from 'react';
+import { ChangeEventHandler, useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import { Box, Divider, Flex, Text, useMediaQuery } from '@chakra-ui/react';
+import {
+  Box,
+  Divider,
+  Flex,
+  Select,
+  Text,
+  useMediaQuery,
+} from '@chakra-ui/react';
 
 import AddItemModal from '@components/add-item-modal.component';
 import AddProductForm from '@components/add-product-form.component';
 import AddCategoryForm from '@components/add-category-form.component';
 import AddAdminForm from '@components/add-admin-form.component';
-import Search from '@components/search.component';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import {
-  selectSearch,
-  setPage,
-  setSearch,
-} from '@store/products/products.slice';
-import { selectCategories } from '@store/categories/categories.slice';
+  fetchCategories,
+  selectCategories,
+} from '@store/categories/categories.slice';
+import { setCategoryFilter } from '@store/products/products.slice';
 import { DEFAULT_FETCH_LIMIT } from '@app/variables';
 
 interface PageHeadingProps {
@@ -33,12 +38,12 @@ export const PageHeading = ({ title }: PageHeadingProps) => {
 
   const dispatch = useAppDispatch();
 
-  const productsSearch = useAppSelector(selectSearch);
-  const onProductsSearchChange: ChangeEventHandler<HTMLInputElement> = (
-    event
-  ) => {
-    dispatch(setSearch(event.target.value));
-    dispatch(setPage(1));
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
+  const onChange: ChangeEventHandler<HTMLSelectElement> = (event) => {
+    dispatch(setCategoryFilter(event.target.value));
   };
 
   return (
@@ -69,10 +74,17 @@ export const PageHeading = ({ title }: PageHeadingProps) => {
               <Route
                 path="products"
                 element={
-                  <Search
-                    value={productsSearch}
-                    onChange={onProductsSearchChange}
-                  />
+                  <Select
+                    onChange={onChange}
+                    maxW="20rem"
+                    marginTop={isLessThan920 ? '1rem' : 0}
+                    marginLeft="1rem"
+                  >
+                    <option value="-1">Все</option>
+                    {categories.map((category) => (
+                      <option value={category.id}>{category.name}</option>
+                    ))}
+                  </Select>
                 }
               />
             </Routes>

@@ -20,6 +20,7 @@ import {
   selectIsLoading,
   selectPage,
   setPage,
+  selectCategoryIdFilter,
 } from '@store/products/products.slice';
 import { selectAccessToken } from '@store/core/core.slice';
 import getProductsTableData from '@app/table-data/get-products-table-data';
@@ -34,6 +35,7 @@ export const Products = () => {
   const products = useAppSelector(selectProducts);
   const total = useAppSelector(selectTotal);
   const search = useAppSelector(selectSearch);
+  const categoryIdFilter = useAppSelector(selectCategoryIdFilter);
   const productCreateSuccess = useAppSelector(selectCreateSuccess);
   const productDeleteSuccess = useAppSelector(selectDeleteSuccess);
   const productEditSuccess = useAppSelector(selectEditSuccess);
@@ -44,12 +46,22 @@ export const Products = () => {
   const toast = useToast();
 
   useEffect(() => {
-    dispatch(fetchProducts({ page: pageNumber, filters: { search } }));
-  }, [dispatch, pageNumber, search]);
+    dispatch(
+      fetchProducts({
+        page: pageNumber,
+        filters: { search, categoryId: categoryIdFilter },
+      })
+    );
+  }, [dispatch, pageNumber, search, categoryIdFilter]);
 
   useEffect(() => {
     if (productCreateSuccess || productDeleteSuccess || productEditSuccess) {
-      dispatch(fetchProducts({ page: pageNumber, filters: { search } }));
+      dispatch(
+        fetchProducts({
+          page: pageNumber,
+          filters: { search, categoryId: categoryIdFilter },
+        })
+      );
 
       dispatch(setPage(1));
     }
@@ -60,6 +72,7 @@ export const Products = () => {
     productCreateSuccess,
     productDeleteSuccess,
     productEditSuccess,
+    categoryIdFilter,
   ]);
 
   useEffect(() => {

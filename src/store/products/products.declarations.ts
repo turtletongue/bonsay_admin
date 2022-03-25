@@ -2,6 +2,7 @@ import { Id, Product } from '@app/declarations';
 
 interface ProductsFilters {
   search: string;
+  categoryId: Id;
 }
 
 export interface ProductsState {
