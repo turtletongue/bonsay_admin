@@ -19,7 +19,7 @@ import {
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
   async ({ page, filters: { search, categoryId } }: FetchProductsParams) => {
-    const categoryIdRestriction = categoryId !== -1 ? { categoryId } : {};
+    const categoryIdRestriction = categoryId !== '-1' ? { categoryId } : {};
 
     const products: { total: number; data: Product[] } = (
       await axios.get(api.products, {
