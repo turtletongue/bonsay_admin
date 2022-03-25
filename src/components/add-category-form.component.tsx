@@ -5,6 +5,7 @@ import {
   FormLabel,
   Input,
   Textarea,
+  useToast,
   VStack,
 } from '@chakra-ui/react';
 import axios from 'axios';
@@ -40,6 +41,8 @@ export const AddCategoryForm = () => {
     dispatch(setDescription(event.target.value));
   };
 
+  const toast = useToast();
+
   const accessToken = useAppSelector(selectAccessToken);
 
   const uploadId = useAppSelector(selectUploadId);
@@ -58,7 +61,11 @@ export const AddCategoryForm = () => {
 
       dispatch(setUploadId(upload.data.id));
     } catch {
-      // error handling
+      toast({
+        title: 'Что-то пошло не так при загрузке изображения',
+        status: 'error',
+        position: 'bottom-right',
+      });
     }
   };
 
@@ -78,13 +85,17 @@ export const AddCategoryForm = () => {
 
           setUploadPath(upload.data.path);
         } catch {
-          // error handling
+          toast({
+            title: 'Что-то пошло не так при загрузке изображения',
+            status: 'error',
+            position: 'bottom-right',
+          });
         }
       })();
     } else {
       setUploadPath(null);
     }
-  }, [setUploadPath, accessToken, uploadId]);
+  }, [setUploadPath, accessToken, uploadId, toast]);
 
   return (
     <VStack spacing={3}>
@@ -115,7 +126,11 @@ export const AddCategoryForm = () => {
       <Box w="full">
         <FormLabel htmlFor="photo">Картинка</FormLabel>
         {uploadId && uploadPath ? (
-          <ImagePreview uploadPath={uploadPath} onClick={onUploadRemove} />
+          <ImagePreview
+            id={uploadId}
+            uploadPath={uploadPath}
+            onClick={onUploadRemove}
+          />
         ) : (
           <Dropzone onFileAccepted={onFileAccepted} />
         )}
