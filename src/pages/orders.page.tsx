@@ -14,6 +14,7 @@ import {
   selectIsLoading,
   selectOrders,
   selectPage,
+  selectStatusFilter,
   selectTotal,
   setPage,
 } from '@store/orders/orders.slice';
@@ -30,22 +31,27 @@ export const Orders = () => {
   const orders = useAppSelector(selectOrders);
   const total = useAppSelector(selectTotal);
   const orderEditSuccess = useAppSelector(selectEditSuccess);
+  const statusFilter = useAppSelector(selectStatusFilter);
 
   const accessToken = useAppSelector(selectAccessToken);
 
   useEffect(() => {
-    dispatch(fetchOrders({ page: pageNumber, accessToken }));
-  }, [dispatch, pageNumber, accessToken]);
+    dispatch(
+      fetchOrders({ page: pageNumber, status: statusFilter, accessToken })
+    );
+  }, [dispatch, pageNumber, statusFilter, accessToken]);
 
   useEffect(() => {
     if (orderEditSuccess) {
-      dispatch(fetchOrders({ page: pageNumber, accessToken }));
+      dispatch(
+        fetchOrders({ page: pageNumber, status: statusFilter, accessToken })
+      );
 
       dispatch(setPage(1));
 
       dispatch(clearOrderEdit());
     }
-  }, [dispatch, pageNumber, orderEditSuccess, accessToken]);
+  }, [dispatch, pageNumber, orderEditSuccess, statusFilter, accessToken]);
 
   useEffect(() => {
     setPage(1);

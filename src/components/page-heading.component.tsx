@@ -20,6 +20,7 @@ import {
 } from '@store/categories/categories.slice';
 import { setCategoryFilter } from '@store/products/products.slice';
 import { DEFAULT_FETCH_LIMIT } from '@app/variables';
+import { setStatusFilter } from '@store/orders/orders.slice';
 
 interface PageHeadingProps {
   title?: string;
@@ -42,8 +43,14 @@ export const PageHeading = ({ title }: PageHeadingProps) => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
-  const onChange: ChangeEventHandler<HTMLSelectElement> = (event) => {
+  const onCategoryIdChange: ChangeEventHandler<HTMLSelectElement> = (event) => {
     dispatch(setCategoryFilter(event.target.value));
+  };
+
+  const onOrderStatusChange: ChangeEventHandler<HTMLSelectElement> = (
+    event
+  ) => {
+    dispatch(setStatusFilter(event.target.value));
   };
 
   return (
@@ -75,15 +82,34 @@ export const PageHeading = ({ title }: PageHeadingProps) => {
                 path="products"
                 element={
                   <Select
-                    onChange={onChange}
-                    maxW="20rem"
+                    onChange={onCategoryIdChange}
+                    maxW="15rem"
                     marginTop={isLessThan920 ? '1rem' : 0}
                     marginLeft="1rem"
                   >
                     <option value="-1">Все</option>
                     {categories.map((category) => (
-                      <option value={category.id}>{category.name}</option>
+                      <option key={category.id} value={category.id}>
+                        {category.name}
+                      </option>
                     ))}
+                  </Select>
+                }
+              />
+              <Route
+                path="orders"
+                element={
+                  <Select
+                    onChange={onOrderStatusChange}
+                    maxW="15rem"
+                    marginTop={isLessThan920 ? '1rem' : 0}
+                    marginLeft="1rem"
+                  >
+                    <option value="-1">Все</option>
+                    <option value="processing">Обработка</option>
+                    <option value="delivery">Доставка</option>
+                    <option value="completed">Завершены</option>
+                    <option value="cancelled">Отменены</option>
                   </Select>
                 }
               />

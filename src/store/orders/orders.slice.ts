@@ -12,7 +12,9 @@ import { FetchOrdersParams, PatchOrderParams } from './orders.declarations';
 
 export const fetchOrders = createAsyncThunk(
   'orders/fetchOrders',
-  async ({ page, accessToken }: FetchOrdersParams) => {
+  async ({ page, status, accessToken }: FetchOrdersParams) => {
+    const statusRestriction = status !== '-1' ? { status } : {};
+
     const orders: { total: number; data: Order[] } = (
       await axios.get(api.orders, {
         headers: {
@@ -23,6 +25,7 @@ export const fetchOrders = createAsyncThunk(
           $order: {
             createdAt: 'DESC',
           },
+          ...statusRestriction,
         },
       })
     ).data;
@@ -62,6 +65,9 @@ export const ordersSlice = createSlice({
     setPage: (state, action: PayloadAction<number>) => {
       state.page = action.payload;
     },
+    setStatusFilter: (state, action: PayloadAction<string>) => {
+      state.filters.status = action.payload;
+    },
   },
   extraReducers: {
     [fetchOrders.pending as any]: (state) => {
@@ -98,7 +104,7 @@ export const ordersSlice = createSlice({
   },
 });
 
-export const { clearOrderEdit, clearOrderEditError, setPage } =
+export const { clearOrderEdit, clearOrderEditError, setPage, setStatusFilter } =
   ordersSlice.actions;
 
 export const selectIsLoading = (state: RootState) =>
@@ -108,5 +114,7 @@ export const selectTotal = (state: RootState) => state.orders.total;
 export const selectEditSuccess = (state: RootState) => state.orders.editSuccess;
 export const selectEditError = (state: RootState) => state.orders.editError;
 export const selectPage = (state: RootState) => state.orders.page;
+export const selectStatusFilter = (state: RootState) =>
+  state.orders.filters.status;
 
 export default ordersSlice.reducer;

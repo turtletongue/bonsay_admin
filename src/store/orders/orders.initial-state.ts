@@ -6,6 +6,10 @@ export const initialState: OrdersState = {
   loading: 'idle',
   error: undefined,
 
+  filters: {
+    status: '-1',
+  },
+
   editLoading: 'idle',
   editError: undefined,
   editSuccess: false,

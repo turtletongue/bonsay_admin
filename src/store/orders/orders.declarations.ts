@@ -6,6 +6,10 @@ export interface OrdersState {
   loading: 'idle' | 'pending';
   error?: string;
 
+  filters: {
+    status: string;
+  };
+
   editLoading: 'idle' | 'pending';
   editError?: string;
   editSuccess: boolean;
@@ -15,6 +19,7 @@ export interface OrdersState {
 
 export type FetchOrdersParams = {
   page: number;
+  status: string;
   accessToken: string | undefined;
 };
 
