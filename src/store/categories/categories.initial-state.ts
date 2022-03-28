@@ -2,8 +2,10 @@ import { CategoriesState } from './categories.declarations';
 
 export const initialState: CategoriesState = {
   data: [],
+  total: 0,
   loading: 'idle',
   error: undefined,
+  page: 1,
 
   writeData: {
     name: '',

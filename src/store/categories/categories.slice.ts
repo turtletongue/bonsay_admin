@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import { api } from '@app/api';
 import { fetchWithErrorHandling } from '@app/utils';
+import { DEFAULT_FETCH_LIMIT } from '@app/variables';
 import initialState from './categories.initial-state';
 
 import { RootState } from '@store/index';
@@ -10,15 +11,21 @@ import { Category, Id } from '@app/declarations';
 import {
   CreateCategoryParams,
   DeleteCategoryParams,
+  FetchCategoriesParams,
   PatchCategoryParams,
 } from './categories.declarations';
 
 export const fetchCategories = createAsyncThunk(
   'categories/fetchCategories',
-  async () => {
-    const categories: { data: Category[] } = (
+  async ({ isPaginationDisabled, page }: FetchCategoriesParams) => {
+    const selectionRestriction = isPaginationDisabled
+      ? { disablePagination: true }
+      : { $skip: (page || 1) * DEFAULT_FETCH_LIMIT - DEFAULT_FETCH_LIMIT };
+
+    const categories: { total: number; data: Category[] } = (
       await axios.get(api.categories, {
         params: {
+          ...selectionRestriction,
           $order: {
             updatedAt: 'DESC',
           },
@@ -27,9 +34,12 @@ export const fetchCategories = createAsyncThunk(
       })
     ).data;
 
-    return categories.data.map((category) =>
-      category.upload ? { ...category, path: category.upload.path } : category
-    );
+    return {
+      total: categories.total,
+      categories: categories.data.map((category) =>
+        category.upload ? { ...category, path: category.upload.path } : category
+      ),
+    };
   }
 );
 
@@ -89,6 +99,9 @@ export const categoriesSlice = createSlice({
   name: 'categories',
   initialState,
   reducers: {
+    setPage: (state, action: PayloadAction<number>) => {
+      state.page = action.payload;
+    },
     setName: (state, action: PayloadAction<string>) => {
       state.writeData.name = action.payload;
     },
@@ -135,10 +148,13 @@ export const categoriesSlice = createSlice({
     },
     [fetchCategories.fulfilled as any]: (
       state,
-      action: PayloadAction<Category[]>
+      {
+        payload: { total, categories },
+      }: PayloadAction<{ total: number; categories: Category[] }>
     ) => {
       state.loading = 'idle';
-      state.data = action.payload;
+      state.total = total;
+      state.data = categories;
     },
     [fetchCategories.rejected as any]: (
       state,
@@ -196,6 +212,7 @@ export const categoriesSlice = createSlice({
 });
 
 export const {
+  setPage,
   setName,
   setDescription,
   setUploadId,
@@ -209,6 +226,8 @@ export const {
 } = categoriesSlice.actions;
 
 export const selectCategories = (state: RootState) => state.categories.data;
+export const selectPage = (state: RootState) => state.categories.page;
+export const selectTotal = (state: RootState) => state.categories.total;
 export const selectIsLoading = (state: RootState) =>
   state.categories.loading !== 'idle';
 export const selectName = (state: RootState) => state.categories.writeData.name;

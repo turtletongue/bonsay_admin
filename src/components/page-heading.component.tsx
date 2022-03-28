@@ -19,7 +19,6 @@ import {
   selectCategories,
 } from '@store/categories/categories.slice';
 import { setCategoryFilter } from '@store/products/products.slice';
-import { DEFAULT_FETCH_LIMIT } from '@app/variables';
 import { setStatusFilter } from '@store/orders/orders.slice';
 
 interface PageHeadingProps {
@@ -35,12 +34,12 @@ export const PageHeading = ({ title }: PageHeadingProps) => {
   const isCanAddRows =
     pathname === '/products' ||
     pathname === '/admins' ||
-    (pathname === '/categories' && categories.length < DEFAULT_FETCH_LIMIT);
+    pathname === '/categories';
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchCategories());
+    dispatch(fetchCategories({ isPaginationDisabled: true }));
   }, [dispatch]);
 
   const onCategoryIdChange: ChangeEventHandler<HTMLSelectElement> = (event) => {

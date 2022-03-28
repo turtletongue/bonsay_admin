@@ -2,6 +2,7 @@ import { Category, Id } from '@app/declarations';
 
 export interface CategoriesState {
   data: Category[];
+  total: number;
   loading: 'idle' | 'pending';
   error?: string;
 
@@ -18,7 +19,14 @@ export interface CategoriesState {
   editSuccess: boolean;
   editLoading: 'idle' | 'pending';
   editError?: string;
+
+  page: number;
 }
+
+export type FetchCategoriesParams = {
+  isPaginationDisabled?: boolean;
+  page?: number;
+};
 
 export type CreateCategoryParams = {
   data: {

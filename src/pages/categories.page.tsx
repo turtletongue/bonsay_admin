@@ -15,22 +15,28 @@ import {
   selectDeleteSuccess,
   selectEditSuccess,
   selectIsLoading,
+  selectPage,
+  selectTotal,
+  setPage,
 } from '@store/categories/categories.slice';
 import { selectAccessToken } from '@store/core/core.slice';
 import { getCategoriesTableData } from '@app/table-data/get-categories-table-data';
 
 import { Id } from '@app/declarations';
+import Pagination from '@components/pagination.component';
 
 export const Categories = () => {
   const dispatch = useAppDispatch();
 
   const toast = useToast();
 
+  const total = useAppSelector(selectTotal);
   const categories = useAppSelector(selectCategories);
+  const pageNumber = useAppSelector(selectPage);
 
   useEffect(() => {
-    dispatch(fetchCategories());
-  }, [dispatch]);
+    dispatch(fetchCategories({ page: pageNumber }));
+  }, [dispatch, pageNumber]);
 
   const categoryCreateSuccess = useAppSelector(selectCreateSuccess);
   const categoryDeleteSuccess = useAppSelector(selectDeleteSuccess);
@@ -39,13 +45,14 @@ export const Categories = () => {
 
   useEffect(() => {
     if (categoryCreateSuccess || categoryDeleteSuccess || categoryEditSuccess) {
-      dispatch(fetchCategories());
+      dispatch(fetchCategories({ page: pageNumber }));
     }
   }, [
     dispatch,
     categoryCreateSuccess,
     categoryDeleteSuccess,
     categoryEditSuccess,
+    pageNumber,
   ]);
 
   useEffect(() => {
@@ -79,6 +86,10 @@ export const Categories = () => {
     }
   };
 
+  const onPageChange = (page: number) => {
+    dispatch(setPage(page));
+  };
+
   const isLoading = useAppSelector(selectIsLoading);
 
   return (
@@ -96,6 +107,11 @@ export const Categories = () => {
           })}
         </Tbody>
       </Table>
+      <Pagination
+        pageNumber={pageNumber}
+        total={total}
+        setPage={onPageChange}
+      />
     </LoadingHandler>
   );
 };
