@@ -100,7 +100,7 @@ export const EditProductForm = ({ product }: EditProductFormProps) => {
   const categories = useAppSelector(selectCategories);
 
   useEffect(() => {
-    dispatch(fetchCategories());
+    dispatch(fetchCategories({ isPaginationDisabled: true }));
   }, [dispatch]);
 
   const categoryId = useAppSelector(selectCategoryId);
