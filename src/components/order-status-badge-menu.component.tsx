@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { orderBadgeColor, orderStatus } from '@app/variables';
 
 import { Id, OrderStatus } from '@app/declarations';
+import { Badge } from '@chakra-ui/react';
 
 interface OrderStatusBadgeMenuProps {
   orderId: Id;
@@ -24,49 +25,57 @@ export const OrderStatusBadgeMenu = ({
   };
 
   return (
-    <BadgeMenu
-      defaultBadge={{
-        id: 0,
-        content: {
-          color: orderBadgeColor[status],
-          text: orderStatus[status],
-        },
-      }}
-      badges={[
-        {
-          id: 1,
-          content: {
-            color: 'blue',
-            text: 'Обработка',
-          },
-          onClick: () => changeOrderStatus(orderId, 'processing'),
-        },
-        {
-          id: 2,
-          content: {
-            color: 'yellow',
-            text: 'Доставка',
-          },
-          onClick: () => changeOrderStatus(orderId, 'delivery'),
-        },
-        {
-          id: 3,
-          content: {
-            color: 'green',
-            text: 'Завершён',
-          },
-          onClick: () => changeOrderStatus(orderId, 'completed'),
-        },
-        {
-          id: 4,
-          content: {
-            color: 'red',
-            text: 'Отменён',
-          },
-          onClick: () => changeOrderStatus(orderId, 'cancelled'),
-        },
-      ].filter((badge) => badge.content.color !== orderBadgeColor[status])}
-    />
+    <>
+      {status === 'cancelled' ? (
+        <Badge colorScheme={orderBadgeColor[status]} px="0.3rem" py="0.3.rem">
+          {orderStatus[status]}
+        </Badge>
+      ) : (
+        <BadgeMenu
+          defaultBadge={{
+            id: 0,
+            content: {
+              color: orderBadgeColor[status],
+              text: orderStatus[status],
+            },
+          }}
+          badges={[
+            {
+              id: 1,
+              content: {
+                color: 'blue',
+                text: 'Обработка',
+              },
+              onClick: () => changeOrderStatus(orderId, 'processing'),
+            },
+            {
+              id: 2,
+              content: {
+                color: 'yellow',
+                text: 'Доставка',
+              },
+              onClick: () => changeOrderStatus(orderId, 'delivery'),
+            },
+            {
+              id: 3,
+              content: {
+                color: 'green',
+                text: 'Завершён',
+              },
+              onClick: () => changeOrderStatus(orderId, 'completed'),
+            },
+            {
+              id: 4,
+              content: {
+                color: 'red',
+                text: 'Отменён',
+              },
+              onClick: () => changeOrderStatus(orderId, 'cancelled'),
+            },
+          ].filter((badge) => badge.content.color !== orderBadgeColor[status])}
+        />
+      )}
+    </>
   );
 };
 

@@ -22,13 +22,15 @@ export const BadgeMenu = ({ badges, defaultBadge }: BadgeSelectProps) => {
         onClick={defaultBadge.onClick}
         colorScheme={defaultBadge.content.color}
         cursor="pointer"
+        px="0.3rem"
+        py="0.3.rem"
       >
         {defaultBadge.content.text}
       </MenuButton>
       <MenuList padding={0} minWidth={0} position="relative" left="-0.5rem">
         {badges.map((badge) => (
           <MenuItem key={badge.id} onClick={badge.onClick}>
-            <Badge colorScheme={badge.content.color}>
+            <Badge colorScheme={badge.content.color} px="0.3rem" py="0.3.rem">
               {badge.content.text}
             </Badge>
           </MenuItem>
