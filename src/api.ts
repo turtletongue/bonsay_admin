@@ -13,4 +13,8 @@ export const api = {
   payments: API_URL + 'payments',
   uploads: API_URL + 'uploads',
   photos: API_URL + 'photos',
+  revenueChart: API_URL + 'charts/revenue-chart',
+  categoriesRadar: API_URL + 'charts/categories-pie',
+  ordersStatusesChart: API_URL + 'charts/orders-statuses',
+  ordersCountChart: API_URL + 'charts/orders-count-chart',
 };
