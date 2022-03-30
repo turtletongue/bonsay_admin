@@ -18,7 +18,12 @@ import {
   fetchCategories,
   selectCategories,
 } from '@store/categories/categories.slice';
-import { setCategoryFilter } from '@store/products/products.slice';
+import {
+  selectCategoryIdFilter,
+  selectStateFilter,
+  setCategoryFilter,
+  setStateFilter,
+} from '@store/products/products.slice';
 import { setStatusFilter } from '@store/orders/orders.slice';
 
 interface PageHeadingProps {
@@ -42,8 +47,14 @@ export const PageHeading = ({ title }: PageHeadingProps) => {
     dispatch(fetchCategories({ isPaginationDisabled: true }));
   }, [dispatch]);
 
+  const categoryIdFIlter = useAppSelector(selectCategoryIdFilter);
   const onCategoryIdChange: ChangeEventHandler<HTMLSelectElement> = (event) => {
     dispatch(setCategoryFilter(event.target.value));
+  };
+
+  const stateFilter = useAppSelector(selectStateFilter);
+  const onStateChange: ChangeEventHandler<HTMLSelectElement> = (event) => {
+    dispatch(setStateFilter(event.target.value as 'all' | 'on-sale' | 'sold'));
   };
 
   const onOrderStatusChange: ChangeEventHandler<HTMLSelectElement> = (
@@ -80,19 +91,33 @@ export const PageHeading = ({ title }: PageHeadingProps) => {
               <Route
                 path="products"
                 element={
-                  <Select
-                    onChange={onCategoryIdChange}
-                    maxW="15rem"
-                    marginTop={isLessThan920 ? '1rem' : 0}
-                    marginLeft="1rem"
-                  >
-                    <option value="-1">Все</option>
-                    {categories.map((category) => (
-                      <option key={category.id} value={category.id}>
-                        {category.name}
-                      </option>
-                    ))}
-                  </Select>
+                  <>
+                    <Select
+                      onChange={onCategoryIdChange}
+                      maxW="15rem"
+                      marginTop={isLessThan920 ? '1rem' : 0}
+                      marginLeft="1rem"
+                      value={categoryIdFIlter}
+                    >
+                      <option value="-1">Все</option>
+                      {categories.map((category) => (
+                        <option key={category.id} value={category.id}>
+                          {category.name}
+                        </option>
+                      ))}
+                    </Select>
+                    <Select
+                      onChange={onStateChange}
+                      maxW="15rem"
+                      marginTop={isLessThan920 ? '1rem' : 0}
+                      marginLeft="1rem"
+                      value={stateFilter}
+                    >
+                      <option value="all">Все</option>
+                      <option value="on-sale">На продаже</option>
+                      <option value="sold">Проданы</option>
+                    </Select>
+                  </>
                 }
               />
               <Route

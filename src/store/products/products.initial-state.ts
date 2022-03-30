@@ -8,6 +8,7 @@ export const initialState: ProductsState = {
   filters: {
     search: '',
     categoryId: '-1',
+    state: 'all',
   },
 
   writeData: {

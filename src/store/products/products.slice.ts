@@ -18,8 +18,14 @@ import {
 
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
-  async ({ page, filters: { search, categoryId } }: FetchProductsParams) => {
+  async ({
+    page,
+    filters: { search, categoryId, state },
+  }: FetchProductsParams) => {
     const categoryIdRestriction = categoryId !== '-1' ? { categoryId } : {};
+
+    const stateRestriction =
+      state === 'all' ? {} : { isAvailable: state === 'on-sale' };
 
     const products: { total: number; data: Product[] } = (
       await axios.get(api.products, {
@@ -32,6 +38,7 @@ export const fetchProducts = createAsyncThunk(
             $iLike: `%${search}%`,
           },
           ...categoryIdRestriction,
+          ...stateRestriction,
           isDeleted: false,
         },
       })
@@ -194,6 +201,12 @@ export const productsSlice = createSlice({
     setCategoryFilter: (state, action: PayloadAction<string>) => {
       state.filters.categoryId = action.payload;
     },
+    setStateFilter: (
+      state,
+      action: PayloadAction<'all' | 'on-sale' | 'sold'>
+    ) => {
+      state.filters.state = action.payload;
+    },
     setName: (state, action: PayloadAction<string>) => {
       state.writeData.name = action.payload;
     },
@@ -320,6 +333,7 @@ export const productsSlice = createSlice({
 export const {
   setSearch,
   setCategoryFilter,
+  setStateFilter,
   setName,
   setDescription,
   setPrice,
@@ -345,6 +359,8 @@ export const selectTotal = (state: RootState) => state.products.total;
 export const selectSearch = (state: RootState) => state.products.filters.search;
 export const selectCategoryIdFilter = (state: RootState) =>
   state.products.filters.categoryId;
+export const selectStateFilter = (state: RootState) =>
+  state.products.filters.state;
 export const selectFilters = (state: RootState) => state.products.filters;
 export const selectName = (state: RootState) => state.products.writeData.name;
 export const selectDescription = (state: RootState) =>

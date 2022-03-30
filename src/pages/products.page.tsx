@@ -21,6 +21,7 @@ import {
   selectPage,
   setPage,
   selectCategoryIdFilter,
+  selectStateFilter,
 } from '@store/products/products.slice';
 import { selectAccessToken } from '@store/core/core.slice';
 import getProductsTableData from '@app/table-data/get-products-table-data';
@@ -36,6 +37,7 @@ export const Products = () => {
   const total = useAppSelector(selectTotal);
   const search = useAppSelector(selectSearch);
   const categoryIdFilter = useAppSelector(selectCategoryIdFilter);
+  const stateFilter = useAppSelector(selectStateFilter);
   const productCreateSuccess = useAppSelector(selectCreateSuccess);
   const productDeleteSuccess = useAppSelector(selectDeleteSuccess);
   const productEditSuccess = useAppSelector(selectEditSuccess);
@@ -49,17 +51,17 @@ export const Products = () => {
     dispatch(
       fetchProducts({
         page: pageNumber,
-        filters: { search, categoryId: categoryIdFilter },
+        filters: { search, categoryId: categoryIdFilter, state: stateFilter },
       })
     );
-  }, [dispatch, pageNumber, search, categoryIdFilter]);
+  }, [dispatch, pageNumber, search, categoryIdFilter, stateFilter]);
 
   useEffect(() => {
     if (productCreateSuccess || productDeleteSuccess || productEditSuccess) {
       dispatch(
         fetchProducts({
           page: pageNumber,
-          filters: { search, categoryId: categoryIdFilter },
+          filters: { search, categoryId: categoryIdFilter, state: stateFilter },
         })
       );
 
@@ -73,6 +75,7 @@ export const Products = () => {
     productDeleteSuccess,
     productEditSuccess,
     categoryIdFilter,
+    stateFilter,
   ]);
 
   useEffect(() => {
