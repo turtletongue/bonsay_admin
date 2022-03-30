@@ -22,8 +22,8 @@ import {
 } from '@store/core/core.slice';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { navlinks } from '@app/navlinks.config';
-import Charts from '@pages/charts.page';
 
+const Charts = lazy(() => import('./pages/charts.page'));
 const Admins = lazy(() => import('./pages/admins.page'));
 const Categories = lazy(() => import('./pages/categories.page'));
 const Products = lazy(() => import('./pages/products.page'));
