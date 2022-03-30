@@ -44,3 +44,10 @@ export const orderBadgeColor = {
   completed: 'green',
   cancelled: 'red',
 };
+
+export const orderStatusToPieColor = {
+  processing: '#559ae6',
+  delivery: '#ffa600',
+  completed: '#69dacb',
+  cancelled: '#ff7a6b',
+};

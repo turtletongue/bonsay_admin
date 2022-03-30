@@ -1,10 +1,15 @@
 import { Icon } from '@chakra-ui/react';
-import { FaClipboardList, FaShoppingCart } from 'react-icons/fa';
+import { FaChartArea, FaClipboardList, FaShoppingCart } from 'react-icons/fa';
 import { MdCategory } from 'react-icons/md';
 import { IoMdSettings } from 'react-icons/io';
 import { GoSignOut } from 'react-icons/go';
 
 export const navlinks = [
+  {
+    icon: () => <Icon as={FaChartArea} w={6} h={6} color="#EFEFEF" />,
+    href: '/charts',
+    text: 'Графики',
+  },
   {
     icon: () => <Icon as={FaClipboardList} w={6} h={6} color="#EFEFEF" />,
     href: '/products',

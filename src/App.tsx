@@ -22,6 +22,7 @@ import {
 } from '@store/core/core.slice';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { navlinks } from '@app/navlinks.config';
+import Charts from '@pages/charts.page';
 
 const Admins = lazy(() => import('./pages/admins.page'));
 const Categories = lazy(() => import('./pages/categories.page'));
@@ -103,7 +104,8 @@ const App = () => {
         <ErrorBoundary>
           <Suspense fallback={<LoadingHandler isLoading />}>
             <Routes>
-              <Route index element={<Navigate to="products" />} />
+              <Route index element={<Navigate to="charts" />} />
+              <Route path="charts" element={<Charts />} />
               <Route path="products" element={<Products />} />
               <Route path="categories" element={<Categories />} />
               <Route path="admins" element={<Admins />} />

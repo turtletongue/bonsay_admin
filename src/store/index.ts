@@ -21,6 +21,10 @@ import categoriesReducer from '@store/categories/categories.slice';
 import adminsReducer from '@store/admins/admins.slice';
 import ordersReducer from '@store/orders/orders.slice';
 import orderReducer from '@store/order/order.slice';
+import revenueChartReducer from '@store/charts/revenue-chart/revenue-chart.slice';
+import categoriesRadarReducer from '@store/charts/categories-radar/categories-radar.slice';
+import ordersStatusesChartReducer from '@store/charts/orders-statuses-chart/orders-statuses-chart.slice';
+import ordersCountChartReducer from '@store/charts/orders-count-chart/orders-count-chart.slice';
 import signInReducer from '@store/sign-in/sign-in.slice';
 import persistStorage from './persistStorage';
 
@@ -38,6 +42,10 @@ const rootReducer = combineReducers({
   admins: adminsReducer,
   orders: ordersReducer,
   order: orderReducer,
+  revenueChart: revenueChartReducer,
+  categoriesRadar: categoriesRadarReducer,
+  ordersStatusesChart: ordersStatusesChartReducer,
+  ordersCountChart: ordersCountChartReducer,
   signIn: signInReducer,
 });
 
