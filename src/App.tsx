@@ -18,6 +18,7 @@ import {
   selectIsAuthenticated,
   selectRefreshToken,
   selectRefreshTokenExpireAt,
+  selectUser,
   signOut,
 } from '@store/core/core.slice';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
@@ -38,12 +39,13 @@ const App = () => {
   const dispatch = useAppDispatch();
 
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  const user = useAppSelector(selectUser);
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!isAuthenticated || user?.role !== 'admin') {
       navigate('/sign-in');
     }
-  }, [navigate, isAuthenticated]);
+  }, [navigate, isAuthenticated, user?.role]);
 
   const refreshToken = useAppSelector(selectRefreshToken);
   const accessTokenExpireAt = useAppSelector(selectAccessTokenExpireAt);
