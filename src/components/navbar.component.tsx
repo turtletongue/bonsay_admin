@@ -18,7 +18,7 @@ export const Navbar = ({ links }: NavbarProps) => {
       alignItems="center"
       spacing={0}
       position="fixed"
-      bottom={0}
+      top={0}
       left={0}
     >
       {links.map((link) => (
