@@ -213,11 +213,15 @@ export const productsSlice = createSlice({
     setDescription: (state, action: PayloadAction<string>) => {
       state.writeData.description = action.payload;
     },
-    setPrice: (state, action: PayloadAction<number>) => {
-      state.writeData.price = action.payload;
+    setPrice: (state, action: PayloadAction<string>) => {
+      state.writeData.price = action.payload
+        ? +action.payload
+        : ('' as unknown as number);
     },
-    setHeight: (state, action: PayloadAction<number>) => {
-      state.writeData.height = action.payload;
+    setHeight: (state, action: PayloadAction<string>) => {
+      state.writeData.height = action.payload
+        ? +action.payload
+        : ('' as unknown as number);
     },
     setBirthdate: (state, action: PayloadAction<string>) => {
       state.writeData.birthdate = action.payload;
@@ -260,7 +264,10 @@ export const productsSlice = createSlice({
     ) => {
       const product = action.payload;
 
-      state.writeData = { ...product, price: +(product.price || 0) };
+      state.writeData = {
+        ...product,
+        price: product.price ? +product.price : ('' as unknown as number),
+      };
     },
     clearWriteData: (state) => {
       state.writeData = initialState.writeData;

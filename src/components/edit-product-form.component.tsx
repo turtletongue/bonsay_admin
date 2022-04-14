@@ -84,12 +84,12 @@ export const EditProductForm = ({ product }: EditProductFormProps) => {
 
   const price = useAppSelector(selectPrice);
   const onPriceChange: ChangeEventHandler<HTMLInputElement> = (event) => {
-    dispatch(setPrice(+event.target.value));
+    dispatch(setPrice(event.target.value));
   };
 
   const height = useAppSelector(selectHeight);
   const onHeightChange: ChangeEventHandler<HTMLInputElement> = (event) => {
-    dispatch(setHeight(+event.target.value));
+    dispatch(setHeight(event.target.value));
   };
 
   const birthdate = useAppSelector(selectBirthdate);
