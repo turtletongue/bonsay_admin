@@ -1,22 +1,28 @@
-FROM node:14-alpine as build
-
-ENV NODE_ENV production
+FROM node:17.9.0-alpine3.15 as build
 
 WORKDIR /app
 
-COPY package.json yarn.lock ./
+ENV NODE_ENV production
+
+COPY package.json yarn.lock .
 
 RUN yarn 
 
-COPY . ./
+COPY . .
 
 RUN yarn build
 
-FROM nginx:alpine
+FROM nginx1.12.6:alpine
 
 COPY --from=build /app/build /app/build
-COPY --from=build /app/nginx.conf /etc/nginx/nginx.conf
+
+COPY nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 80
+
+RUN touch /var/run/nginx.pid \
+  && chown -R nginx:nginx /app /etc/nginx /var/cache/nginx /var/run/nginx.pid
+
+USER nginx
 
 CMD ["nginx", "-g", "daemon off;"]
